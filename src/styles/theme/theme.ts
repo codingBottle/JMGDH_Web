@@ -47,9 +47,9 @@ const theme = {
 },
   fontWeight: {
     light: 300,
-    normal: 500,
-    semiBold: 700,
-    bold: 900,
+    Regular: 400,
+    Medium: 500,
+    bold: 700,
   },
 } as const;
 
