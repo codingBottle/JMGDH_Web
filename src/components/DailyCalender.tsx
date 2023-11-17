@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { RightArrow, LeftArrow } from "@/assets/icon/Arrow";
-import { Content } from "next/font/google";
+import theme from "@/styles/theme/theme";
 
 export default function DailyCalender() {
   const [date, setDate] = useState(new Date());
-  const [day, setDay] = useState(date.getDay());
-  const [month, setMonth] = useState(date.getMonth());
+  const [day, setDay] = useState(date.getDate());
+  const [month, setMonth] = useState(date.getMonth() + 1);
   const [year, setYear] = useState(date.getFullYear());
 
   const numbers = Array.from({ length: 24 }, (_, index) => index);
+  console.log(date);
 
   return (
     <DailyCalenderContenter>
@@ -20,7 +21,10 @@ export default function DailyCalender() {
           <LeftArrow />
         </div>
         <div className="Bottom">
-          <p>{day}</p>
+          <p className="day">
+            {month}/{day}
+          </p>
+          <p>,{year}</p>
         </div>
       </Daily>
       <Contents>
@@ -45,7 +49,7 @@ export default function DailyCalender() {
 const DailyCalenderContenter = styled.div`
   width: 100%;
   height: 100%;
-
+  background-color: ${theme.color.PrimaryColor.PrimaryWhite};
   border: 1px solid black;
 `;
 
@@ -71,6 +75,9 @@ const Daily = styled.div`
     width: 100%;
     p {
       font-size: 10px;
+    }
+    .day {
+      color: ${theme.color.AccentColor.SaturdayColor};
     }
   }
 `;
