@@ -16,15 +16,15 @@ export default function DailyCalender() {
     <DailyCalenderContenter>
       <Daily>
         <div className="Top">
-          <RightArrow />
-          <p className="daily">Daily</p>
-          <LeftArrow />
-        </div>
-        <div className="Bottom">
           <p className="day">
             {month}/{day}
           </p>
           <p>,{year}</p>
+        </div>
+        <div className="Bottom">
+          <p className="daily">Daily</p>
+          <RightArrow />
+          <LeftArrow />
         </div>
       </Daily>
       <Contents>
@@ -60,25 +60,12 @@ const DailyCalenderContenter = styled.div`
 
 const Daily = styled.div`
   width: 100%;
-
   .Top {
+    margin: 38px 0px 0px 21px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
-    width: 100%;
-  }
-  .daily {
-    margin: 0 20px;
-    font-size: 18px;
-    font-weight: ${theme.fontWeight.Regular};
-  }
-  .Bottom {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+    justify-content: left;
+    width: auto;
+
     p {
       font-size: 10px;
       font-weight: ${theme.fontWeight.bold};
@@ -87,16 +74,35 @@ const Daily = styled.div`
       color: ${theme.color.AccentColor.SaturdayColor};
     }
   }
+  .daily {
+    font-size: 18px;
+    font-weight: ${theme.fontWeight.Regular};
+  }
+  .Bottom {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin: 0px 0px 0px 21px;
+    width: 100%;
+    p {
+      font-size: 18px;
+      font-weight: ${theme.fontWeight.Regular};
+      margin-right: 13px;
+    }
+    svg {
+      cursor: pointer;
+      margin-right: 1px;
+    }
+  }
 `;
 const Contents = styled.div`
-  margin-top: 0.625rem;
+  margin-top: 22px;
   overflow: auto;
   font-size: 0.625rem;
 
   font-weight: ${theme.fontWeight.Regular};
   table {
-    margin-top: 0.625rem;
-    width: 33rem;
+    width: 960px;
   }
 
   .Number,
@@ -107,7 +113,7 @@ const Contents = styled.div`
   }
 
   .Number {
-    width: 1.3125rem;
+    width: 40px;
     height: 1.375rem;
   }
   .linediv {
@@ -117,7 +123,7 @@ const Contents = styled.div`
     border-left: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
     height: 17.4812rem;
     width: 0rem;
-    margin-left: 0.625rem;
-    margin-right: 0.6875rem;
+    margin-left: 19px;
+    margin-right: 20px;
   }
 `;

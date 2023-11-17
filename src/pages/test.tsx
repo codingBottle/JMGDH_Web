@@ -11,6 +11,6 @@ export default function hello() {
 }
 
 const Container = styled.div`
-  width: 257px;
+  width: 266px;
   height: 402px;
 `;
