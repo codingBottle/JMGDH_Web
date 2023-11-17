@@ -33,12 +33,16 @@ export default function DailyCalender() {
             {[...Array(numbers)].map((i) => (
               <tr key={i.toString()}>
                 {numbers.map((num) => (
-                  <td className="Number" key={num}>
+                  <td colSpan={2} className="Number" key={num}>
                     {num}
                   </td>
                 ))}
               </tr>
             ))}
+            <tr>
+              <td>f</td>
+              <td>f</td>
+            </tr>
           </tbody>
         </table>
       </Contents>
@@ -49,8 +53,8 @@ export default function DailyCalender() {
 const DailyCalenderContenter = styled.div`
   width: 100%;
   height: 100%;
-  background-color: ${theme.color.PrimaryColor.PrimaryWhite};
-  border: 1px solid black;
+  background-color: #ffffff;
+  border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
 `;
 
 const Daily = styled.div`
@@ -66,6 +70,7 @@ const Daily = styled.div`
   .daily {
     margin: 0 20px;
     font-size: 18px;
+    font-weight: ${theme.fontWeight.Regular};
   }
   .Bottom {
     margin-top: 10px;
@@ -75,6 +80,7 @@ const Daily = styled.div`
     width: 100%;
     p {
       font-size: 10px;
+      font-weight: ${theme.fontWeight.bold};
     }
     .day {
       color: ${theme.color.AccentColor.SaturdayColor};
@@ -86,9 +92,19 @@ const Contents = styled.div`
   height: 80%;
   margin-top: 10px;
   overflow: auto;
+  font-size: 10px;
+
+  font-weight: ${theme.fontWeight.Regular};
   table {
     margin-top: 10px;
-    width: 185%;
+    width: 200%;
+  }
+  table,
+  th,
+  td {
+    border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
+    border-collapse: collapse;
+    text-align: center;
   }
   .Number {
     width: 40px;
