@@ -13,5 +13,4 @@ export default function hello() {
 const Container = styled.div`
   width: 257px;
   height: 402px;
-  background-color: green;
 `;

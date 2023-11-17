@@ -1,8 +1,8 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## 시작 가이드
 
-First, run the development server:
+서버 시작방법:
 
 ```bash
 npm run dev
@@ -14,9 +14,9 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+링크 [http://localhost:3000](http://localhost:3000) 브라우저를 사용하여 링크를 확인하세요
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Calender 메인페이지 레이아웃 확인은 `pages/test.tsx` 에서 수정후 확인합니다.
 
 [API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
 
@@ -33,8 +33,9 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Vercel 자동배포
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Develop 브랜치에 marge가 된다면 자동으로 배포됩니다.
+
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
