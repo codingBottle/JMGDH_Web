@@ -10,7 +10,7 @@ export default function DailyCalender() {
   const [year, setYear] = useState(date.getFullYear());
 
   const numbers = Array.from({ length: 24 }, (_, index) => index);
-  console.log(date);
+  const lines = Array.from({ length: 24 }, (_, index) => index);
 
   return (
     <DailyCalenderContenter>
@@ -33,18 +33,19 @@ export default function DailyCalender() {
             {[...Array(numbers)].map((i) => (
               <tr key={i.toString()}>
                 {numbers.map((num) => (
-                  <td colSpan={2} className="Number" key={num}>
+                  <td className="Number" key={num}>
                     {num}
                   </td>
                 ))}
               </tr>
             ))}
-            <tr>
-              <td>f</td>
-              <td>f</td>
-            </tr>
           </tbody>
         </table>
+        <div className="linediv">
+          {lines.map((lineIndex) => (
+            <div className="line" key={lineIndex}></div>
+          ))}
+        </div>
       </Contents>
     </DailyCalenderContenter>
   );
@@ -59,7 +60,7 @@ const DailyCalenderContenter = styled.div`
 
 const Daily = styled.div`
   width: 100%;
-  height: 15%;
+
   .Top {
     display: flex;
     justify-content: center;
@@ -88,25 +89,35 @@ const Daily = styled.div`
   }
 `;
 const Contents = styled.div`
-  width: 100%;
-  height: 80%;
-  margin-top: 10px;
+  margin-top: 0.625rem;
   overflow: auto;
-  font-size: 10px;
+  font-size: 0.625rem;
 
   font-weight: ${theme.fontWeight.Regular};
   table {
-    margin-top: 10px;
-    width: 200%;
+    margin-top: 0.625rem;
+    width: 33rem;
   }
-  table,
-  th,
-  td {
-    border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
+
+  .Number,
+  table {
+    border-bottom: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
     border-collapse: collapse;
     text-align: center;
   }
+
   .Number {
-    width: 40px;
+    width: 1.3125rem;
+    height: 1.375rem;
+  }
+  .linediv {
+    display: flex;
+  }
+  .line {
+    border-left: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
+    height: 17.4812rem;
+    width: 0rem;
+    margin-left: 0.625rem;
+    margin-right: 0.6875rem;
   }
 `;
