@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import theme from "@/styles/theme/theme";
+import { Menu, Home, Setting, Import } from "@/assets/icon/Navbaricon";
 
 export default function Navbar() {
+  const [NavName, setNavName] = useState("인물의 캘린더");
   return (
     <NavbarContainer>
-      <div className="Left">안녕</div>
-      <div className="Right">
-        <p>하세요</p>
+      <div className="Lefts">
+        <Menu />
+        <img src="/favicon.ico" alt="logo" />
+        <p>{NavName}</p>
+      </div>
+      <div className="Rights">
+        <button>SHARE</button>
+        <Home />
+        <Setting />
+        <Import />
+        <div className="name">
+          <p>인물</p>
+        </div>
       </div>
     </NavbarContainer>
   );
@@ -17,24 +29,63 @@ const NavbarContainer = styled.div`
   width: 100%;
   height: 80px;
   display: flex;
-  justify-content: flex-start;  
+  justify-content: space-between;
   align-items: center;
-  padding: 0px 20px;
-  background-color: ${theme.color.PrimaryColor.PrimaryWhite}};
+  padding: 0 20px;
+  background-color: ${theme.color.PrimaryColor.PrimaryWhite};
   border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
-  .Left{
+
+  .Lefts {
     display: flex;
-    width: 50%;
-    margin-left: auto;
-    font-size: 20px;
-    font-weight: ${theme.fontWeight.bold};
+    flex-wrap: wrap;
+    align-items: center;
+
+    svg {
+      margin-right: 10px;
+    }
+    img {
+      width: 20px;
+      height: 20px;
+      margin-right: 20px;
+    }
+    p {
+      font-size: 24px;
+      font-weight: ${theme.fontWeight.Regular};
+    }
   }
-  .Right{
+
+  .Rights {
+  display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    button {  
+      width:74px;
+      height: 38px;
+      border-radius: 4px;
+      margin-right: 20px;
+      border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
+      background-color: ${theme.color.PrimaryColor.PrimaryWhite};
+      font-size: 12px;
+      font-weight: ${theme.fontWeight.Regular};
+  }
+  svg {
+    margin-right: 20px;
+  }
+  .name{
+    border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
+    border-radius: 50%;
+    background-color: #9927F3;
+    width: 26px;
+    height: 26px;
+ 
     display: flex;
-    width: 50%;
+    justify-content: center;
+    align-items: center;
     p{
-    margin-left: auto;
-    font-size: 20px;
-    font-weight: ${theme.fontWeight.bold};}
+    color: white;
+    font-weight: ${theme.fontWeight.Regular};
+    font-size: 8px;
+    }
   }
+  
 `;
