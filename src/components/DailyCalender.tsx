@@ -54,17 +54,17 @@ export default function DailyCalender() {
 const DailyCalenderContenter = styled.div`
   width: 100%;
   height: 100%;
-  background-color: #ffffff;
   border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
+  background-color: #ffffff;
 `;
 
 const Daily = styled.div`
   width: 100%;
   .Top {
-    margin: 38px 0px 0px 21px;
     display: flex;
-    justify-content: left;
     width: auto;
+    margin: 38px 0px 0px 21px;
+    justify-content: left;
 
     p {
       font-size: 10px;
@@ -80,24 +80,25 @@ const Daily = styled.div`
   }
   .Bottom {
     display: flex;
+    width: 100%;
+    margin: 0px 0px 0px 21px;
     justify-content: left;
     align-items: center;
-    margin: 0px 0px 0px 21px;
-    width: 100%;
+
     p {
+      margin-right: 13px;
       font-size: 18px;
       font-weight: ${theme.fontWeight.Regular};
-      margin-right: 13px;
     }
     svg {
-      cursor: pointer;
       margin-right: 1px;
+      cursor: pointer;
     }
   }
 `;
 const Contents = styled.div`
-  margin-top: 22px;
   overflow: auto;
+  margin-top: 22px;
   font-size: 0.625rem;
 
   font-weight: ${theme.fontWeight.Regular};
@@ -120,10 +121,10 @@ const Contents = styled.div`
     display: flex;
   }
   .line {
-    border-left: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
-    height: 17.4812rem;
-    width: 0rem;
     margin-left: 19px;
     margin-right: 20px;
+    border-left: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
+    width: 0rem;
+    height: 17.4812rem;
   }
 `;
