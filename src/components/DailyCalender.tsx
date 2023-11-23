@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { RightArrow, LeftArrow } from "@/assets/icon/Arrow";
 import theme from "@/styles/theme/theme";
@@ -9,8 +9,31 @@ export default function DailyCalender() {
   const [month, setMonth] = useState(date.getMonth() + 1);
   const [year, setYear] = useState(date.getFullYear());
 
+  const [dragStart, setDragStart] = useState<number | null>(null);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setDragStart(e.clientX);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (dragStart !== null) {
+      const delta = e.clientX - dragStart;
+      if (containerRef.current) {
+        containerRef.current.scrollLeft = scrollLeft - delta;
+      }
+    }
+  };
+
+  const handleMouseUp = () => {
+    setDragStart(null);
+    if (containerRef.current) {
+      setScrollLeft(containerRef.current.scrollLeft);
+    }
+  };
+
   const numbers = Array.from({ length: 24 }, (_, index) => index);
-  const lines = Array.from({ length: 24 }, (_, index) => index);
 
   return (
     <DailyCalenderContenter>
@@ -27,7 +50,13 @@ export default function DailyCalender() {
           <LeftArrow />
         </div>
       </Daily>
-      <Contents>
+
+      <Contents
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        ref={containerRef}
+      >
         <table>
           <tbody>
             {[...Array(numbers)].map((i) => (
@@ -42,7 +71,7 @@ export default function DailyCalender() {
           </tbody>
         </table>
         <div className="linediv">
-          {lines.map((lineIndex) => (
+          {numbers.map((lineIndex) => (
             <div className="line" key={lineIndex}></div>
           ))}
         </div>
@@ -52,6 +81,10 @@ export default function DailyCalender() {
 }
 
 const DailyCalenderContenter = styled.div`
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
   width: 100%;
   height: 100%;
   border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
@@ -100,6 +133,7 @@ const Contents = styled.div`
   overflow: auto;
   margin-top: 22px;
   font-size: 0.625rem;
+  cursor: Pointer;
 
   font-weight: ${theme.fontWeight.Regular};
   table {
