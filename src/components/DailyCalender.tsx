@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { RightArrow, LeftArrow } from "@/assets/icon/Arrow";
 import theme from "@/styles/theme/theme";
 
+import { Button } from "antd";
+
 export default function DailyCalender() {
   const [date, setDate] = useState(new Date());
   const [day, setDay] = useState(date.getDate());
@@ -35,6 +37,23 @@ export default function DailyCalender() {
 
   const numbers = Array.from({ length: 24 }, (_, index) => index);
 
+  const handlePrevClick = () => {
+    date.setDate(day - 1);
+    setDate(date);
+    setDay(date.getDate());
+    setMonth(date.getMonth() + 1);
+    setYear(date.getFullYear());
+  };
+
+  const handleNextClick = () => {
+    date.setDate(day + 1);
+    setDate(date);
+    setDay(date.getDate());
+    setMonth(date.getMonth() + 1);
+    setYear(date.getFullYear());
+    console.log(date);
+  };
+
   return (
     <DailyCalenderContenter>
       <Daily>
@@ -44,10 +63,11 @@ export default function DailyCalender() {
           </p>
           <p>,{year}</p>
         </div>
+
         <div className="Bottom">
           <p className="daily">Daily</p>
-          <RightArrow />
-          <LeftArrow />
+          <RightArrow onClick={() => handleNextClick()} />
+          <LeftArrow onClick={() => handlePrevClick()} />
         </div>
       </Daily>
 
@@ -70,6 +90,7 @@ export default function DailyCalender() {
             ))}
           </tbody>
         </table>
+
         <div className="linediv">
           {numbers.map((lineIndex) => (
             <div className="line" key={lineIndex}></div>
