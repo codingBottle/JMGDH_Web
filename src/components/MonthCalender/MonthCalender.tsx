@@ -11,48 +11,69 @@ const MonthCalender = () => {
     return new Date(year, month + 1, 0).getDate();
   };
 
-  const renderCalender = () => {
-    // const week = 5;
-    const day = 7;
+  const renderCalendar = (): JSX.Element[] => {
     const year = date.getFullYear();
     const month = date.getMonth();
     const daysInMonth = getDaysInMonth(year, month);
-
+  
     const firstDayOfWeek = new Date(year, month, 1).getDay();
-
+  
     const calendarDays: JSX.Element[] = [];
-
-    for (let i = 0; i < firstDayOfWeek; i++) {
-      calendarDays.push(<td></td>);
-    }
-
-    for (let day = 1; day <= daysInMonth; day++) {
-      calendarDays.push(<td>{day}</td>);
-    }
-
+  
+    const prevMonth = month === 0 ? 11 : month - 1;
+    const prevMonthYear = month === 0 ? year - 1 : year;
+    const daysInPrevMonth = getDaysInMonth(prevMonthYear, prevMonth);
+  
     const totalCells = 7 * Math.ceil((firstDayOfWeek + daysInMonth) / 7);
-    const emptyCells = totalCells - calendarDays.length;
-
-    for (let i = 0; i < emptyCells; i++) {
-      calendarDays.push(<td key={`empty-${i + daysInMonth}`}></td>);
+  
+    let day = 1; // 현재 달의 날짜
+  
+    // 이전 달의 마지막 일자
+    const prevMonthEndDay = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
+  
+    for (let i = 0; i < totalCells; i++) {
+      if (i < firstDayOfWeek) {
+        // 이전 달의 날짜 출력
+        const prevMonthDay = daysInPrevMonth - (prevMonthEndDay - i);
+        calendarDays.push(
+          <td key={`day-${i}`} className="prev-month-day">
+            <span>{prevMonthDay}</span>
+          </td>
+        );
+      } else if (day <= daysInMonth) {
+        // 현재 달의 날짜 출력
+        calendarDays.push(
+          <td>
+            {day}
+          </td>
+        );
+        day++;
+      } else {
+        // 다음 달의 날짜 출력
+        const nextMonthDay = i - (firstDayOfWeek + daysInMonth) + 1;
+        calendarDays.push(
+          <td key={`day-${i}`} className="next-month-day">
+            <span>{nextMonthDay}</span>
+          </td>
+        );
+      }
     }
-
+  
     const weeks: JSX.Element[] = [];
     let week: JSX.Element[] = [];
-
+  
     calendarDays.forEach((cell, index) => {
       week.push(cell);
-
+  
       if ((index + 1) % 7 === 0) {
         weeks.push(<tr key={`week-${index / 7}`}>{week}</tr>);
         week = [];
       }
     });
-
+  
     return weeks;
-
-
-  }
+  };
+  
   
   return (
     <CalenderWrapper>
@@ -69,7 +90,7 @@ const MonthCalender = () => {
           </tr>
         </thead>
         <tbody>
-        {renderCalender()}
+          {renderCalendar()}
         </tbody>
       </Calender>
     </CalenderWrapper>
@@ -122,7 +143,6 @@ const Calender = styled.table`
     display: flex;
     flex-direction: column;
     width: 100%;
-    /* height: calc(100% - 38px); */
     height: 100%;
     tr {
       display: flex;
@@ -132,6 +152,13 @@ const Calender = styled.table`
         flex: 1;
         padding-top: 10px;
         padding-left: 10px;
+      }
+      .prev-month-day,
+      .next-month-day {
+        background-color: ${theme.color.SecondaryColor.Border};
+        span {
+          opacity: 0.5;
+        }
       }
     }
   }
