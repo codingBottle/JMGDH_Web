@@ -23,11 +23,11 @@ const MonthCalender = () => {
     const calendarDays: JSX.Element[] = [];
 
     for (let i = 0; i < firstDayOfWeek; i++) {
-      calendarDays.push(<td key={`empty-${i}`}></td>);
+      calendarDays.push(<td></td>);
     }
 
     for (let day = 1; day <= daysInMonth; day++) {
-      calendarDays.push(<td key={`day-${day}`}>{day}</td>);
+      calendarDays.push(<td>{day}</td>);
     }
 
     const totalCells = 7 * Math.ceil((firstDayOfWeek + daysInMonth) / 7);
@@ -91,7 +91,7 @@ const Calender = styled.table`
   border-collapse: collapse;
 
   th, td {
-    border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
+    border: 0.5px solid ${theme.color.SecondaryColor.ButtonBorder};
     font-size: 14px;
     font-weight: ${theme.fontWeight.Regular};
     
@@ -111,6 +111,9 @@ const Calender = styled.table`
       th {
         flex: 1;
         text-align: left;
+        height: 38px;
+        line-height: 38px;
+        padding-left: 10px;
       }
     }
   }
@@ -127,6 +130,8 @@ const Calender = styled.table`
       flex: 1;
       td {
         flex: 1;
+        padding-top: 10px;
+        padding-left: 10px;
       }
     }
   }
