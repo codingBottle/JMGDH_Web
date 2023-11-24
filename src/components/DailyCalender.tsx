@@ -66,8 +66,8 @@ export default function DailyCalender() {
 
         <div className="Bottom">
           <p className="daily">Daily</p>
-          <RightArrow onClick={() => handleNextClick()} />
-          <LeftArrow onClick={() => handlePrevClick()} />
+          <RightArrow onClick={() => handlePrevClick()} />
+          <LeftArrow onClick={() => handleNextClick()} />
         </div>
       </Daily>
 
