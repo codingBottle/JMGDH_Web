@@ -2,7 +2,7 @@ import React from "react";
 import DailyCalender from "@/components/DailyCalender";
 import styled from "styled-components";
 import Navbar from "@/components/Navbar";
-import MonthCalender from "@/components/MonthCalender";
+import MonthCalender from "@/components/MonthCalender/MonthCalender";
 
 export default function hello() {
   return (

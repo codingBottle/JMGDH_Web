@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import styled from "styled-components";
 import theme from "@/styles/theme/theme";
 
-
-
 const MonthCalender = () => {
   const [date, setDate] = useState(new Date());
 
   const getDaysInMonth = (year: number, month: number): number => {
     return new Date(year, month + 1, 0).getDate();
   };
-
+  
   const renderCalendar = (): JSX.Element[] => {
     const year = date.getFullYear();
     const month = date.getMonth();
@@ -44,7 +42,7 @@ const MonthCalender = () => {
         // 현재 달의 날짜 출력
         calendarDays.push(
           <td>
-            {day}
+            <span>{day}</span>
           </td>
         );
         day++;
@@ -58,7 +56,6 @@ const MonthCalender = () => {
         );
       }
     }
-  
     const weeks: JSX.Element[] = [];
     let week: JSX.Element[] = [];
   
@@ -70,10 +67,11 @@ const MonthCalender = () => {
         week = [];
       }
     });
-  
     return weeks;
   };
-  
+
+
+
   
   return (
     <CalenderWrapper>
@@ -152,6 +150,7 @@ const Calender = styled.table`
         flex: 1;
         padding-top: 10px;
         padding-left: 10px;
+        cursor: pointer;
       }
       .prev-month-day,
       .next-month-day {
