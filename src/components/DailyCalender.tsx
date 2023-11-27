@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { RightArrow, LeftArrow } from "@/assets/icon/Arrow";
 import theme from "@/styles/theme/theme";
+
+
 
 export default function DailyCalender() {
   const [date, setDate] = useState(new Date());
@@ -9,8 +11,48 @@ export default function DailyCalender() {
   const [month, setMonth] = useState(date.getMonth() + 1);
   const [year, setYear] = useState(date.getFullYear());
 
+  const [dragStart, setDragStart] = useState<number | null>(null);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setDragStart(e.clientX);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (dragStart !== null) {
+      const delta = e.clientX - dragStart;
+      if (containerRef.current) {
+        containerRef.current.scrollLeft = scrollLeft - delta;
+      }
+    }
+  };
+
+  const handleMouseUp = () => {
+    setDragStart(null);
+    if (containerRef.current) {
+      setScrollLeft(containerRef.current.scrollLeft);
+    }
+  };
+
   const numbers = Array.from({ length: 24 }, (_, index) => index);
-  const lines = Array.from({ length: 24 }, (_, index) => index);
+
+  const handlePrevClick = () => {
+    date.setDate(day - 1);
+    setDate(date);
+    setDay(date.getDate());
+    setMonth(date.getMonth() + 1);
+    setYear(date.getFullYear());
+  };
+
+  const handleNextClick = () => {
+    date.setDate(day + 1);
+    setDate(date);
+    setDay(date.getDate());
+    setMonth(date.getMonth() + 1);
+    setYear(date.getFullYear());
+    console.log(date);
+  };
 
   return (
     <DailyCalenderContenter>
@@ -21,13 +63,20 @@ export default function DailyCalender() {
           </p>
           <p>,{year}</p>
         </div>
+
         <div className="Bottom">
           <p className="daily">Daily</p>
-          <RightArrow />
-          <LeftArrow />
+          <RightArrow onClick={() => handlePrevClick()} />
+          <LeftArrow onClick={() => handleNextClick()} />
         </div>
       </Daily>
-      <Contents>
+
+      <Contents
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        ref={containerRef}
+      >
         <table>
           <tbody>
             {[...Array(numbers)].map((i) => (
@@ -41,8 +90,9 @@ export default function DailyCalender() {
             ))}
           </tbody>
         </table>
+
         <div className="linediv">
-          {lines.map((lineIndex) => (
+          {numbers.map((lineIndex) => (
             <div className="line" key={lineIndex}></div>
           ))}
         </div>
@@ -52,19 +102,23 @@ export default function DailyCalender() {
 }
 
 const DailyCalenderContenter = styled.div`
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
   width: 100%;
   height: 100%;
-  background-color: #ffffff;
   border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
+  background-color: #ffffff;
 `;
 
 const Daily = styled.div`
   width: 100%;
   .Top {
-    margin: 38px 0px 0px 21px;
     display: flex;
-    justify-content: left;
     width: auto;
+    margin: 38px 0px 0px 21px;
+    justify-content: left;
 
     p {
       font-size: 10px;
@@ -80,25 +134,27 @@ const Daily = styled.div`
   }
   .Bottom {
     display: flex;
+    width: 100%;
+    margin: 0px 0px 0px 21px;
     justify-content: left;
     align-items: center;
-    margin: 0px 0px 0px 21px;
-    width: 100%;
+
     p {
+      margin-right: 13px;
       font-size: 18px;
       font-weight: ${theme.fontWeight.Regular};
-      margin-right: 13px;
     }
     svg {
-      cursor: pointer;
       margin-right: 1px;
+      cursor: pointer;
     }
   }
 `;
 const Contents = styled.div`
-  margin-top: 22px;
   overflow: auto;
+  margin-top: 22px;
   font-size: 0.625rem;
+  cursor: Pointer;
 
   font-weight: ${theme.fontWeight.Regular};
   table {
@@ -120,10 +176,10 @@ const Contents = styled.div`
     display: flex;
   }
   .line {
-    border-left: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
-    height: 17.4812rem;
-    width: 0rem;
     margin-left: 19px;
     margin-right: 20px;
+    border-left: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
+    width: 0rem;
+    height: 17.4812rem;
   }
 `;

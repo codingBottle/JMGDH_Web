@@ -26,15 +26,14 @@ export default function Navbar() {
 }
 
 const NavbarContainer = styled.div`
+  display: flex;  
   width: 100%;
   height: 80px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 0 20px;
-  background-color: ${theme.color.PrimaryColor.PrimaryWhite};
   border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
-
+  background-color: ${theme.color.PrimaryColor.PrimaryWhite};
+  align-items: center;
+  justify-content: space-between;
   .Lefts {
     display: flex;
     flex-wrap: wrap;

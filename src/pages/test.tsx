@@ -3,6 +3,7 @@ import DailyCalender from "@/components/DailyCalender";
 import styled from "styled-components";
 import Navbar from "@/components/Navbar";
 import MonthCalender from "@/components/MonthCalender/MonthCalender";
+import CalenderNavbar from "@/components/CalenderNavbar";
 
 export default function hello() {
   return (
@@ -14,7 +15,7 @@ export default function hello() {
           <div className="todo">투두 컴포넌트</div>
         </LeftSection>
         <MiddleSection>
-          <div className="calenderNav">calender menu</div>
+          <div className="calenderNav"><CalenderNavbar /></div>
           <MonthCalender />
         </MiddleSection>
         <RightSection>
