@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { RightArrow, LeftArrow } from "@/assets/icon/Arrow";
 import theme from "@/styles/theme/theme";
 
-import { Button } from "antd";
+
 
 export default function DailyCalender() {
   const [date, setDate] = useState(new Date());
