@@ -1,9 +1,10 @@
-import React from "react";
-import DailyCalender from "@/components/DailyCalender";
-import styled from "styled-components";
-import Navbar from "@/components/Navbar";
-import MonthCalender from "@/components/MonthCalender/MonthCalender";
-import CalenderNavbar from "@/components/CalenderNavbar";
+import React from 'react';
+import DailyCalender from '@/components/DailyCalender';
+import styled from 'styled-components';
+import Navbar from '@/components/Navbar';
+import MonthCalender from '@/components/MonthCalender/MonthCalender';
+import CalenderNavbar from '@/components/CalenderNavbar';
+import Todo from '@/components/Todo';
 
 export default function hello() {
   return (
@@ -11,17 +12,22 @@ export default function hello() {
       <Navbar />
       <Content>
         <LeftSection>
-          <div className="daily"><DailyCalender /></div>
+          <div className="daily">
+            <DailyCalender />
+          </div>
           <div className="todo">투두 컴포넌트</div>
         </LeftSection>
         <MiddleSection>
-          <div className="calenderNav"><CalenderNavbar /></div>
+          <div className="calenderNav">
+            <CalenderNavbar />
+          </div>
           <MonthCalender />
         </MiddleSection>
-        <RightSection>
-          오른쪽 네비게이션
-        </RightSection>
+        <RightSection>오른쪽 네비게이션</RightSection>
       </Content>
+      <TodoContainer>
+        <Todo />
+      </TodoContainer>
     </Wrapper>
   );
 }
@@ -60,4 +66,9 @@ const MiddleSection = styled.div`
 const RightSection = styled.div`
   width: 78px;
   height: 100%;
+`;
+
+const TodoContainer = styled.div`
+  width: 266px;
+  height: 598px;
 `;
