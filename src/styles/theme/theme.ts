@@ -18,8 +18,8 @@ const theme = {
       PointColor: "#FFEC87",
       PointColorHover: "#FBE56D",
       /*특정 요일 폰트 색상*/
-      SundayFont: "#9AC5F4",
-      SaturdayColor: "#FF3232",
+      SundayColor: "#DA4A4A",
+      SaturdayColor: "#4A8CDA",
       /*투두와 일정에 뜨는 오늘 날짜 폰트 색상*/
       TodayFont: "#8BC0D6",
     },

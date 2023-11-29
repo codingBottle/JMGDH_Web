@@ -2,52 +2,62 @@ import React from "react";
 import DailyCalender from "@/components/DailyCalender";
 import styled from "styled-components";
 import Navbar from "@/components/Navbar";
+import MonthCalender from "@/components/MonthCalender/MonthCalender";
 import CalenderNavbar from "@/components/CalenderNavbar";
 
 export default function hello() {
   return (
-    <div>
+    <Wrapper>
       <Navbar />
-      <MainContent>
-        <div className="Leftbox">
-          <Container>
-            <DailyCalender />
-          </Container>
-        </div>
-        <div className="Rightbox">
-          <div className="CalNavBar">
-            <CalenderNavbar />
-          </div>
-        </div>
-      </MainContent>
-    </div>
+      <Content>
+        <LeftSection>
+          <div className="daily"><DailyCalender /></div>
+          <div className="todo">투두 컴포넌트</div>
+        </LeftSection>
+        <MiddleSection>
+          <div className="calenderNav"><CalenderNavbar /></div>
+          <MonthCalender />
+        </MiddleSection>
+        <RightSection>
+          오른쪽 네비게이션
+        </RightSection>
+      </Content>
+    </Wrapper>
   );
 }
 
-const MainContent = styled.div`
+const Wrapper = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  width: 100%;
   height: 100vh;
-  .Leftbox {
-    display: flex;
-    justify-content: left;
-    width: 266px;
-    height: 100%;
-  }
-  .Rightbox {
-    display: flex;
-    justify-content: left;
-    width: 100%;
-    height: 100%;
-    .CalNavBar {
-      width: 1576px;
-      height: 68px;
-    }
-  }
 `;
 
-const Container = styled.div`
+const Content = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: calc(100vh - 80px);
+`;
+
+const LeftSection = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 266px;
-  height: 402px;
+  height: 100%;
+`;
+const MiddleSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+
+  .calenderNav {
+    height: 68px;
+    background-color: #999;
+  }
+`;
+const RightSection = styled.div`
+  width: 78px;
+  height: 100%;
 `;

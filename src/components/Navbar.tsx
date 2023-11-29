@@ -86,5 +86,5 @@ const NavbarContainer = styled.div`
     font-size: 8px;
     }
   }
-  
+}
 `;
