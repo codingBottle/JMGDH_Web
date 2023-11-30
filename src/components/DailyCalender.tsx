@@ -3,8 +3,6 @@ import styled from "styled-components";
 import { RightArrow, LeftArrow } from "@/assets/icon/Arrow";
 import theme from "@/styles/theme/theme";
 
-
-
 export default function DailyCalender() {
   const [date, setDate] = useState(new Date());
   const [day, setDay] = useState(date.getDate());
