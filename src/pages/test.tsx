@@ -1,10 +1,10 @@
-import React from 'react';
-import DailyCalender from '@/components/DailyCalender';
-import styled from 'styled-components';
-import Navbar from '@/components/Navbar';
-import MonthCalender from '@/components/MonthCalender/MonthCalender';
-import CalenderNavbar from '@/components/CalenderNavbar';
-import Todo from '@/components/Todo';
+import React from "react";
+import DailyCalender from "@/components/DailyCalender";
+import styled from "styled-components";
+import Navbar from "@/components/Navbar";
+import MonthCalender from "@/components/MonthCalender/MonthCalender";
+import CalenderNavbar from "@/components/CalenderNavbar";
+import Todo from "@/components/Todo";
 
 export default function hello() {
   return (
@@ -15,7 +15,9 @@ export default function hello() {
           <div className="daily">
             <DailyCalender />
           </div>
-          <div className="todo">투두 컴포넌트</div>
+          <div className="todo">
+            <Todo />
+          </div>
         </LeftSection>
         <MiddleSection>
           <div className="calenderNav">
@@ -25,9 +27,6 @@ export default function hello() {
         </MiddleSection>
         <RightSection>오른쪽 네비게이션</RightSection>
       </Content>
-      <TodoContainer>
-        <Todo />
-      </TodoContainer>
     </Wrapper>
   );
 }
