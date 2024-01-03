@@ -70,7 +70,8 @@ const WeekContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 5px;
+  margin-top: .3125rem;
+  margin-bottom: 1.25rem;
   p {
     font-size: 18px;
     font-weight: ${theme.fontWeight.Regular};
