@@ -4,10 +4,19 @@ import theme from "@/styles/theme/theme";
 
 const MonthCalender = () => {
   const [date, setDate] = useState(new Date());
+  const [modalOpen, setModalOpen] = useState(false);
 
   const getDaysInMonth = (year: number, month: number): number => {
     return new Date(year, month + 1, 0).getDate();
   };
+
+  const onClickDay = (day: any) => {
+    if(modalOpen===true) {
+      setModalOpen(false);
+    } else {
+      setModalOpen(true);
+    }
+  }
   
   const renderCalendar = (): JSX.Element[] => {
     const year = date.getFullYear();
@@ -41,8 +50,14 @@ const MonthCalender = () => {
       } else if (day <= daysInMonth) {
         // 현재 달의 날짜 출력
         calendarDays.push(
-          <td>
+          <td key={`day-${i}`} onClick={onClickDay}>
             <span>{day}</span>
+            {
+              modalOpen === true ?
+              <div style={{display:"flex",position:"fixed",top:"0",left: "0", bottom: "0", right: "0",justifyContent:"center",alignItems:"center", zIndex : "100",backgroundColor:"gray"}}>모달창</div>
+              :
+              ""
+            }
           </td>
         );
         day++;
@@ -69,9 +84,6 @@ const MonthCalender = () => {
     });
     return weeks;
   };
-
-
-
   
   return (
     <CalenderWrapper>
