@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import Image from 'next/image';
 import { RightArrow, LeftArrow } from '@/assets/icon/Arrow';
 import theme from '@/styles/theme/theme';
 import CopyButton from '@/assets/icon/Copy';
@@ -11,25 +12,35 @@ const Todo = () => {
   const [day, setDay] = useState(date.getDate());
   const [month, setMonth] = useState(date.getMonth() + 1);
   const [year, setYear] = useState(date.getFullYear());
+  const isSunday = date.getDay() === 0;
 
   return (
     <TotoContainer>
-        <DayNTodo>
-          <div className="Top">
-            <p className="day">
-              {month}/{day}
-            </p>
-            <p>,{year}</p>
-          </div>
-          <div className="Bottom">
-            <p className="Todo">To Do</p>
-            <RightArrow />
-            <LeftArrow />
-            <CopyButton />
-          </div>
-        </DayNTodo>
-        <WeekList />
-        <TodoTagList />
+      <DayNTodo>
+        <div className="Top">
+          <p
+            className="day"
+            style={{ color: isSunday ? '#191919' : '#8BC0D6  ' }}
+          >
+            {month}/{day}
+          </p>
+          <p style={{ color: '#A3A3A3' }}>,{year}</p>
+        </div>
+        <div className="Bottom">
+          <p className="Todo">To Do</p>
+          <RightArrow />
+          <LeftArrow />
+          <Image
+            className="copyImg"
+            src={'/todoCopy.png'}
+            alt="copy"
+            width={20}
+            height={20}
+          />
+        </div>
+      </DayNTodo>
+      <WeekList />
+      <TodoTagList />
     </TotoContainer>
   );
 };
@@ -48,19 +59,18 @@ const TotoContainer = styled.div`
 
   overflow: auto;
   overflow-x: hidden;
-
 `;
 
 const DayNTodo = styled.div`
   width: 100%;
   .Top {
-    margin: 38px 0px 5px 10px;
+    margin: 2.375rem 0px 0.3125rem 0.625rem;
     display: flex;
     justify-content: left;
     width: auto;
 
     p {
-      font-size: 10px;
+      font-size: 0.625rem;
       font-weight: ${theme.fontWeight.bold};
     }
     .day {
@@ -68,26 +78,26 @@ const DayNTodo = styled.div`
     }
   }
   .Todo {
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: ${theme.fontWeight.Regular};
   }
   .Bottom {
     display: flex;
-    justify-content: left;
+    justify-content: space-between;
     align-items: center;
-    margin: 0px 0px 10px 10px;
+    padding: 0px 0px 0.625rem 0.625rem;
     width: 100%;
     p {
-      font-size: 18px;
+      font-size: 1.125rem;
       font-weight: ${theme.fontWeight.Regular};
-      margin-right: 13px;
+      margin-right: 0.8125rem;
     }
-    svg {
+    .copyImg {
+      margin-right: 0.625rem;
       cursor: pointer;
-      margin-right: 1px;
     }
     :nth-child(4) {
-      margin-left: 110px;
+      margin-left: 8.125rem;
     }
   }
 `;

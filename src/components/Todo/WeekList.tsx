@@ -18,26 +18,23 @@ const dayMapping: { [key: number]: string } = {
 };
 
 const WeekList = () => {
-  // 주간 날자 계산
-  const today = new Date();
-  const dayOfWeek = today.getDay();
-  const sunday = new Date(today.setDate(today.getDate() - dayOfWeek));
+  const now = new Date();
+  const today = new Date(now.getTime()); // now를 복사하여 today를 생성
+  const dayOfWeek = now.getDay();
+  const sunday = new Date(now.setDate(now.getDate() - dayOfWeek));
+  const weekDays: DayInfo[] = [];
 
-  const weekDays: DayInfo[] = Array.from({ length: 7 }).map((_, i) => {
+  for (let i = 0; i < 7; i++) {
     const currentDay = new Date(sunday.getTime() + i * 24 * 60 * 60 * 1000);
-    return {
+    weekDays.push({
       day: dayMapping[currentDay.getDay()],
       date: currentDay.getDate(),
-      isToday: currentDay.getDate() === today.getDate(),
-    };
-  });
-  
-  console.log(dayOfWeek);
-  console.log('일요일',sunday);
-  console.log('오늘', new Date());
-  console.log('함수',today);
-  
-  
+      isToday:
+        currentDay.getDate() === today.getDate() &&
+        currentDay.getMonth() === today.getMonth() &&
+        currentDay.getFullYear() === today.getFullYear(),
+    });
+  }
 
   return (
     <WeekContainer>
@@ -47,15 +44,18 @@ const WeekList = () => {
             <DayTxt
               color={
                 item.day === 'SUN'
-                  ? 'red'
+                  ? '#DA4A4A'
                   : item.day === 'SAT'
-                  ? 'blue'
+                  ? '#4A8CDA'
                   : 'black'
               }
             >
               {item.day}
             </DayTxt>
-            <DateTxt isToday={item.isToday}>{item.date}</DateTxt>
+
+            <DateTxt isToday={item.isToday} isSunday={item.day === 'SUN'}>
+              {item.date}
+            </DateTxt>
           </DayItem>
         ))}
       </DayList>
@@ -70,7 +70,7 @@ const WeekContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: .3125rem;
+  margin-top: 0.3125rem;
   margin-bottom: 1.25rem;
   p {
     font-size: 18px;
@@ -102,9 +102,10 @@ const DayTxt = styled.div<{ color: string }>`
   color: ${({ color }) => color};
   font-size: 10px;
   font-weight: ${theme.fontWeight.Regular};
+  margin-bottom: 5px;
 `;
 
-const DateTxt = styled.div<{ isToday: boolean }>`
+const DateTxt = styled.div<{ isToday: boolean; isSunday: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -112,7 +113,9 @@ const DateTxt = styled.div<{ isToday: boolean }>`
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  color: ${({ isToday }) => (isToday ? 'white' : 'black')};
+
+  color: ${({ isToday, isSunday }) =>
+    isToday ? 'white' : isSunday ? '#DA4A4A' : 'black'};
   background-color: ${({ isToday }) => (isToday ? '#9AC5F4' : 'none')};
 
   font-size: 10px;

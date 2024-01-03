@@ -16,14 +16,16 @@ interface Todo {
 }
 
 const colors = [
-  '#ffadad',
-  '#ffd6a5',
-  '#fdffb6',
-  '#caffbf',
-  '#9bf6ff',
-  '#a0c4ff',
-  '#bdb2ff',
-  '#ffc6ff',
+  '#FCE3E3',
+  '#FCEFDA',
+  '#FCFAD7',
+  '#D8F1E2',
+  '#E6F8D0',
+  '#DBF0F5',
+  '#D4F5F3',
+  '#E4EBF8',
+  '#FBE8F1',
+  '#EEE8F8',
 ];
 
 const getRandomColor = () => {
