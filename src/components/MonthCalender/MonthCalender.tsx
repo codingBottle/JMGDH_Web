@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
 import theme from "@/styles/theme/theme";
+import ModalDay from '../Modal/ModalDay';
 
 const MonthCalender = () => {
   const [date, setDate] = useState(new Date());
@@ -10,7 +11,7 @@ const MonthCalender = () => {
     return new Date(year, month + 1, 0).getDate();
   };
 
-  const onClickDay = (day: any) => {
+  const onClickDay = () => {
     if(modalOpen===true) {
       setModalOpen(false);
     } else {
@@ -54,7 +55,9 @@ const MonthCalender = () => {
             <span>{day}</span>
             {
               modalOpen === true ?
-              <div style={{display:"flex",position:"fixed",top:"0",left: "0", bottom: "0", right: "0",justifyContent:"center",alignItems:"center", zIndex : "100",backgroundColor:"gray"}}>모달창</div>
+              <Modal>
+                <ModalDay />
+              </Modal>
               :
               ""
             }
@@ -71,6 +74,7 @@ const MonthCalender = () => {
         );
       }
     }
+    
     const weeks: JSX.Element[] = [];
     let week: JSX.Element[] = [];
   
@@ -173,4 +177,16 @@ const Calender = styled.table`
       }
     }
   }
+`;
+
+const Modal = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 100;
 `;
