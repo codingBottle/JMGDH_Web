@@ -3,6 +3,7 @@ const theme = {
     PrimaryColor: {
       PrimaryWhite: "#FAFAFA", /* 기본 배경색 */
     },
+  
     SecondaryColor: {
       /*기본 검정색상*/
       BasicFont: "#191919",
@@ -11,6 +12,8 @@ const theme = {
       Border: "#EDEDED",
     },
     AccentColor: {
+      TodayFill:"#9AC5F4",
+      DayFill_Click:"#DDEDFF",
       TodoColor: "#b5f5ec",
       TodoColorHover: "#89E8DE",
       TodayColor: "#9AC5F4",
@@ -34,6 +37,8 @@ const theme = {
       daily8: "#86B1E5",
       daily9: "#98D1DD",
       daily10: "#D2BBF8",
+      coloradd3: "#EBF4E0",
+      coloradd3Hover:"#E4EED8",
     },
     GrayScale: {/*경계선 및 Border 색상 & 설명 폰트 등의 다양한 곳에 사용함*/
       Gray500: "#474747",
@@ -44,6 +49,9 @@ const theme = {
       ErrorColor: "#1A73E8",
       ErrorColorHover: "#174EA6",
     },
+    HoverEventColor: {/*hover시 색상*/
+    EventfillHover:"#F3F3F3",}
+    ,
   },
   fontWeight: {
     light: 300,
