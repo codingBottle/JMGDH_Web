@@ -1,6 +1,14 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+import TodoTagList from './TodoTagList';
 
 const TodoSetting = () => {
+  const [newTag, setNewTag] = useState<string>('');
+  
+  const handleAddTag = () => {
+    setNewTag('새로운 태그 이름'); // 여기에 실제로 입력받은 태그 이름을 설정해야 합니다.
+  };
+
   return (
     <SettingContainer>
       <svg
@@ -35,10 +43,7 @@ const TodoSetting = () => {
           </g>
         </g>
       </svg>
-
-      <NewTagBtn>
-        NEW TAG <span>+</span>
-      </NewTagBtn>
+      <button onClick={handleAddTag}>NewTag +</button>
     </SettingContainer>
   );
 };
