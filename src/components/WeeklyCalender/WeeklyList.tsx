@@ -76,7 +76,6 @@ const WeekContainer = styled.div`
     font-size: 18px;
     font-weight: ${theme.fontWeight.Regular};
   }
-  background-color: aqua;
 `;
 
 const DayList = styled.ul`
@@ -86,7 +85,6 @@ const DayList = styled.ul`
   padding: 0;
   width: 100%;
   height: 100%;
-  border-collapse: collapse;
   flex: 1 1 auto;
 `;
 
@@ -97,6 +95,7 @@ const DayItem = styled.li`
   justify-content: center;
 
   border : 1px solid black;
+  border-style: none solid;
   padding-top: .625rem;
 
   margin: -1px 0 0 -1px;

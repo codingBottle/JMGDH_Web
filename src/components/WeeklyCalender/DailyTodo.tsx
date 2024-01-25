@@ -47,7 +47,6 @@ const TodoContainer = styled.ul`
 
   padding: 0.625rem;
   gap: 0.625rem;
-  background-color: bisque;
 `;
 
 const TodoItem = styled.li`

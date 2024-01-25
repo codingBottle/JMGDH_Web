@@ -22,8 +22,6 @@ const TimeTodo = ({ todos, date, showHours }: TimeTodoProps) => {
   // 9시부터 24시까지의 시간 배열을 생성합니다.
   const hours = Array.from({ length: 16 }, (_, i) => i + 9);
 
-  console.log(showHours);
-
   // TimeTodo 컴포넌트가 최종적으로 렌더링할 JSX를 반환합니다.
   return (
     <Main>
@@ -68,7 +66,6 @@ const TimeTodo = ({ todos, date, showHours }: TimeTodoProps) => {
 export default TimeTodo;
 const Main = styled.main`
   width: 100%;
-  background-color: tomato;
 `;
 
 const HourBlock = styled.div`

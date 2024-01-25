@@ -50,6 +50,4 @@ const Main = styled.main`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-
-  background-color: yellow;
 `;

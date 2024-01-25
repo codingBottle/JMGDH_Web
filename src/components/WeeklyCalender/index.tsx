@@ -49,6 +49,7 @@ export default WeeklyCalender;
 const Main = styled.main`
   width: 100%;
   height: 100%;
-  background-color: beige;
   padding-left: 3rem;
+
+  overflow: auto;
 `;
