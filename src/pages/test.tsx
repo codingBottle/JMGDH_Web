@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import MonthCalender from "@/components/MonthCalender/MonthCalender";
 import CalenderNavbar from "@/components/CalenderNavbar";
 import Todo from "@/components/Todo";
+import WeeklyCalender from "@/components/WeeklyCalender";
 
 export default function hello() {
   return (
