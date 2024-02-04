@@ -42,7 +42,7 @@ const LoginButton = () => {
 
   return (
     <LoginBtnWrapper href="https://calendars2.duckdns.org/oauth2/authorization/google" target="_blank">
-      <p>인물</p>
+      <p>메롱</p>
     </LoginBtnWrapper>
   );
 };
