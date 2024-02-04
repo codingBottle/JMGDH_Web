@@ -12,11 +12,6 @@ const MonthCalender = () => {
   };
 
   const onClickAddSchedule = () => {
-    // if(modalOpen === true) {
-    //   setModalOpen(false);
-    // } else {
-    //   setModalOpen(true);
-    // }
     setModalOpen(true);
   }
 
