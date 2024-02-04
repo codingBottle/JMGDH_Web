@@ -5,18 +5,27 @@ import ModalDay from '../Modal/ModalDay';
 
 const MonthCalender = () => {
   const [date, setDate] = useState(new Date());
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const getDaysInMonth = (year: number, month: number): number => {
     return new Date(year, month + 1, 0).getDate();
   };
 
-  const onClickDay = () => {
-    if(modalOpen===true) {
-      setModalOpen(false);
-    } else {
-      setModalOpen(true);
-    }
+  const onClickAddSchedule = () => {
+    // if(modalOpen === true) {
+    //   setModalOpen(false);
+    // } else {
+    //   setModalOpen(true);
+    // }
+    setModalOpen(true);
+  }
+
+  const onClickCloseSchedule = () => {
+    setModalOpen(false);
+  }
+
+  const onClickHome = () => {
+    setModalOpen(false);
   }
   
   const renderCalendar = (): JSX.Element[] => {
@@ -51,11 +60,11 @@ const MonthCalender = () => {
       } else if (day <= daysInMonth) {
         // 현재 달의 날짜 출력
         calendarDays.push(
-          <td key={`day-${i}`} onClick={onClickDay}>
+          <td key={`day-${i}`} onClick={onClickAddSchedule}>
             <span>{day}</span>
             {
               modalOpen === true ?
-              <Modal>
+              <Modal onClick={onClickCloseSchedule}>
                 <ModalDay />
               </Modal>
               :
@@ -183,6 +192,8 @@ const Modal = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 100%;
   position: fixed;
   top: 0;
   left: 0;

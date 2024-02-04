@@ -3,58 +3,74 @@ import styled from "styled-components";
 import theme from "@/styles/theme/theme";
 
 const ModalDay = () => {
+
+  
   return (
-    <ModalWrapper>
-      <Title>일정 만들기</Title>
-      <Contents>
-        <div className='write-schedule'>
-          <input type='text' placeholder='일정명을 적어주세요' />
-        </div>
-        <div className='start-end-schedule schedule-box'>
-          <div>
+    // <Wrapper>
+      <ModalWrapper>
+        <Title>일정 만들기</Title>
+        <Contents>
+          <div className='write-schedule'>
+            <input type='text' placeholder='일정명을 적어주세요' />
+          </div>
+          <div className='start-end-schedule schedule-box'>
+            <div>
+              <span>아이콘</span>
+              <div>2023년 12월 01일</div>
+            </div>
+            <button>종료일 추가</button>
+          </div>
+          <div className='start-end-schedule-time schedule-box'>
+            <div>
+              <span>아이콘</span>
+              <div>12월 01일(수) 13:00 ~ 12월 01일(수) 14:00</div>
+            </div>
+            <button>시간 설정</button>
+          </div>
+          <div className='select-color'>
             <span>아이콘</span>
-            <div>2023년 12월 01일</div>
+            <div>
+              <span>red</span>
+              <span>yellow</span>
+              <span>green</span>
+              <span>blue</span>
+              <span>purple</span>
+            </div>
           </div>
-          <button>종료일 추가</button>
-        </div>
-        <div className='start-end-schedule-time schedule-box'>
-          <div>
+          <div className='add-manager'>
             <span>아이콘</span>
-            <div>12월 01일(수) 13:00 ~ 12월 01일(수) 14:00</div>
+            <input type='text' placeholder='담당자 추가' />
           </div>
-          <button>시간 설정</button>
-        </div>
-        <div className='select-color'>
-          <span>아이콘</span>
-          <div>
-            <span>red</span>
-            <span>yellow</span>
-            <span>green</span>
-            <span>blue</span>
-            <span>purple</span>
-          </div>
-        </div>
-        <div className='add-manager'>
-          <span>아이콘</span>
-          <input type='text' placeholder='담당자 추가' />
-        </div>
-      </Contents>
-    </ModalWrapper>
+        </Contents>
+      </ModalWrapper>
+    // </Wrapper>
   )
 }
 
 export default ModalDay;
 
+// const Wrapper = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: center;
+//   align-items: center;
+//   width: 100%;
+//   height: 100%;
+//   background-color: rgba(0, 0, 0, 0.3);
+// `;
+
 const ModalWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* position: fixed; */
   gap: 40px;
   width: 480px;
   height: 600px;
   padding: 50px;
   background-color: #fff;
   border-radius: 20px;
+  /* z-index: 999; */
 `;
 
 const Title = styled.h1`
@@ -93,6 +109,9 @@ const Contents = styled.div`
 
   .write-schedule {
     width: 100%;
+    input {
+      color: ${theme.color.GrayScale.Gray500};
+    }
 
     input {
       display: inline-block;
