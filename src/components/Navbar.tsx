@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import theme from "@/styles/theme/theme";
 import { Menu, Home, Setting, Import } from "@/assets/icon/Navbaricon";
+import LoginButton from '@/components/Login/LoginButton';
 
 export default function Navbar() {
   const [NavName, setNavName] = useState("인물의 캘린더");
+
   return (
     <NavbarContainer>
       <div className="Lefts">
@@ -17,9 +19,7 @@ export default function Navbar() {
         <Home />
         <Setting />
         <Import />
-        <div className="name">
-          <p>인물</p>
-        </div>
+        <LoginButton />
       </div>
     </NavbarContainer>
   );
@@ -38,7 +38,6 @@ const NavbarContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-
     svg {
       margin-right: 10px;
     }
@@ -50,41 +49,44 @@ const NavbarContainer = styled.div`
     p {
       font-size: 24px;
       font-weight: ${theme.fontWeight.Regular};
+      color: ${theme.color.SecondaryColor.BasicFont};
     }
   }
 
   .Rights {
-  display: flex;
+    display: flex;
     flex-wrap: wrap;
     align-items: center;
     button {  
       width:74px;
       height: 38px;
+      /* padding: 10px 18px; */
       border-radius: 4px;
       margin-right: 20px;
       border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
       background-color: ${theme.color.PrimaryColor.PrimaryWhite};
       font-size: 12px;
       font-weight: ${theme.fontWeight.Regular};
-  }
-  svg {
-    margin-right: 20px;
-  }
-  .name{
-    border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
-    border-radius: 50%;
-    background-color: #9927F3;
-    width: 26px;
-    height: 26px;
- 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    p{
-    color: white;
-    font-weight: ${theme.fontWeight.Regular};
-    font-size: 8px;
+      color: ${theme.color.SecondaryColor.BasicFont};
+    }
+    svg {
+      margin-right: 20px;
+    }
+    .name{
+      display: block;
+      border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
+      border-radius: 50%;
+      background-color: #9927F3;
+      width: 26px;
+      height: 26px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      p {
+        color: white;
+        font-weight: ${theme.fontWeight.Regular};
+        font-size: 8px;
+      }
     }
   }
-}
 `;

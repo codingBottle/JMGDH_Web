@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
 import theme from "@/styles/theme/theme";
+import ModalDay from '../Modal/ModalDay';
 
 const MonthCalender = () => {
   const [date, setDate] = useState(new Date());
+  const [modalOpen, setModalOpen] = useState(false);
 
   const getDaysInMonth = (year: number, month: number): number => {
     return new Date(year, month + 1, 0).getDate();
   };
+
+  const onClickDay = () => {
+    if(modalOpen===true) {
+      setModalOpen(false);
+    } else {
+      setModalOpen(true);
+    }
+  }
   
   const renderCalendar = (): JSX.Element[] => {
     const year = date.getFullYear();
@@ -41,8 +51,16 @@ const MonthCalender = () => {
       } else if (day <= daysInMonth) {
         // 현재 달의 날짜 출력
         calendarDays.push(
-          <td>
+          <td key={`day-${i}`} onClick={onClickDay}>
             <span>{day}</span>
+            {
+              modalOpen === true ?
+              <Modal>
+                <ModalDay />
+              </Modal>
+              :
+              ""
+            }
           </td>
         );
         day++;
@@ -56,6 +74,7 @@ const MonthCalender = () => {
         );
       }
     }
+    
     const weeks: JSX.Element[] = [];
     let week: JSX.Element[] = [];
   
@@ -69,9 +88,6 @@ const MonthCalender = () => {
     });
     return weeks;
   };
-
-
-
   
   return (
     <CalenderWrapper>
@@ -161,4 +177,16 @@ const Calender = styled.table`
       }
     }
   }
+`;
+
+const Modal = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 100;
 `;
