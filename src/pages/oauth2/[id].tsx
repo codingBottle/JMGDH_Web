@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import styled, { keyframes } from "styled-components";
 import axios from "axios";
 
-export default function Hello() {
+export default function TokenId() {
   const router = useRouter();
   const [oneTimeUseCode, setOneTimeUseCode] = useState<any>(null);
   const [loading, setLoading] = useState(true);

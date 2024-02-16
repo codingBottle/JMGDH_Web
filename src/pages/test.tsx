@@ -6,7 +6,7 @@ import CalenderNavbar from "@/components/CalenderNavbar";
 import Todo from "@/components/Todo";
 import WeeklyCalender from "@/components/WeeklyCalender";
 
-export default function hello() {
+export default function Test() {
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
   useEffect(() => {
