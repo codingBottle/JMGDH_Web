@@ -1,13 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DailyCalender from "@/components/DailyCalender";
 import styled from "styled-components";
 import Navbar from "@/components/Navbar";
-import MonthCalender from "@/components/MonthCalender/MonthCalender";
 import CalenderNavbar from "@/components/CalenderNavbar";
 import Todo from "@/components/Todo";
 import WeeklyCalender from "@/components/WeeklyCalender";
 
 export default function hello() {
+  const [accessToken, setAccessToken] = useState("");
+  const [refreshToken, setRefreshToken] = useState("");
+  useEffect(() => {
+    // accessToken 확인
+    const storedAccessToken = localStorage.getItem("accessToken");
+    if (storedAccessToken) {
+      setAccessToken(storedAccessToken);
+      console.log("accesstoken:", storedAccessToken);
+    }
+
+    // refreshToken 확인
+    const storedRefreshToken = localStorage.getItem("refreshToken");
+    if (storedRefreshToken) {
+      setRefreshToken(storedRefreshToken);
+      console.log("setRefreshToken:", storedRefreshToken);
+    }
+  }, []); // 빈 배열은 컴포넌트가 마운트될 때 한 번만 실행되도록 함
+
   return (
     <Wrapper>
       <Navbar />
