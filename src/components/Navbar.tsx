@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import theme from "@/styles/theme/theme";
 import { Menu, Home, Setting, Import } from "@/assets/icon/Navbaricon";
-import LoginButton from '@/components/Login/LoginButton';
+import LoginButton from "@/components/Login/LoginButton";
 
 export default function Navbar() {
   const [NavName, setNavName] = useState("인물의 캘린더");
@@ -26,7 +26,7 @@ export default function Navbar() {
 }
 
 const NavbarContainer = styled.div`
-  display: flex;  
+  display: flex;
   width: 100%;
   height: 80px;
   padding: 0 20px;
@@ -57,8 +57,8 @@ const NavbarContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    button {  
-      width:74px;
+    button {
+      width: 74px;
       height: 38px;
       /* padding: 10px 18px; */
       border-radius: 4px;
@@ -72,11 +72,11 @@ const NavbarContainer = styled.div`
     svg {
       margin-right: 20px;
     }
-    .name{
+    .name {
       display: block;
       border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
       border-radius: 50%;
-      background-color: #9927F3;
+      background-color: #9927f3;
       width: 26px;
       height: 26px;
       display: flex;
