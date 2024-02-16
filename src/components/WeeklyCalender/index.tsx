@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import WeeklyList from './WeeklyList';
 import WeekTodoView from './WeekTodoView'; // WeekView를 불러옴
-import { instance } from '@/api/constant/token';
 
 interface Todo {
   id: number;
@@ -27,7 +26,8 @@ const WeeklyCalender = () => {
   const sunday = new Date(now.setDate(now.getDate() - dayOfWeek));
 
   // 나중에 api 연결 시 사용할 부분
-  useEffect(() => {}, []);
+  useEffect(() => {
+  }, []);
 
   const fetchTodos = async () => {
     const response = await fetch('/api/todos');
