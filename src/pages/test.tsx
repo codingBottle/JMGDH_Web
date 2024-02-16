@@ -24,7 +24,7 @@ export default function hello() {
           <div className="calenderNav">
             <CalenderNavbar />
           </div>
-          <MonthCalender />
+          <WeeklyCalender />
         </MiddleSection>
         <RightSection>오른쪽 네비게이션</RightSection>
       </Content>
