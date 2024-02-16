@@ -8,6 +8,7 @@ export default function Hello() {
   const [oneTimeUseCode, setOneTimeUseCode] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [accectoken, setAccessToken] = useState("");
+  const [response, setResponse] = useState("");
   useEffect(() => {
     if (oneTimeUseCode !== null) {
       console.log("나와짜샤 ");
@@ -17,10 +18,15 @@ export default function Hello() {
         )
         .then((response) => {
           console.log("response");
-          setAccessToken(response.data.accessToken);
           setLoading(false);
-
-          console.log(response?.data);
+          localStorage.setItem("accessToken", response?.data?.data.accessToken);
+          localStorage.setItem(
+            "refreshToken",
+            response?.data?.data.refreshToken
+          );
+          console.log(response?.data?.data.refreshToken);
+          console.log(response?.data?.data.accessToken);
+          router.push("/test");
         })
         .catch((error) => {
           console.error("Error fetching access token:", error);
@@ -41,22 +47,7 @@ export default function Hello() {
     }
   }, [router.query.oneTimeUseCode]);
 
-  return (
-    <Wrapper>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <Content>
-          <LeftSection>{/* Left Section Content */}</LeftSection>
-          <MiddleSection>
-            <div className="calenderNav">{/* Calendar Navbar */}</div>
-            {/* Month Calendar */}
-          </MiddleSection>
-          <RightSection>{/* Right Section Content */}</RightSection>
-        </Content>
-      )}
-    </Wrapper>
-  );
+  return <Wrapper>{loading ? <p>Loading...</p> : <Content></Content>}</Wrapper>;
 }
 
 const Wrapper = styled.div`
