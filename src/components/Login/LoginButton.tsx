@@ -9,6 +9,16 @@ const LoginButton = () => {
   const router = useRouter();
   const [loginSuccess, SetloginSuccess] = useState(false);
 
+  const logout = () => {
+    const confirmLogout = window.confirm("로그아웃 하시겠습니까?");
+
+    if (confirmLogout) {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      window.location.reload();
+    }
+  };
+
   useEffect(() => {
     // URL에서 oneTimeUseCode를 가져옴
     const oneTimeUseCode = router.query.oneTimeUseCode;
@@ -33,7 +43,7 @@ const LoginButton = () => {
         </LoginBtnWrapper>
       )}
       {loginSuccess === true && (
-        <LoginBtnWrapper>
+        <LoginBtnWrapper onClick={logout}>
           <p>현우</p>
         </LoginBtnWrapper>
       )}
