@@ -18,15 +18,15 @@ interface Todo {
 const WeeklyCalender = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
 
+  const [temp, setTemp] = useState();
+
   const now = new Date();
   const today = new Date(now.getTime());
   const dayOfWeek = now.getDay();
   const sunday = new Date(now.setDate(now.getDate() - dayOfWeek));
 
-  /*
-  나중에 api 연결 시 사용할 부분
+  // 나중에 api 연결 시 사용할 부분
   useEffect(() => {
-    fetchTodos();
   }, []);
 
   const fetchTodos = async () => {
@@ -35,7 +35,7 @@ const WeeklyCalender = () => {
 
     setTodos(data);
   };
-*/
+
   return (
     <Main>
       <WeeklyList />
