@@ -3,15 +3,15 @@ import styled from 'styled-components';
 import TimeTodo from './TimeTodo';
 
 interface Todo {
-  id: number;
-  title: string;
-  startDate: string;
-  timeOfStartDate: string;
-  endDate: string;
-  timeOfEndDateTime: string;
-  allDay: boolean;
-  repeat: boolean;
-  tag: string;
+  id: number,
+  title: string,
+  colorCode: string, 
+  startDate: string,
+  endDate: string,
+  timeOfStartDate: string,
+  timeOfEndDateTime: string,
+  allDay: boolean,
+  repeat: boolean
 }
 
 interface WeekViewProps {
