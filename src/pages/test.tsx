@@ -5,8 +5,9 @@ import Navbar from "@/components/Navbar";
 import CalenderNavbar from "@/components/CalenderNavbar";
 import Todo from "@/components/Todo";
 import WeeklyCalender from "@/components/WeeklyCalender";
+import Right from "@/components/Modal/Right";
 
-export default function Test() {
+export default function hello() {
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
   useEffect(() => {
@@ -23,7 +24,7 @@ export default function Test() {
       setRefreshToken(storedRefreshToken);
       console.log("setRefreshToken:", storedRefreshToken);
     }
-  }, []); // 빈 배열은 컴포넌트가 마운트될 때 한 번만 실행되도록 함
+  }, []);
 
   return (
     <Wrapper>
@@ -43,7 +44,9 @@ export default function Test() {
           </div>
           <WeeklyCalender />
         </MiddleSection>
-        <RightSection>오른쪽 네비게이션</RightSection>
+        <RightSection>
+          <Right />
+        </RightSection>
       </Content>
     </Wrapper>
   );
