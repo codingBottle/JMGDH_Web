@@ -35,10 +35,7 @@ const LoginButton = () => {
   return (
     <>
       {loginSuccess === false && (
-        <LoginBtnWrapper
-          href="https://calendars2.duckdns.org/oauth2/authorization/google"
-          target="_blank"
-        >
+        <LoginBtnWrapper href="https://calendars2.duckdns.org/oauth2/authorization/google">
           <p>로그인</p>
         </LoginBtnWrapper>
       )}

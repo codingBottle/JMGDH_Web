@@ -13,6 +13,7 @@ export default function Navbar() {
     axios
       .get(`https://calendars2.duckdns.org/google/authorize`)
       .then((response) => {
+        window.location.href = response.data;
         console.log("구글 연동 성공", response.data);
       })
       .catch((error) => {
