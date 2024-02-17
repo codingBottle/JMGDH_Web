@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 
 interface Todo {
-  id: number;
-  title: string;
-  startDate: string;
-  timeOfStartDate: string;
-  endDate: string;
-  timeOfEndDateTime: string;
-  allDay: boolean;
-  repeat: boolean;
-  tag: string;
+  id: number,
+  title: string,
+  colorCode: string, 
+  startDate: string,
+  endDate: string,
+  timeOfStartDate: string,
+  timeOfEndDateTime: string,
+  allDay: boolean,
+  repeat: boolean
 }
 
 interface TimeTodoProps {
@@ -47,7 +47,7 @@ const TimeTodo = ({ todos, date, showHours }: TimeTodoProps) => {
               <TodoItem backgroundColor="#FCEFDA">아무튼 일정</TodoItem>
               {/* 각 일정을 렌더링합니다. */}
               {todosInThisHour.slice(0, 2).map((todo) => (
-                <TodoItem key={todo.id} backgroundColor={todo.tag}>
+                <TodoItem key={todo.id} backgroundColor={todo.colorCode}>
                   {todo.title}
                 </TodoItem>
               ))}

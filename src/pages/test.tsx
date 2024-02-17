@@ -8,7 +8,7 @@ import WeeklyCalender from "@/components/WeeklyCalender";
 import Right from "@/components/Modal/Right";
 import axios from "axios";
 
-export default function hello() {
+export default function Test() {
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
   useEffect(() => {
