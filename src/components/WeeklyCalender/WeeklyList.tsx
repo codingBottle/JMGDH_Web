@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import theme from '@/styles/theme/theme';
-import DailyTodo from './DailyTodo';
+import styled from "styled-components";
+import theme from "@/theme/theme";
+import DailyTodo from "./DailyTodo";
 
 interface DayInfo {
   day: string;
@@ -9,13 +9,13 @@ interface DayInfo {
 }
 
 const dayMapping: { [key: number]: string } = {
-  0: 'SUN',
-  1: 'MON',
-  2: 'TUE',
-  3: 'WED',
-  4: 'THU',
-  5: 'FRI',
-  6: 'SAT',
+  0: "SUN",
+  1: "MON",
+  2: "TUE",
+  3: "WED",
+  4: "THU",
+  5: "FRI",
+  6: "SAT",
 };
 
 const WeeklyList = () => {
@@ -44,20 +44,24 @@ const WeeklyList = () => {
           <DayItem key={i}>
             <DayTxt
               color={
-                item.day === 'SUN'
-                  ? '#DA4A4A'
-                  : item.day === 'SAT'
-                  ? '#4A8CDA'
-                  : 'black'
+                item.day === "SUN"
+                  ? "#DA4A4A"
+                  : item.day === "SAT"
+                  ? "#4A8CDA"
+                  : "black"
               }
             >
               {item.day}
             </DayTxt>
 
-            <DateTxt isToday={item.isToday} isSunday={item.day === 'SUN'}>
+            <DateTxt isToday={item.isToday} isSunday={item.day === "SUN"}>
               {item.date}
             </DateTxt>
-            <DailyTodo date={`${sunday.getFullYear()}-${sunday.getMonth()+1}-${item.date}`} />
+            <DailyTodo
+              date={`${sunday.getFullYear()}-${sunday.getMonth() + 1}-${
+                item.date
+              }`}
+            />
           </DayItem>
         ))}
       </DayList>
@@ -94,9 +98,9 @@ const DayItem = styled.li`
   align-items: center;
   justify-content: center;
 
-  border : 1px solid black;
+  border: 1px solid black;
   border-style: none solid;
-  padding-top: .625rem;
+  padding-top: 0.625rem;
 
   margin: -1px 0 0 -1px;
   list-style: none;
@@ -120,11 +124,11 @@ const DateTxt = styled.div<{ isToday: boolean; isSunday: boolean }>`
   height: 3.125rem;
   border-radius: 50%;
 
-  margin-bottom: .625rem;
+  margin-bottom: 0.625rem;
 
   color: ${({ isToday, isSunday }) =>
-    isToday ? 'white' : isSunday ? '#DA4A4A' : 'black'};
-  background-color: ${({ isToday }) => (isToday ? '#9AC5F4' : 'none')};
+    isToday ? "white" : isSunday ? "#DA4A4A" : "black"};
+  background-color: ${({ isToday }) => (isToday ? "#9AC5F4" : "none")};
 
   font-size: 30px;
   font-weight: ${theme.fontWeight.Regular};

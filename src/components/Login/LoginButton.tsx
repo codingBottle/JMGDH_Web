@@ -1,7 +1,7 @@
 // LoginButton.js
 import React, { useState } from "react";
 import styled from "styled-components";
-import theme from "@/styles/theme/theme";
+import theme from "@/theme/theme";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 

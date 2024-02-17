@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import theme from '@/styles/theme/theme';
+import styled from "styled-components";
+import theme from "@/theme/theme";
 
 interface DayInfo {
   day: string;
@@ -8,13 +8,13 @@ interface DayInfo {
 }
 
 const dayMapping: { [key: number]: string } = {
-  0: 'SUN',
-  1: 'MON',
-  2: 'TUE',
-  3: 'WED',
-  4: 'THU',
-  5: 'FRI',
-  6: 'SAT',
+  0: "SUN",
+  1: "MON",
+  2: "TUE",
+  3: "WED",
+  4: "THU",
+  5: "FRI",
+  6: "SAT",
 };
 
 const WeekList = () => {
@@ -43,17 +43,17 @@ const WeekList = () => {
           <DayItem key={i}>
             <DayTxt
               color={
-                item.day === 'SUN'
-                  ? '#DA4A4A'
-                  : item.day === 'SAT'
-                  ? '#4A8CDA'
-                  : 'black'
+                item.day === "SUN"
+                  ? "#DA4A4A"
+                  : item.day === "SAT"
+                  ? "#4A8CDA"
+                  : "black"
               }
             >
               {item.day}
             </DayTxt>
 
-            <DateTxt isToday={item.isToday} isSunday={item.day === 'SUN'}>
+            <DateTxt isToday={item.isToday} isSunday={item.day === "SUN"}>
               {item.date}
             </DateTxt>
           </DayItem>
@@ -115,8 +115,8 @@ const DateTxt = styled.div<{ isToday: boolean; isSunday: boolean }>`
   border-radius: 50%;
 
   color: ${({ isToday, isSunday }) =>
-    isToday ? 'white' : isSunday ? '#DA4A4A' : 'black'};
-  background-color: ${({ isToday }) => (isToday ? '#9AC5F4' : 'none')};
+    isToday ? "white" : isSunday ? "#DA4A4A" : "black"};
+  background-color: ${({ isToday }) => (isToday ? "#9AC5F4" : "none")};
 
   font-size: 10px;
   font-weight: ${theme.fontWeight.Regular};

@@ -1,11 +1,24 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import theme from "@/styles/theme/theme";
+import theme from "@/theme/theme";
 import { Menu, Home, Setting, Import } from "@/assets/icon/Navbaricon";
 import LoginButton from "@/components/Login/LoginButton";
+import axios from "axios"; // axios 추가
 
 export default function Navbar() {
   const [NavName, setNavName] = useState("인물의 캘린더");
+
+  const peristalsis = () => {
+    console.log("로그인 연동 ");
+    axios
+      .get(`https://calendars2.duckdns.org/google/authorize`)
+      .then((response) => {
+        console.log("구글 연동 성공", response.data);
+      })
+      .catch((error) => {
+        console.error("구글 로그인 연동 오류:", error);
+      });
+  };
 
   return (
     <NavbarContainer>
@@ -15,6 +28,7 @@ export default function Navbar() {
         <p>{NavName}</p>
       </div>
       <div className="Rights">
+        <button onClick={peristalsis}>로그인 연동</button> {/* 수정 */}
         <button>SHARE</button>
         <Home />
         <Setting />
@@ -71,22 +85,6 @@ const NavbarContainer = styled.div`
     }
     svg {
       margin-right: 20px;
-    }
-    .name {
-      display: block;
-      border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
-      border-radius: 50%;
-      background-color: #9927f3;
-      width: 26px;
-      height: 26px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      p {
-        color: white;
-        font-weight: ${theme.fontWeight.Regular};
-        font-size: 8px;
-      }
     }
   }
 `;

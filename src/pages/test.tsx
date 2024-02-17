@@ -6,6 +6,7 @@ import CalenderNavbar from "@/components/CalenderNavbar";
 import Todo from "@/components/Todo";
 import WeeklyCalender from "@/components/WeeklyCalender";
 import Right from "@/components/Modal/Right";
+import axios from "axios";
 
 export default function hello() {
   const [accessToken, setAccessToken] = useState("");
@@ -15,14 +16,12 @@ export default function hello() {
     const storedAccessToken = localStorage.getItem("accessToken");
     if (storedAccessToken) {
       setAccessToken(storedAccessToken);
-      console.log("accesstoken:", storedAccessToken);
     }
 
     // refreshToken 확인
     const storedRefreshToken = localStorage.getItem("refreshToken");
     if (storedRefreshToken) {
       setRefreshToken(storedRefreshToken);
-      console.log("setRefreshToken:", storedRefreshToken);
     }
   }, []);
 

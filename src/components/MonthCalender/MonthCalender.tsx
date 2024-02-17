@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import styled from "styled-components";
-import theme from "@/styles/theme/theme";
-import ModalDay from '../Modal/ModalDay';
+import theme from "@/theme/theme";
+import ModalDay from "../Modal/ModalDay";
 
 const MonthCalender = () => {
   const [date, setDate] = useState(new Date());
@@ -12,33 +12,33 @@ const MonthCalender = () => {
   };
 
   const onClickDay = () => {
-    if(modalOpen===true) {
+    if (modalOpen === true) {
       setModalOpen(false);
     } else {
       setModalOpen(true);
     }
-  }
-  
+  };
+
   const renderCalendar = (): JSX.Element[] => {
     const year = date.getFullYear();
     const month = date.getMonth();
     const daysInMonth = getDaysInMonth(year, month);
-  
+
     const firstDayOfWeek = new Date(year, month, 1).getDay();
-  
+
     const calendarDays: JSX.Element[] = [];
-  
+
     const prevMonth = month === 0 ? 11 : month - 1;
     const prevMonthYear = month === 0 ? year - 1 : year;
     const daysInPrevMonth = getDaysInMonth(prevMonthYear, prevMonth);
-  
+
     const totalCells = 7 * Math.ceil((firstDayOfWeek + daysInMonth) / 7);
-  
+
     let day = 1; // 현재 달의 날짜
-  
+
     // 이전 달의 마지막 일자
     const prevMonthEndDay = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
-  
+
     for (let i = 0; i < totalCells; i++) {
       if (i < firstDayOfWeek) {
         // 이전 달의 날짜 출력
@@ -53,14 +53,13 @@ const MonthCalender = () => {
         calendarDays.push(
           <td key={`day-${i}`} onClick={onClickDay}>
             <span>{day}</span>
-            {
-              modalOpen === true ?
+            {modalOpen === true ? (
               <Modal>
                 <ModalDay />
               </Modal>
-              :
+            ) : (
               ""
-            }
+            )}
           </td>
         );
         day++;
@@ -74,13 +73,13 @@ const MonthCalender = () => {
         );
       }
     }
-    
+
     const weeks: JSX.Element[] = [];
     let week: JSX.Element[] = [];
-  
+
     calendarDays.forEach((cell, index) => {
       week.push(cell);
-  
+
       if ((index + 1) % 7 === 0) {
         weeks.push(<tr key={`week-${index / 7}`}>{week}</tr>);
         week = [];
@@ -88,7 +87,7 @@ const MonthCalender = () => {
     });
     return weeks;
   };
-  
+
   return (
     <CalenderWrapper>
       <Calender>
@@ -103,13 +102,11 @@ const MonthCalender = () => {
             <th>Sat</th>
           </tr>
         </thead>
-        <tbody>
-          {renderCalendar()}
-        </tbody>
+        <tbody>{renderCalendar()}</tbody>
       </Calender>
     </CalenderWrapper>
-  )
-}
+  );
+};
 
 export default MonthCalender;
 
@@ -125,11 +122,12 @@ const Calender = styled.table`
   height: 100%;
   border-collapse: collapse;
 
-  th, td {
+  th,
+  td {
     border: 0.5px solid ${theme.color.SecondaryColor.ButtonBorder};
     font-size: 14px;
     font-weight: ${theme.fontWeight.Regular};
-    
+
     &:first-child {
       color: ${theme.color.AccentColor.SundayColor};
     }

@@ -1,30 +1,30 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
-import theme from "@/styles/theme/theme";
+import theme from "@/theme/theme";
 
 const ModalDay = () => {
   return (
     <ModalWrapper>
       <Title>일정 만들기</Title>
       <Contents>
-        <div className='write-schedule'>
-          <input type='text' placeholder='일정명을 적어주세요' />
+        <div className="write-schedule">
+          <input type="text" placeholder="일정명을 적어주세요" />
         </div>
-        <div className='start-end-schedule schedule-box'>
+        <div className="start-end-schedule schedule-box">
           <div>
             <span>아이콘</span>
             <div>2023년 12월 01일</div>
           </div>
           <button>종료일 추가</button>
         </div>
-        <div className='start-end-schedule-time schedule-box'>
+        <div className="start-end-schedule-time schedule-box">
           <div>
             <span>아이콘</span>
             <div>12월 01일(수) 13:00 ~ 12월 01일(수) 14:00</div>
           </div>
           <button>시간 설정</button>
         </div>
-        <div className='select-color'>
+        <div className="select-color">
           <span>아이콘</span>
           <div>
             <span>red</span>
@@ -34,14 +34,14 @@ const ModalDay = () => {
             <span>purple</span>
           </div>
         </div>
-        <div className='add-manager'>
+        <div className="add-manager">
           <span>아이콘</span>
-          <input type='text' placeholder='담당자 추가' />
+          <input type="text" placeholder="담당자 추가" />
         </div>
       </Contents>
     </ModalWrapper>
-  )
-}
+  );
+};
 
 export default ModalDay;
 
