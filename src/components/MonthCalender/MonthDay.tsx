@@ -24,23 +24,25 @@ const ModalDay: React.FC<ModalDayProps> = ({ scheduleData }) => {
   }
   console.log("작동합니다.", scheduleData);
   return (
-    <ModalContainer>
-      <p>Title: {scheduleData.title}</p>
-      <p>Start Date: {scheduleData.startDate}</p>
-      <p>End Date: {scheduleData.endDate}</p>
-      <p>All Day: {scheduleData.allDay ? "Yes" : "No"}</p>
-      <p>Color Code: {scheduleData.colorCode}</p>
-      <p>Time of Start: {scheduleData.timeOfStartDate}</p>
-      <p>Time of End: {scheduleData.timeOfEndDateTime}</p>
-      <p>Repeat: {scheduleData.repeat ? "Yes" : "No"}</p>
+    <ModalContainer style={{ backgroundColor: `#${scheduleData.colorCode} ` }}>
+      <p style={{ color: "black" }}>{scheduleData.title}</p>
     </ModalContainer>
   );
 };
 export default ModalDay;
 
 const ModalContainer = styled.div`
-  background-color: ${theme.color.PrimaryColor.PrimaryWhite};
-  border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
-  padding: 20px;
-  border-radius: 8px;
+  width: 80%;
+  height: 30px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 3px;
+  padding: 6px, 12px;
+  border-radius: 4px;
+  gap: 10px;
+  display: flex;
+  p {
+    margin-top: 4px;
+    margin-left: 8px;
+  }
 `;

@@ -93,12 +93,8 @@ const MonthCalendar: React.FC = () => {
 
         calendarDays.push(
           <td key={`day-${i}`} onClick={() => onClickDay(currentDay)}>
-            <span>{day}</span>
-            {modalOpen === true && selectedDay === currentDay && (
-              <Modal>
-                <MonthDay scheduleData={getScheduleForDay(currentDay)} />
-              </Modal>
-            )}
+            <span>{day}</span>{" "}
+            <MonthDay scheduleData={getScheduleForDay(currentDay)} />
           </td>
         );
         day++;
