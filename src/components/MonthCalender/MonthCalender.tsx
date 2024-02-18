@@ -1,23 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import theme from "@/theme/theme";
-import ModalDay from "../Modal/ModalDay";
+import axios from "axios";
+import MonthDay from "./MonthDay";
 
-const MonthCalender = () => {
+interface Schedule {
+  allDay: boolean;
+  colorCode: string;
+  endDate: string;
+  id: number;
+  repeat: boolean;
+  startDate: string;
+  timeOfEndDateTime: string;
+  timeOfStartDate: string;
+  title: string;
+}
+
+const MonthCalendar: React.FC = () => {
   const [date, setDate] = useState(new Date());
   const [modalOpen, setModalOpen] = useState(false);
+  const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const [schedules, setSchedules] = useState<Schedule[]>([]);
 
   const getDaysInMonth = (year: number, month: number): number => {
     return new Date(year, month + 1, 0).getDate();
   };
 
-  const onClickDay = () => {
+  const onClickDay = (currentDay: number) => {
     if (modalOpen === true) {
       setModalOpen(false);
     } else {
       setModalOpen(true);
+      setSelectedDay(currentDay);
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const endpoint = `https://calendars2.duckdns.org/schedules/year/2024/month/2`;
+
+      try {
+        const response = await axios.get(endpoint, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        });
+
+        setSchedules(response.data?.data.schedules || []);
+        console.log(response.data?.data.schedules || []);
+      } catch (error) {
+        console.error("월별 캘린더 오류:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const renderCalendar = (): JSX.Element[] => {
     const year = date.getFullYear();
@@ -34,41 +71,41 @@ const MonthCalender = () => {
 
     const totalCells = 7 * Math.ceil((firstDayOfWeek + daysInMonth) / 7);
 
-    let day = 1; // 현재 달의 날짜
+    let day = 1;
 
-    // 이전 달의 마지막 일자
-    const prevMonthEndDay = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
+    const getScheduleForDay = (currentDay: number): Schedule | undefined => {
+      return schedules.find(
+        (schedule) =>
+          new Date(schedule.startDate).getDate() === currentDay ||
+          new Date(schedule.endDate).getDate() === currentDay
+      );
+    };
 
     for (let i = 0; i < totalCells; i++) {
       if (i < firstDayOfWeek) {
-        // 이전 달의 날짜 출력
-        const prevMonthDay = daysInPrevMonth - (prevMonthEndDay - i);
         calendarDays.push(
-          <td key={`day-${i}`} className="prev-month-day">
-            <span>{prevMonthDay}</span>
+          <td key={`day-${i}`}>
+            <span>{daysInPrevMonth - (firstDayOfWeek - i) + 1}</span>
           </td>
         );
       } else if (day <= daysInMonth) {
-        // 현재 달의 날짜 출력
+        const currentDay = day;
+
         calendarDays.push(
-          <td key={`day-${i}`} onClick={onClickDay}>
+          <td key={`day-${i}`} onClick={() => onClickDay(currentDay)}>
             <span>{day}</span>
-            {modalOpen === true ? (
+            {modalOpen === true && selectedDay === currentDay && (
               <Modal>
-                <ModalDay />
+                <MonthDay scheduleData={getScheduleForDay(currentDay)} />
               </Modal>
-            ) : (
-              ""
             )}
           </td>
         );
         day++;
       } else {
-        // 다음 달의 날짜 출력
-        const nextMonthDay = i - (firstDayOfWeek + daysInMonth) + 1;
         calendarDays.push(
           <td key={`day-${i}`} className="next-month-day">
-            <span>{nextMonthDay}</span>
+            <span>{i - (firstDayOfWeek + daysInMonth) + 1}</span>
           </td>
         );
       }
@@ -85,12 +122,13 @@ const MonthCalender = () => {
         week = [];
       }
     });
+
     return weeks;
   };
 
   return (
-    <CalenderWrapper>
-      <Calender>
+    <CalendarWrapper>
+      <Calendar>
         <thead>
           <tr>
             <th>Sun</th>
@@ -103,21 +141,21 @@ const MonthCalender = () => {
           </tr>
         </thead>
         <tbody>{renderCalendar()}</tbody>
-      </Calender>
-    </CalenderWrapper>
+      </Calendar>
+    </CalendarWrapper>
   );
 };
 
-export default MonthCalender;
+export default MonthCalendar;
 
-const CalenderWrapper = styled.div`
+const CalendarWrapper = styled.div`
   width: 100%;
   height: 100%;
   color: ${theme.color.SecondaryColor.BasicFont};
   background-color: ${theme.color.PrimaryColor.PrimaryWhite};
 `;
 
-const Calender = styled.table`
+const Calendar = styled.table`
   width: 100%;
   height: 100%;
   border-collapse: collapse;
