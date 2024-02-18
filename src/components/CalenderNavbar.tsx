@@ -1,18 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import theme from "@/theme/theme";
+import CalendarComponent from "./CalendarComponent"; // 예시로 사용한 캘린더 컴포넌트
+import DailyCalender from "./DailyCalender";
 
 export default function CalenderNavbar() {
+  const [calendarVisible, setCalendarVisible] = useState(false);
+
+  const currentDate = new Date();
+  const formattedDate = {
+    year: currentDate.getFullYear(),
+    month: (currentDate.getMonth() + 1).toString().padStart(2, "0"),
+  };
+
+  console.log(formattedDate);
+  const handleSelectChange = () => {
+    // 여기에 캘린더를 나타내거나 숨기는 로직 추가
+    setCalendarVisible(!calendarVisible);
+    console.log("hello");
+  };
+
   return (
     <CalenderNavbarCss>
       <div>
         <button className="todaybtn">TODAY</button>
         <button className="arrowbtn">&lt;</button>
         <button className="arrowbtn">&gt;</button>
-        <select>
-          <option value="2021">2023년 10월</option>
-          <option value="2022">2022</option>
-        </select>
+        <button
+          onClick={handleSelectChange}
+          style={{ width: "149px", height: "40px", padding: "14px,8.5px," }}
+        >
+          {formattedDate.year}년 {formattedDate.month}월 ▼
+        </button>
+        {calendarVisible && <CalendarComponent />} {/* 캘린더 컴포넌트 */}
       </div>
       <div>
         <button className="onebtn">M</button>
@@ -32,33 +52,40 @@ const CalenderNavbarCss = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   button {
     background-color: ${theme.color.PrimaryColor.PrimaryWhite};
     border: 0.0625rem solid ${theme.color.SecondaryColor.ButtonBorder};
     font-size: 1rem;
     font-weight: ${theme.fontWeight.Regular};
   }
+
   .todaybtn {
     height: 2.5rem;
     width: 5.375rem;
     margin-right: 0.9375rem;
   }
+
   .onebtn {
     height: 2.5rem;
     width: 2.5rem;
     margin-right: 15px;
   }
+
   .arrowbtn {
     height: 2.5rem;
     width: 2.5rem;
     margin-right: 5px;
   }
-  select {
-    height: 2.5rem;
-    width: 149px;
-    margin-left: 10px;
-    font-size: 1rem;
-    font-weight: ${theme.fontWeight.Regular};
-    text-align: center;
-  }
+`;
+
+const StyledSelect = styled.select`
+  height: 2.5rem;
+  width: 149px;
+  margin-left: 10px;
+  font-size: 1rem;
+  font-weight: ${theme.fontWeight.Regular};
+  text-align: center;
+  background-color: ${theme.color.PrimaryColor.PrimaryWhite};
+  border: 0.0625rem solid ${theme.color.SecondaryColor.ButtonBorder};
 `;
