@@ -7,6 +7,7 @@ import Todo from "@/components/Todo";
 import WeeklyCalender from "@/components/WeeklyCalender";
 import Right from "@/components/Modal/Right";
 import axios from "axios";
+import MonthCalender from "@/components/MonthCalender/MonthCalender";
 
 export default function Test() {
   const [accessToken, setAccessToken] = useState("");
@@ -41,7 +42,7 @@ export default function Test() {
           <div className="calenderNav">
             <CalenderNavbar />
           </div>
-          <WeeklyCalender />
+          <MonthCalender />
         </MiddleSection>
         <RightSection>
           <Right />
