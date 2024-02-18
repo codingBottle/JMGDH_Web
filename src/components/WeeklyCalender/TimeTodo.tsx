@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 
 interface Todo {
-  id: number,
-  title: string,
-  colorCode: string, 
-  startDate: string,
-  endDate: string,
-  timeOfStartDate: string,
-  timeOfEndDateTime: string,
-  allDay: boolean,
-  repeat: boolean
+  id: number;
+  title: string;
+  colorCode: string;
+  startDate: string;
+  endDate: string;
+  timeOfStartDate: string;
+  timeOfEndDateTime: string;
+  allDay: boolean;
+  repeat: boolean;
 }
 
 interface TimeTodoProps {
@@ -22,17 +22,22 @@ const TimeTodo = ({ todos, date, showHours }: TimeTodoProps) => {
   // 9시부터 24시까지의 시간 배열을 생성합니다.
   const hours = Array.from({ length: 16 }, (_, i) => i + 9);
 
+  // 현재 시간 정보를 가져옵니다.
+  const currentHour = new Date(date).getHours();
+
   // TimeTodo 컴포넌트가 최종적으로 렌더링할 JSX를 반환합니다.
   return (
     <Main>
       {/* 각 시간대에 대해 반복합니다. */}
       {hours.map((hour) => {
+
         // 해당 시간대에 속하는 일정들을 필터링합니다.
         const todosInThisHour = todos.filter(
           (todo) =>
             new Date(todo.startDate).toDateString() === date.toDateString() && // 년도, 월, 일이 일치하는 일정만 선택
+            // 시작시간이 현재 시간에 해당하고, 종료시간이 해당시간보다 큰 일정만 선택
             parseInt(todo.timeOfStartDate, 10) <= hour &&
-            parseInt(todo.timeOfEndDateTime, 10) >= hour
+            parseInt(todo.timeOfEndDateTime, 10) > hour
         );
 
         // 각 시간대별로 렌더링할 JSX를 반환합니다. 이 반환된 JSX들은 새 배열에 담기게 됩니다.
@@ -42,12 +47,16 @@ const TimeTodo = ({ todos, date, showHours }: TimeTodoProps) => {
             <Hour
               showHours={showHours}
               data-text={hour < 10 ? `0${hour}` : hour}
-            ></Hour>
+            >
+              {hour === currentHour && <div style={{backgroundColor: `red`, height: `2px`}}></div>}
+            </Hour>
             <Todos>
-              <TodoItem backgroundColor="#FCEFDA">아무튼 일정</TodoItem>
               {/* 각 일정을 렌더링합니다. */}
               {todosInThisHour.slice(0, 2).map((todo) => (
-                <TodoItem key={todo.id} backgroundColor={todo.colorCode}>
+                <TodoItem
+                  key={todo.id}
+                  style={{ backgroundColor: `#${todo.colorCode}` }}
+                >
                   {todo.title}
                 </TodoItem>
               ))}
@@ -113,7 +122,7 @@ const Todos = styled.div`
   gap: 0.625rem;
 `;
 
-const TodoItem = styled.div<{ backgroundColor: string }>`
+const TodoItem = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -129,7 +138,6 @@ const TodoItem = styled.div<{ backgroundColor: string }>`
   line-height: normal;
 
   color: #191919;
-  background-color: ${({ backgroundColor }) => backgroundColor};
   list-style: none;
 
   border-radius: 0.25rem;

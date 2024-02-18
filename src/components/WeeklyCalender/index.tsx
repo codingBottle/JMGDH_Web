@@ -53,10 +53,8 @@ const WeeklyCalender = () => {
 
   // yyyy-mm-dd 형식으로 변환
   const weekStart = sunday.getFullYear() + '-' + month() + '-' + date();
-  console.log('startWeek:', weekStart);
 
   const weekEnd = sunday.getFullYear() + '-' + month() + '-' + endDate();
-  console.log('endWeek:', weekEnd);
 
   useEffect(() => {
     // accessToken이 있을 경우

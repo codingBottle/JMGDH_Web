@@ -27,6 +27,9 @@ const WeekTodoView = ({ todos, startDate }: WeekViewProps) => {
     return date;
   });
 
+  console.log('주간 투두',todos );
+  
+
   // 각 날짜에 대해 TimeTodo 컴포넌트를 렌더링합니다.
   return (
     <Main>
