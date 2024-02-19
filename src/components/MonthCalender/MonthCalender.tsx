@@ -39,15 +39,13 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
   };
 
 
-  useEffect(()=>{
-    const year = today.getFullYear(); // 년도
-    const month = today.getMonth(); // 월 (0부터 시작)
-    const date = today.getDate(); // 일
-  },[today])
+  
   
   useEffect(() => {
+    const year = today.getFullYear(); // 년도
+    const month = today.getMonth()+1; // 월 (0부터 시작)
     const fetchData = async () => {
-      const endpoint = `https://calendars2.duckdns.org/schedules/year/2024/month/2`;
+      const endpoint = `https://calendars2.duckdns.org/schedules/year/${year}/month/${month}`;
 
       try {
         const response = await axios.get(endpoint, {
@@ -66,8 +64,8 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
   }, [today]);
 
   const renderCalendar = (): JSX.Element[] => {
-    const year = date.getFullYear();
-    const month = date.getMonth();
+    const year = today.getFullYear();
+    const month = today.getMonth();
     const daysInMonth = getDaysInMonth(year, month);
 
     const firstDayOfWeek = new Date(year, month, 1).getDay();

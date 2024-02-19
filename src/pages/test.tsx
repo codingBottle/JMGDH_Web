@@ -31,10 +31,18 @@ export default function Test() {
 
   const handleButtonClick = (buttonValue: any) => {
     setDisplayedCalendar(buttonValue);
-    console.log("누른 결과값: ", buttonValue);
+   
   };
   const handleToDay = (today:any) => {
     setToday(new Date());
+    console.log(new Date());
+  };
+  const handleDown = () => {
+    setToday(new Date(today.getFullYear(), today.getMonth() - 1, today.getDate()));
+    console.log(new Date());
+  };
+  const handleUP = () => {
+    setToday(new Date(today.getFullYear(), today.getMonth() + 1, today.getDate()));
     console.log(new Date());
   };
   return (
@@ -51,7 +59,7 @@ export default function Test() {
         </LeftSection>
         <MiddleSection>
           <div className="calenderNav">
-          <CalenderNavbar onButtonClick={handleButtonClick} onToDay={handleToDay} />
+          <CalenderNavbar onButtonClick={handleButtonClick} onToDay={handleToDay} onDown={handleDown} onUP={handleUP} />
         </div>
 
           {displayedCalendar === "M" && <MonthCalender today={today} />}
