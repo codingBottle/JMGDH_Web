@@ -1,5 +1,4 @@
-import { todo } from 'node:test';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 interface Todo {
@@ -30,8 +29,6 @@ const DailyTodo = ({ date, todos }: DailyTodoProps) => {
     (todo) =>
       todo.allDay === true && todo.startDate.slice(-2) === date.slice(-2)
   );
-
-  console.log('allDayTodos', allDayTodos);
 
   return (
     <TodoContainer>

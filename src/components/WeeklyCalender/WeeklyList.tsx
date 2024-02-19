@@ -21,7 +21,6 @@ interface Todo {
 }
 interface WeeklyTodoProps {
   todos: Todo[];
-  startDate: Date; // 주의 시작 날짜
 }
 
 const dayMapping: { [key: number]: string } = {
@@ -34,34 +33,19 @@ const dayMapping: { [key: number]: string } = {
   6: 'SAT',
 };
 
-const WeeklyList = ({ todos, startDate }: WeeklyTodoProps) => {
+const WeeklyList = ({ todos }: WeeklyTodoProps) => {
   const now = new Date();
   const today = new Date(now.getTime()); // now를 복사하여 today를 생성
   const dayOfWeek = now.getDay();
   const sunday = new Date(now.setDate(now.getDate() - dayOfWeek));
   const weekDays: DayInfo[] = [];
 
-  console.log('weekDays', startDate);
-
-  // 목표 day와 현재 day를 비교
-  // const targetDay = new Date(startDate).getDate();
-  // console.log('targetDate', targetDay);
-  // 오늘 날짜에 해당하는 todos를 filter를 사용해 배열로 만들기.
-
   for (let i = 0; i < 7; i++) {
     const currentDay = new Date(sunday.getTime() + i * 24 * 60 * 60 * 1000);
-
-    // const filteredTodos = todos.filter(
-    //   (todo) =>
-    //     todo.startDate.slice(8) === `${currentDay.getDate()}` &&
-    //     todo.allDay === true
-    // );
-    // console.log('filteredTodos', filteredTodos);
 
     weekDays.push({
       day: dayMapping[currentDay.getDay()],
       date: currentDay.getDate(),
-      // allDayTodos: filteredTodos,
       isToday:
         currentDay.getDate() === today.getDate() &&
         currentDay.getMonth() === today.getMonth() &&

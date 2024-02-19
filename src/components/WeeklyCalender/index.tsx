@@ -26,8 +26,6 @@ const WeeklyCalender = () => {
   const dayOfWeek = now.getDay();
   const sunday = new Date(now.setDate(now.getDate() - dayOfWeek));
 
-  console.log('todos', todos);
-
   const month = () => {
     if (sunday.getMonth() + 1 < 10) {
       return '0' + (sunday.getMonth() + 1);
@@ -74,12 +72,11 @@ const WeeklyCalender = () => {
           setTodos(res.data.data.schedules);
         });
     }
-    console.log('ㅅㅂ 했다고', localStorage.getItem('accessToken'));
   }, []);
 
   return (
     <Main>
-      <WeeklyList todos={todos} startDate={sunday} />
+      <WeeklyList todos={todos} />
       <WeekTodoView todos={todos} startDate={sunday} />
     </Main>
   );
