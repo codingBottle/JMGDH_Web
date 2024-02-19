@@ -115,7 +115,7 @@ const DayItem = styled.li`
   align-items: center;
   justify-content: center;
 
-  border: 1px solid black;
+  border: 1px solid #EDEDED;
   border-style: none solid;
   padding-top: 0.625rem;
 

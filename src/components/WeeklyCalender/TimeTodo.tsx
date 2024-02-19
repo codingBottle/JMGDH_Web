@@ -78,7 +78,7 @@ const Main = styled.main`
 `;
 
 const HourBlock = styled.div`
-  border: 1px solid black;
+  border: 1px solid #EDEDED;
   border-style: none solid;
   margin: -1px 0 0 -1px;
 `;
@@ -103,7 +103,7 @@ const Hour = styled.section<{ showHours: boolean }>`
     left: 0;
     right: 0;
     top: 50%;
-    border-top: 1px solid black;
+    border-top: 1px solid #A3A3A3;
   }
 `;
 
