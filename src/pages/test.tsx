@@ -13,6 +13,7 @@ export default function Test() {
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
   const [displayedCalendar, setDisplayedCalendar] = useState("M");
+  const [today,setToday]= useState(new Date())
 
   useEffect(() => {
     // accessToken 확인
@@ -32,7 +33,10 @@ export default function Test() {
     setDisplayedCalendar(buttonValue);
     console.log("누른 결과값: ", buttonValue);
   };
-
+  const handleToDay = (today:any) => {
+    setToday(new Date());
+    console.log(new Date());
+  };
   return (
     <Wrapper>
       <Navbar />
@@ -47,8 +51,8 @@ export default function Test() {
         </LeftSection>
         <MiddleSection>
           <div className="calenderNav">
-            <CalenderNavbar onButtonClick={handleButtonClick} />
-          </div>
+          <CalenderNavbar onButtonClick={handleButtonClick} onToDay={handleToDay} />
+        </div>
 
           {displayedCalendar === "M" && <MonthCalender />}
           {displayedCalendar === "W" && <WeeklyCalender />}
