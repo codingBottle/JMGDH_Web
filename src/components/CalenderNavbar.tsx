@@ -4,7 +4,7 @@ import theme from "@/theme/theme";
 import CalendarComponent from "./CalendarComponent";
 
 interface CalenderNavbarProps {
-  onButtonClick: (value: string) => void;
+  onButtonClick: (value: any) => void;
   onToDay: (value: Date) => void;
 }
 

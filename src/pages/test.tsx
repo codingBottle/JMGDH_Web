@@ -54,7 +54,7 @@ export default function Test() {
           <CalenderNavbar onButtonClick={handleButtonClick} onToDay={handleToDay} />
         </div>
 
-          {displayedCalendar === "M" && <MonthCalender />}
+          {displayedCalendar === "M" && <MonthCalender today={today} />}
           {displayedCalendar === "W" && <WeeklyCalender />}
           {displayedCalendar === "Y" && <WeeklyCalender />}
         </MiddleSection>
