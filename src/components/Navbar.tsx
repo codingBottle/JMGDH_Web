@@ -9,7 +9,7 @@ export default function Navbar() {
   const [NavName, setNavName] = useState("인물의 캘린더");
 
   const peristalsis = () => {
-    console.log("로그인 연동 ");
+
     axios
       .get(`https://calendars2.duckdns.org/google/authorize`)
       .then((response) => {

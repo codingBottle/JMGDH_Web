@@ -5,5 +5,8 @@ const nextConfig = {
     styledComponents: true,
   },
 }
-
-module.exports = nextConfig;
+module.exports = {
+  images: {
+    domains: ['lh3.googleusercontent.com'], // 여기에 사용하는 호스트네임 추가
+  },
+};
