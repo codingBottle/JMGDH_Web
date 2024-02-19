@@ -30,7 +30,7 @@ const TimeTodo = ({ todos, date, showHours }: TimeTodoProps) => {
     <Main>
       {/* 각 시간대에 대해 반복합니다. */}
       {hours.map((hour) => {
-        
+
         // 해당 시간대에 속하는 일정들을 필터링합니다.
         const todosInThisHour = todos.filter(
           (todo) =>
@@ -126,9 +126,6 @@ const Todos = styled.div`
   padding: 0.625rem 0;
   width: 100%;
   height: 10rem;
-
-  background-color: #fafafa;
-
   gap: 0.625rem;
 `;
 

@@ -16,6 +16,7 @@ interface Todo {
   repeat: boolean;
 }
 
+// api 기본 주소
 const NEXT_PUBLIC_BASE_URL = `https://calendars2.duckdns.org`;
 
 const WeeklyCalender = () => {
@@ -78,7 +79,7 @@ const WeeklyCalender = () => {
 
   return (
     <Main>
-      <WeeklyList />
+      <WeeklyList todos={todos} startDate={sunday} />
       <WeekTodoView todos={todos} startDate={sunday} />
     </Main>
   );
