@@ -12,6 +12,8 @@ import MonthCalender from "@/components/MonthCalender/MonthCalender";
 export default function Test() {
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
+  const [displayedCalendar, setDisplayedCalendar] = useState("M");
+
   useEffect(() => {
     // accessToken 확인
     const storedAccessToken = localStorage.getItem("accessToken");
@@ -25,6 +27,11 @@ export default function Test() {
       setRefreshToken(storedRefreshToken);
     }
   }, []);
+
+  const handleButtonClick = (buttonValue: any) => {
+    setDisplayedCalendar(buttonValue);
+    console.log("누른 결과값: ", buttonValue);
+  };
 
   return (
     <Wrapper>
@@ -40,9 +47,12 @@ export default function Test() {
         </LeftSection>
         <MiddleSection>
           <div className="calenderNav">
-            <CalenderNavbar />
+            <CalenderNavbar onButtonClick={handleButtonClick} />
           </div>
-          <MonthCalender />
+
+          {displayedCalendar === "M" && <MonthCalender />}
+          {displayedCalendar === "W" && <WeeklyCalender />}
+          {displayedCalendar === "Y" && <WeeklyCalender />}
         </MiddleSection>
         <RightSection>
           <Right />

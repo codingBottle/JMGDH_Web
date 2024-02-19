@@ -17,15 +17,15 @@ export default function TokenId() {
           `https://calendars2.duckdns.org/oauth/token?code=${oneTimeUseCode}`
         )
         .then((response) => {
-          console.log("response");
           setLoading(false);
           localStorage.setItem("accessToken", response?.data?.data.accessToken);
           localStorage.setItem(
             "refreshToken",
             response?.data?.data.refreshToken
           );
-          console.log(response?.data?.data.refreshToken);
-          console.log(response?.data?.data.accessToken);
+          localStorage.setItem("username", response?.data?.data.username);
+          console.log(response?.data?.data.username);
+
           router.push("/test");
         })
         .catch((error) => {

@@ -47,7 +47,6 @@ const MonthCalendar: React.FC = () => {
         });
 
         setSchedules(response.data?.data.schedules || []);
-        console.log(response.data?.data.schedules || []);
       } catch (error) {
         console.error("월별 캘린더 오류:", error);
       }

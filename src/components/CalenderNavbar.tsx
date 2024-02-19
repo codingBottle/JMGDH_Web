@@ -3,8 +3,10 @@ import styled from "styled-components";
 import theme from "@/theme/theme";
 import CalendarComponent from "./CalendarComponent"; // 예시로 사용한 캘린더 컴포넌트
 import DailyCalender from "./DailyCalender";
-
-export default function CalenderNavbar() {
+interface CalenderNavbarProps {
+  onButtonClick: (value: string) => void;
+}
+export default function CalenderNavbar({ onButtonClick }: CalenderNavbarProps) {
   const [calendarVisible, setCalendarVisible] = useState(false);
 
   const currentDate = new Date();
@@ -13,11 +15,10 @@ export default function CalenderNavbar() {
     month: (currentDate.getMonth() + 1).toString().padStart(2, "0"),
   };
 
-  console.log(formattedDate);
   const handleSelectChange = () => {
     // 여기에 캘린더를 나타내거나 숨기는 로직 추가
     setCalendarVisible(!calendarVisible);
-    console.log("hello");
+    onButtonClick(formattedDate);
   };
 
   return (
@@ -35,9 +36,15 @@ export default function CalenderNavbar() {
         {calendarVisible && <CalendarComponent />} {/* 캘린더 컴포넌트 */}
       </div>
       <div>
-        <button className="onebtn">M</button>
-        <button className="onebtn">Y</button>
-        <button className="onebtn">N</button>
+        <button className="onebtn" onClick={() => onButtonClick("M")}>
+          M
+        </button>
+        <button className="onebtn" onClick={() => onButtonClick("W")}>
+          W
+        </button>
+        <button className="onebtn" onClick={() => onButtonClick("Y")}>
+          Y
+        </button>
       </div>
     </CalenderNavbarCss>
   );

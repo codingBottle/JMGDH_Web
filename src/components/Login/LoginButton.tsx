@@ -26,7 +26,6 @@ const LoginButton = () => {
     // accessToken이 있을 경우
     if (localStorage.getItem("accessToken")) {
       if (localStorage.getItem("refreshToken")) {
-        console.log("로그인되었음");
         SetloginSuccess(true);
       }
     }
@@ -41,7 +40,7 @@ const LoginButton = () => {
       )}
       {loginSuccess === true && (
         <LoginBtnWrapper onClick={logout}>
-          <p>현우</p>
+          <p>{localStorage.getItem("username")}</p>
         </LoginBtnWrapper>
       )}
     </>
