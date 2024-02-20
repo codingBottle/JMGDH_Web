@@ -8,6 +8,7 @@ import WeeklyCalender from "@/components/WeeklyCalender";
 import Right from "@/components/Modal/Right";
 import axios from "axios";
 import MonthCalender from "@/components/MonthCalender/MonthCalender";
+import YearCalendar from "@/components/YearCalendar/";
 
 export default function Test() {
   const [accessToken, setAccessToken] = useState("");
@@ -64,7 +65,7 @@ export default function Test() {
 
           {displayedCalendar === "M" && <MonthCalender today={today} />}
           {displayedCalendar === "W" && <WeeklyCalender />}
-          {displayedCalendar === "Y" && <WeeklyCalender />}
+          {displayedCalendar === "Y" && <YearCalendar />}
         </MiddleSection>
         <RightSection>
           <Right />
