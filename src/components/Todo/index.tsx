@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import Image from "next/image";
-import { RightArrow, LeftArrow } from "@/assets/icon/Arrow";
-import theme from "@/theme/theme";
-import CopyButton from "@/assets/icon/Copy";
-import WeekList from "./WeekList";
-import TodoTagList from "./TodoTagList";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import Image from 'next/image';
+import { RightArrow, LeftArrow } from '@/assets/icon/Arrow';
+import theme from '@/theme/theme';
+import CopyButton from '@/assets/icon/Copy';
+import WeekList from './WeekList';
+import TodoTagList from './TodoTagList';
 
 const Todo = () => {
   const [date, setDate] = useState(new Date());
@@ -14,25 +14,42 @@ const Todo = () => {
   const [year, setYear] = useState(date.getFullYear());
   const isSunday = date.getDay() === 0;
 
+  const handlePrevClick = () => {
+    date.setDate(day - 1);
+    setDate(date);
+    setDay(date.getDate());
+    setMonth(date.getMonth() + 1);
+    setYear(date.getFullYear());
+  };
+
+  const handleNextClick = () => {
+    date.setDate(day + 1);
+    setDate(date);
+    setDay(date.getDate());
+    setMonth(date.getMonth() + 1);
+    setYear(date.getFullYear());
+  };
+
   return (
     <TotoContainer>
       <DayNTodo>
         <div className="Top">
           <p
             className="day"
-            style={{ color: isSunday ? "#191919" : "#8BC0D6  " }}
+            style={{ color: isSunday ? '#DA4A4A' : '#8BC0D6  ' }}
           >
             {month}/{day}
           </p>
-          <p style={{ color: "#A3A3A3" }}>,{year}</p>
+          <p style={{ color: '#A3A3A3' }}>,{year}</p>
         </div>
+
         <div className="Bottom">
-          <p className="Todo">To Do</p>
-          <RightArrow />
-          <LeftArrow />
+          <p className="Todo">TODO</p>
+          <RightArrow onClick={() => handlePrevClick()} />
+          <LeftArrow onClick={() => handleNextClick()} />
           <Image
             className="copyImg"
-            src={"/todoCopy.png"}
+            src={'/todoCopy.png'}
             alt="copy"
             width={20}
             height={20}
@@ -40,7 +57,7 @@ const Todo = () => {
         </div>
       </DayNTodo>
       <WeekList />
-      <TodoTagList />
+      <TodoTagList date={date} />
     </TotoContainer>
   );
 };

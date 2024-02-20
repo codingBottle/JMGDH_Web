@@ -2,19 +2,42 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 import TodoList from './TodoList';
+import axios from 'axios';
+import { NEXT_PUBLIC_BASE_URL } from '@/api/todo';
 
+/*
+기존 태그를 사용할 때 사용한 인터페이스
 interface Tag {
   id: number;
   name: string;
   color: string;
 }
-
+*/
 interface Todo {
   id: number;
   content: string;
   isCheck: boolean;
 }
 
+interface TodoTagListProps {
+  date: Date;
+}
+
+interface TodoTagListState {
+  id: number;
+  color: string;
+  tagName: string;
+  todos: Array<TodoState>;
+}
+
+interface TodoState {
+  id: number;
+  title: string;
+  checked: boolean;
+}
+
+/*
+  랜덤한 컬러를 주기위한 임시 변수
 const colors = [
   '#FCE3E3',
   '#FCEFDA',
@@ -27,14 +50,20 @@ const colors = [
   '#FBE8F1',
   '#EEE8F8',
 ];
-
+*/
+/*
+ 랜덤한 컬러를 주기위한 임시 함수
 const getRandomColor = () => {
   return colors[Math.floor(Math.random() * colors.length)];
 };
+*/
 
-const TodoTagList = () => {
+const TodoTagList = ({ date }: TodoTagListProps) => {
+  /*
+  mock data를 위한 tagMapping, tags state
   const TagMapping = ['문화생활', '학교', '친구', '알바', '동아리'];
   const [tags, setTags] = useState<Tag[]>([]);
+  */
   const [todos, setTodos] = useState<{ [key: number]: Todo[] }>({});
   const [toggle, setToggle] = useState<Array<number>>([]);
   const [inputs, setInputs] = useState<{ [key: number]: string }>({});
@@ -42,6 +71,48 @@ const TodoTagList = () => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [showInput, setShowInput] = useState<{ [key: number]: boolean }>({});
 
+  // 받아온 태그객체들을 저장할 state
+  const [todoTags, setTodoTags] = useState<TodoTagListState[]>([]);
+
+  const month = () => {
+    if (date.getMonth() + 1 < 10) {
+      return '0' + (date.getMonth() + 1);
+    } else {
+      return date.getMonth() + 1;
+    }
+  };
+
+  const toDayDate = () => {
+    if (date.getDate() < 10) {
+      return '0' + date.getDate();
+    } else {
+      return date.getDate();
+    }
+  };
+
+  const today = date.getFullYear() + '-' + month() + '-' + toDayDate();
+  console.log('today:', today);
+
+  // api 연결 시 작동될 부분
+  useEffect(() => {
+    if (localStorage.getItem('accessToken')) {
+      axios
+        .get(`${NEXT_PUBLIC_BASE_URL}/todos/date/${today}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        })
+        .then((res) => {
+          setTodoTags(res.data?.data.todoTags);
+        });
+    }
+  }, [today]);
+
+  console.log('todoTags:', todoTags);
+
+  /*
+새로운 태그를 추가할 때 사용한 코드 
+api를 통한 태그 추가 예정 및 참고용 코드
   useEffect(() => {
     if (newTagInput) {
       const newTagObject = {
@@ -53,7 +124,9 @@ const TodoTagList = () => {
       setNewTagInput('');
     }
   }, [newTagInput]);
-
+*/
+  /*
+기존 태그를 사용할 때 사용한 코드
   useEffect(() => {
     const mappedTags = TagMapping.map((name, index) => ({
       id: index,
@@ -62,7 +135,7 @@ const TodoTagList = () => {
     }));
     setTags(mappedTags);
   }, []);
-
+*/
   const handleTagClick = (tagId: number) => {
     if (toggle.includes(tagId)) {
       setToggle(toggle.filter((id) => id !== tagId));
@@ -73,7 +146,7 @@ const TodoTagList = () => {
 
   const handleAddTodo = (tagId: number) => {
     const newTodo: Todo = {
-      id: Date.now(),
+      id: tagId,
       content: inputs[tagId] || '',
       isCheck: false,
     };
@@ -134,10 +207,10 @@ const TodoTagList = () => {
   return (
     <TodoContainer>
       <TotalTag>
-        {tags.map((tag) => (
+        {todoTags.map((tag) => (
           <TagBtn key={tag.id} color={tag.color}>
             <div className="tag-color" onClick={() => handleTagClick(tag.id)}>
-              {tag.name}
+              {tag.tagName}
               <Image
                 className="tag-status"
                 src={toggle.includes(tag.id) ? '/tagopen.png' : '/tagClose.png'}
@@ -146,12 +219,19 @@ const TodoTagList = () => {
                 height={6}
               ></Image>
             </div>
+
+            {/*  모달 띄우는 기능이 들어갈 버튼 */}
             <button
               className="addTodoBtn"
-              onClick={() => handleAddTodoBtnClick(tag.id)}
+              onClick={() => {
+                handleAddTodoBtnClick(tag.id);
+                console.log('tag.id:', tag.id);
+              }}
             >
               +
             </button>
+
+            {/* 해당 토글이 눌렸을때 보여지는 투두 */}
             {toggle.includes(tag.id) && (
               <div className="todo-color">
                 {todos[tag.id] && (
@@ -160,6 +240,7 @@ const TodoTagList = () => {
                     onCheck={(id) => handleCheck(tag.id, id)}
                   />
                 )}
+                {/* 추가 인풋 */}
                 {showInput[tag.id] && (
                   <Inputdiv>
                     <input
@@ -178,6 +259,7 @@ const TodoTagList = () => {
           <input type="text" onKeyPress={handleNewTagKeyPress} />
         )}
       </TotalTag>
+      {/* 맨 밑의 태그추가 부분 여기도 모달 띄울꺼임*/}
       <SettingContainer>
         <div>
           <Image
