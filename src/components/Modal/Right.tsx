@@ -10,7 +10,7 @@ const Right = () => {
     setShowNewFriend(!showNewFriend);
   };
 
-  const handleOutsideClick = (e) => {
+  const handleOutsideClick = (e: any) => {
     if (showNewFriend && !e.target.closest(".Imgin")) {
       setShowNewFriend(false);
     }

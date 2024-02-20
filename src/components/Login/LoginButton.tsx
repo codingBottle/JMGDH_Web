@@ -45,6 +45,7 @@ const LoginButton = () => {
         });
 
         Setimg(response.data.imageUrl);
+        localStorage.setItem("email", response.data.email);
       } catch (error) {
         console.error("월별 캘린더 오류:", error);
       }
@@ -56,13 +57,21 @@ const LoginButton = () => {
   return (
     <>
       {loginSuccess === false && (
-        <LoginBtnWrapper href="https://calendars2.duckdns.org/oauth2/authorization/google" >
+        <LoginBtnWrapper href="https://calendars2.duckdns.org/oauth2/authorization/google">
           <p>로그인</p>
         </LoginBtnWrapper>
       )}
       {loginSuccess === true && (
-        <LoginBtnWrapper onClick={logout} style={{ width: 30, height: 30, borderRadius: 30, overflow: 'hidden' }}>
-          <Image src={img} width={30} height={30} alt="Profile Image"/>
+        <LoginBtnWrapper
+          onClick={logout}
+          style={{
+            width: 30,
+            height: 30,
+            borderRadius: 30,
+            overflow: "hidden",
+          }}
+        >
+          <Image src={img} width={30} height={30} alt="Profile Image" />
         </LoginBtnWrapper>
       )}
     </>
