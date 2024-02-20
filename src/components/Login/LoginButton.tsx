@@ -1,11 +1,13 @@
 // LoginButton.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import theme from "@/theme/theme";
-import { useEffect } from "react";
 import { useRouter } from "next/router";
+import axios from "axios";
+import Image from "next/image";
 
 const LoginButton = () => {
+  const [img, Setimg] = useState("");
   const router = useRouter();
   const [loginSuccess, SetloginSuccess] = useState(false);
 
@@ -31,6 +33,27 @@ const LoginButton = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const endpoint = `https://calendars2.duckdns.org/members`;
+
+      try {
+        const response = await axios.get(endpoint, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        });
+
+        Setimg(response.data.imageUrl);
+        localStorage.setItem("email", response.data.email);
+      } catch (error) {
+        console.error("월별 캘린더 오류:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       {loginSuccess === false && (
@@ -39,8 +62,16 @@ const LoginButton = () => {
         </LoginBtnWrapper>
       )}
       {loginSuccess === true && (
-        <LoginBtnWrapper onClick={logout}>
-          <p>{localStorage.getItem("username")}</p>
+        <LoginBtnWrapper
+          onClick={logout}
+          style={{
+            width: 30,
+            height: 30,
+            borderRadius: 30,
+            overflow: "hidden",
+          }}
+        >
+          <Image src={img} width={30} height={30} alt="Profile Image" />
         </LoginBtnWrapper>
       )}
     </>

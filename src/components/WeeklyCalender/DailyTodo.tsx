@@ -1,35 +1,49 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 interface Todo {
   id: number;
-  content: string;
-  color: string;
+  title: string;
+  colorCode: string;
+  startDate: string;
+  endDate: string;
+  timeOfStartDate: string;
+  timeOfEndDateTime: string;
+  allDay: boolean;
+  repeat: boolean;
 }
 
 interface DailyTodoProps {
   date: string; // YYYY-MM-DD 형식
+  todos: Todo[];
 }
 
-const DailyTodo = ({ date }: DailyTodoProps) => {
-  const [todos, setTodos] = useState<Todo[]>([]);
-
+const DailyTodo = ({ date, todos }: DailyTodoProps) => {
   // api 연결 시 작동될 부분
   useEffect(() => {
     // date에 해당하는 todo들을 API를 통해 가져옴.
     // 가져온 todo들을 setTodos를 통해 상태를 업데이트합니다.
   }, [date]);
 
+  const allDayTodos = todos.filter(
+    (todo) =>
+      todo.allDay === true && todo.startDate.slice(-2) === date.slice(-2)
+  );
+
   return (
     <TodoContainer>
-      {/*  목업 데이터 */}
-      <TodoItem>핫식스 3개 마시기</TodoItem>
-      {todos.slice(0, 2).map((todo) => (
-        <TodoItem key={todo.id} color={todo.color}>
-          {todo.content}
-        </TodoItem>
-      ))}
-      {todos.length > 2 && <MoreItem>{todos.length - 2}개 더보기</MoreItem>}
+      {allDayTodos.slice(0, 2).map((todo) => {
+        if (todo.allDay && todo.startDate.slice(-2) === date.slice(-2)) {
+          return (
+            <TodoItem key={todo.id} colorCode={todo.colorCode}>
+              {todo.title}
+            </TodoItem>
+          );
+        }
+      })}
+      {allDayTodos.length > 2 && (
+        <MoreItem>{allDayTodos.length - 2}개 더보기</MoreItem>
+      )}
     </TodoContainer>
   );
 };
@@ -45,11 +59,11 @@ const TodoContainer = styled.ul`
   width: 100%;
   height: 10rem;
 
-  padding: 0.625rem;
+  padding: 0.625rem 0;
   gap: 0.625rem;
 `;
 
-const TodoItem = styled.li`
+const TodoItem = styled.li<{ colorCode: string }>`
   //styled.li<{ color: string }>
   position: relative;
   display: flex;
@@ -83,8 +97,7 @@ const TodoItem = styled.li`
     height: 60%;
 
     border-radius: 0.25rem;
-    /* background-color: ${(props) => props.color}; */
-    background-color: red;
+    background-color: ${(props) => '#' + props.colorCode};
   }
 `;
 

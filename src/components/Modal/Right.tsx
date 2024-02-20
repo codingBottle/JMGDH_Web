@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
+import NewFriend from "./NewFriend";
 
 const Right = () => {
+  const [showNewFriend, setShowNewFriend] = useState(false);
+
+  const handleImginClick = () => {
+    setShowNewFriend(!showNewFriend);
+  };
+
+  const handleOutsideClick = (e: any) => {
+    if (showNewFriend && !e.target.closest(".Imgin")) {
+      setShowNewFriend(false);
+    }
+  };
+
   return (
     <Main>
-      <Imgin>
+      <Imgin className="Imgin" onClick={handleImginClick}>
         <StyledImage
           src="/freand.png"
           alt="Friend Image"
@@ -13,10 +26,11 @@ const Right = () => {
           height={28}
         />
       </Imgin>
+      {showNewFriend && <NewFriend />}
+      <div onClick={handleOutsideClick} className="outsideClickArea"></div>
     </Main>
   );
 };
-
 const Main = styled.div`
   display: flex;
   justify-content: center;
