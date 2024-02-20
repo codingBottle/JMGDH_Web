@@ -15,9 +15,12 @@ interface Schedule {
   timeOfStartDate: string;
   title: string;
 }
+interface MonthCalendarProps {
+  today: any;
+}
 
-const MonthCalendar: React.FC = () => {
-  const [date, setDate] = useState(new Date());
+const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
+  const [date, setDate] = useState(today);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [schedules, setSchedules] = useState<Schedule[]>([]);
@@ -35,9 +38,14 @@ const MonthCalendar: React.FC = () => {
     }
   };
 
+
+  
+  
   useEffect(() => {
+    const year = today.getFullYear(); // 년도
+    const month = today.getMonth()+1; // 월 (0부터 시작)
     const fetchData = async () => {
-      const endpoint = `https://calendars2.duckdns.org/schedules/year/2024/month/2`;
+      const endpoint = `https://calendars2.duckdns.org/schedules/year/${year}/month/${month}`;
 
       try {
         const response = await axios.get(endpoint, {
@@ -53,11 +61,11 @@ const MonthCalendar: React.FC = () => {
     };
 
     fetchData();
-  }, []);
+  }, [today]);
 
   const renderCalendar = (): JSX.Element[] => {
-    const year = date.getFullYear();
-    const month = date.getMonth();
+    const year = today.getFullYear();
+    const month = today.getMonth();
     const daysInMonth = getDaysInMonth(year, month);
 
     const firstDayOfWeek = new Date(year, month, 1).getDay();

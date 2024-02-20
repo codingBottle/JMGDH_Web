@@ -30,7 +30,7 @@ const TimeTodo = ({ todos, date, showHours }: TimeTodoProps) => {
     <Main>
       {/* 각 시간대에 대해 반복합니다. */}
       {hours.map((hour) => {
-        
+
         // 해당 시간대에 속하는 일정들을 필터링합니다.
         const todosInThisHour = todos.filter(
           (todo) =>
@@ -78,7 +78,7 @@ const Main = styled.main`
 `;
 
 const HourBlock = styled.div`
-  border: 1px solid black;
+  border: 1px solid #EDEDED;
   border-style: none solid;
   margin: -1px 0 0 -1px;
 `;
@@ -103,7 +103,7 @@ const Hour = styled.section<{ showHours: boolean }>`
     left: 0;
     right: 0;
     top: 50%;
-    border-top: 1px solid black;
+    border-top: 1px solid #A3A3A3;
   }
 `;
 
@@ -126,9 +126,6 @@ const Todos = styled.div`
   padding: 0.625rem 0;
   width: 100%;
   height: 10rem;
-
-  background-color: #fafafa;
-
   gap: 0.625rem;
 `;
 

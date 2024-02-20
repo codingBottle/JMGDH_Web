@@ -24,7 +24,7 @@ export default function TokenId() {
             response?.data?.data.refreshToken
           );
           localStorage.setItem("username", response?.data?.data.username);
-          console.log(response?.data?.data.username);
+          console.log(response?.data?.data);
 
           router.push("/test");
         })

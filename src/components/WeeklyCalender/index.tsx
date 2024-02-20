@@ -16,6 +16,7 @@ interface Todo {
   repeat: boolean;
 }
 
+// api 기본 주소
 const NEXT_PUBLIC_BASE_URL = `https://calendars2.duckdns.org`;
 
 const WeeklyCalender = () => {
@@ -24,8 +25,6 @@ const WeeklyCalender = () => {
   const today = new Date(now.getTime());
   const dayOfWeek = now.getDay();
   const sunday = new Date(now.setDate(now.getDate() - dayOfWeek));
-
-  console.log('todos', todos);
 
   const month = () => {
     if (sunday.getMonth() + 1 < 10) {
@@ -73,12 +72,11 @@ const WeeklyCalender = () => {
           setTodos(res.data.data.schedules);
         });
     }
-    console.log('ㅅㅂ 했다고', localStorage.getItem('accessToken'));
   }, []);
 
   return (
     <Main>
-      <WeeklyList />
+      <WeeklyList todos={todos} />
       <WeekTodoView todos={todos} startDate={sunday} />
     </Main>
   );
