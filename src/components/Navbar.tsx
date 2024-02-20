@@ -54,7 +54,7 @@ const NavbarContainer = styled.div`
     flex-wrap: wrap;
     align-items: center;
     svg {
-      margin-right: 10px;
+      margin-right: 15x;
     }
     img {
       width: 20px;

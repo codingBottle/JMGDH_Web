@@ -6,11 +6,19 @@ import DailyCalender from "./DailyCalender";
 interface CalenderNavbarProps {
   onButtonClick: (value: string) => void;
 }
-export default function CalenderNavbar({ onButtonClick }: CalenderNavbarProps) {
+
+export default function CalenderNavbar({ onButtonClick }: any) {
   const [calendarVisible, setCalendarVisible] = useState(false);
 
   const currentDate = new Date();
-  const formattedDate = {
+
+  type Date = {
+    year: any;
+    month: any;
+  };
+
+  // 변수 초기화
+  const formattedDate: Date = {
     year: currentDate.getFullYear(),
     month: (currentDate.getMonth() + 1).toString().padStart(2, "0"),
   };
@@ -29,7 +37,12 @@ export default function CalenderNavbar({ onButtonClick }: CalenderNavbarProps) {
         <button className="arrowbtn">&gt;</button>
         <button
           onClick={handleSelectChange}
-          style={{ width: "149px", height: "40px", padding: "14px,8.5px," }}
+          style={{
+            width: "149px",
+            height: "40px",
+            padding: "14px,8.5px,",
+            marginLeft: "7px;",
+          }}
         >
           {formattedDate.year}년 {formattedDate.month}월 ▼
         </button>
@@ -82,7 +95,7 @@ const CalenderNavbarCss = styled.div`
   .arrowbtn {
     height: 2.5rem;
     width: 2.5rem;
-    margin-right: 5px;
+    margin-right: 8px;
   }
 `;
 
