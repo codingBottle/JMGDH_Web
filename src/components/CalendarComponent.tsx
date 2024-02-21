@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Calendar from "react-calendar";
 import styled from "styled-components";
 import theme from "@/theme/theme";
-import { RightArrow, LeftArrow } from "@/assets/icon/Arrow";
 
 const CalendarComponent = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -16,17 +15,6 @@ const CalendarComponent = () => {
   const closeModal = () => {
     setShowModal(false);
   };
-  // const handlePrevMonth = () => {
-  //   const newDate = new Date(selectedDate);
-  //   newDate.setMonth(newDate.getMonth() - 1);
-  //   setSelectedDate(newDate);
-  // };
-
-  // const handleNextMonth = () => {
-  //   const newDate = new Date(selectedDate);
-  //   newDate.setMonth(newDate.getMonth() + 1);
-  //   setSelectedDate(newDate);
-  // };
 
   return (
     <>
@@ -35,7 +23,7 @@ const CalendarComponent = () => {
           onChange={handleDateChange}
           value={selectedDate}
           calendarType="US"
-          locale="ko-KO" // 한글버전
+          locale="en-EN" // 한글버전
           className="custom-calendar"
           minDetail="month" // 상단 네비게이션에서 '월' 단위만 보이게 설정
           maxDetail="month" // 상단 네비게이션에서 '월' 단위만 보이게 설정
@@ -47,14 +35,14 @@ const CalendarComponent = () => {
         />
         <CompleteBtn>완료</CompleteBtn>
       </CalendarWrapper>
-      {showModal && (
+      {/* {showModal && (
         <Modal>
           <ModalContent>
             <p>Selected Date: {selectedDate.toDateString()}</p>
             <button onClick={closeModal}>Close Modal</button>
           </ModalContent>
         </Modal>
-      )}
+      )} */}
     </>
   );
 };
@@ -72,9 +60,12 @@ const CalendarWrapper = styled.div`
   font-size: 12px;
   text-align: center;
 
-  .react-calendar__navigation__label__labelText,
-  .react-calendar__navigation__label__labelText--from {
-    flex-grow: 0.5;
+  .react-calendar {
+    width: 350px;
+    max-width: 100%;
+    background: transparent;
+    border: none;
+    line-height: 0;
   }
 
   .react-calendar__month-view__days {
@@ -92,7 +83,7 @@ const CalendarWrapper = styled.div`
   .react-calendar__month-view__weekdays__weekday{
     display: inline-block;
     color: #000;
-    margin-bottom: 10px;
+    
     abbr {
       border: none;
     }
@@ -100,8 +91,9 @@ const CalendarWrapper = styled.div`
 
   .react-calendar__month-view__weekdays {
     display: inline-block;
-    color: #000 !important;
     text-align: center;
+    font-size: 12px;
+    margin-bottom: 10px;
   }
 
   .react-calendar__tile,
@@ -114,22 +106,28 @@ const CalendarWrapper = styled.div`
 
   /* 저번 달 & 다음 달 일자 */
   .react-calendar__month-view__days__day--neighboringMonth{
-    color: ${theme.color.GrayScale.Gray300};
+    color: ${theme.color.GrayScale.Gray300} !important;
+  }
+
+  .react-calendar__month-view__days__day--weekend {
+    color: #000;
   }
 
   .react-calendar__tile {
     border: none;
-    font-size: 12px;
+    /* font-size: 12px; */
     width: 30px;
     height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
+    color: #000;
     &:hover {
       background-color: ${theme.color.HoverEventColor.EventfillHover};
       border-radius: 100px;
     }
     &:focus {
+      color: #000;
       background-color: ${theme.color.HoverEventColor.EventfillHover};
       border-radius: 100px;
       border: 1px solid rgba(0, 0, 0, 0.6);
@@ -154,7 +152,11 @@ const CalendarWrapper = styled.div`
   .react-calendar__tile--active {
     background-color: ${theme.color.HoverEventColor.EventfillHover};
     border-radius: 100px;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
   }
+
 
   .react-calendar__navigation {
     display: flex;
@@ -163,21 +165,23 @@ const CalendarWrapper = styled.div`
     align-items: center;
     position: relative;
     margin-bottom: 10px;
+
+    button {
+      background-color: transparent;
+    }
     .react-calendar__navigation__arrow {
       display: inline-block;
-      padding: 0 4px;
       border: none;
 
     }
     .react-calendar__navigation__prev-button {
       order: 2;
       display: inline-block;
-      margin-right: 8px;
-      font-size: 32px;
+      font-size: 24px;
     }
     .react-calendar__navigation__next-button {
       order: 3;
-      font-size: 32px;
+      font-size: 24px;
     }
   }
 
@@ -187,19 +191,6 @@ const CalendarWrapper = styled.div`
     border: none;
     flex-grow: 0.5;
     color: ${theme.color.SecondaryColor.BasicFont};
-  }
-
-  .custom-calendar .react-calendar {
-    border: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .react-calendar__navigation__label__labelText,
-  .react-calendar__navigation__label__labelText--from {
-    flex-grow: 0;
   }
 `;
 
@@ -223,7 +214,6 @@ const ModalContent = styled.div`
 `;
 
 const CompleteBtn = styled.button`
-  /* width: 100%; */
   height: 27px;
   padding: 5px 90px;
   border-radius: 4px;
