@@ -1,24 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { NEXT_PUBLIC_BASE_URL } from '@/api/todo';
+import axios from 'axios';
 import Image from 'next/image';
 import styled from 'styled-components';
 import TodoList from './TodoList';
-import axios from 'axios';
-import { NEXT_PUBLIC_BASE_URL } from '@/api/todo';
-import CreateModal from './CreateModal';
-
-/*
-기존 태그를 사용할 때 사용한 인터페이스
-interface Tag {
-  id: number;
-  name: string;
-  color: string;
-}
-*/
-interface Todo {
-  id: number;
-  content: string;
-  isCheck: boolean;
-}
+import CreateTodoModal from './CreateTodoModal';
+import NewTagImg from '../../../public/icons/NewTag.png';
 
 interface TodoTagListProps {
   date: Date;
@@ -37,39 +24,25 @@ interface TodoState {
   checked: boolean;
 }
 
-/*
-  랜덤한 컬러를 주기위한 임시 변수
-const colors = [
-  '#FCE3E3',
-  '#FCEFDA',
-  '#FCFAD7',
-  '#D8F1E2',
-  '#E6F8D0',
-  '#DBF0F5',
-  '#D4F5F3',
-  '#E4EBF8',
-  '#FBE8F1',
-  '#EEE8F8',
-];
-*/
-
 const TodoTagList = ({ date }: TodoTagListProps) => {
-  const [todos, setTodos] = useState<{ [key: number]: Todo[] }>({});
   const [toggle, setToggle] = useState<Array<number>>([]);
   const [inputs, setInputs] = useState<{ [key: number]: string }>({});
   const [newTagInput, setNewTagInput] = useState<string>('');
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [showInput, setShowInput] = useState<{ [key: number]: boolean }>({});
 
-  /*************************************************************************** */
-
   // 받아온 태그객체들을 저장할 state
   const [todoTags, setTodoTags] = useState<TodoTagListState[]>([]);
-  // const tagList = [];
+
+  const [todos, setTodos] = useState<{ [key: number]: TodoState[] }>({});
 
   // 선택된 태그의 ID를 저장하는 상태를 추가합니다.
   const [selectedTagId, setSelectedTagId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // console.log('todoTags', todoTags);
+
+  // console.log('Maintodos', todos);
 
   // + 버튼 클릭 시 호출되는 함수를 수정하여 선택된 태그의 id를 저장하고 모달을 열도록 합니다.
   const handleAddTodoBtnClick = (tagId: number) => {
@@ -77,10 +50,12 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
     setIsModalOpen(true); // 모달을 엽니다.
   };
 
+  // 모달의 완료 버튼 클릭 시 모달창 닫는 함수
   const handleCompleteClick = () => {
     setIsModalOpen(false);
   };
 
+  // MM 형식으로 반환
   const month = () => {
     if (date.getMonth() + 1 < 10) {
       return '0' + (date.getMonth() + 1);
@@ -89,6 +64,7 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
     }
   };
 
+  // DD 형식으로 반환
   const toDayDate = () => {
     if (date.getDate() < 10) {
       return '0' + date.getDate();
@@ -97,8 +73,8 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
     }
   };
 
+  // 오늘 날짜를 YYYY-MM-DD 형식으로 반환
   const today = date.getFullYear() + '-' + month() + '-' + toDayDate();
-  console.log('today:', today);
 
   // api 연결 시 작동될 부분
   useEffect(() => {
@@ -115,27 +91,26 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
     }
   }, [today]);
 
-  console.log('todoTags:', todoTags);
-
-  // const handletagList = () => {
-  //   todoTags.map((tag) => tagList.push(tag.tagName));
-  // };
-
-  /*
-새로운 태그를 추가할 때 사용한 코드 
-api를 통한 태그 추가 예정 및 참고용 코드
+  // todos에 todoTags를 넣어주는 useEffect
   useEffect(() => {
-    if (newTagInput) {
-      const newTagObject = {
-        id: tags.length,
-        name: newTagInput,
-        color: getRandomColor(),
-      };
-      setTags([...tags, newTagObject]);
-      setNewTagInput('');
+    if (todoTags) {
+      setTodos(
+        todoTags.reduce((acc, tag) => {
+          acc[tag.id] = tag.todos;
+          return acc;
+        }, {} as { [key: number]: TodoState[] })
+      );
     }
-  }, [newTagInput]);
-*/
+    console.log('todoTags', todoTags);
+    
+  }, [todoTags]);
+
+  // 투두 상태변화 체크를위한 useEffect
+  useEffect(() => {
+    console.log('투두즈',todos);
+  }, [todos]);
+
+  // 태그 클릭 시 토글되는 함수
   const handleTagClick = (tagId: number) => {
     if (toggle.includes(tagId)) {
       setToggle(toggle.filter((id) => id !== tagId));
@@ -144,33 +119,59 @@ api를 통한 태그 추가 예정 및 참고용 코드
     }
   };
 
-  // CreateModal 컴포넌트에서 Todo 추가 버튼 클릭 시 호출되는 함수입니다.
-  const handleAddTodo = async (todoContent: string) => {
+  // console.log('toggle', toggle);
+
+  // todo 추가 함수 였던것
+  // 걍 모달에서 api요청했음
+  const handleAddTodo = async (todoContent: string) => {};
+
+  // 체크박스 클릭 시 호출되는 함수
+  const handleCheckboxChange = async (
+    tagId: number,
+    todoId: number,
+    checked: boolean
+  ) => {
     try {
-      // 서버에 POST 요청을 보내 Todo를 추가합니다.
-      // 요청 URL과 요청 본문은 실제 API에 맞게 수정해야 합니다.
-      const response = await axios.post(
-        `${NEXT_PUBLIC_BASE_URL}/todos`,
+      // 서버에 PATCH 요청을 보냅니다.
+      const response = await axios.patch(
+        `${NEXT_PUBLIC_BASE_URL}/todos/${todoId}/check`,
         {
-          title: todoContent,
-          tagId: selectedTagId,
+          // checked: !checked, // 기존 상태를 반전하여 보냅니다.
         },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            'Content-Type': 'application/json',
           },
         }
       );
 
-      // 요청이 성공적으로 처리되면 모달을 닫습니다.
+      // 요청이 성공적으로 처리되면 클라이언트 측 상태를 업데이트합니다.
       if (response.status === 200) {
-        setIsModalOpen(false);
-      } else {
-        // 요청 처리에 실패한 경우에는 에러 메시지를 출력합니다.
-        console.error('Todo 추가에 실패했습니다.');
+        // todos[tagId]가 존재하는지 확인
+        if (!todos[tagId]) {
+          return;
+        }
+        console.log('onChange로부터 올라온 값');
+        console.log('tagId, todoId, checked: ', tagId, todoId, checked);
+        console.log('typeof', typeof tagId, typeof todoId, typeof checked);
+
+        console.log('state 바꾸기 전',checked);
+
+        setTodos((prevTodos) => {
+          console.log('state 내부 이전값',prevTodos); // 현재 prevTodos 값을 출력
+          return {
+            ...prevTodos,
+            [tagId]: prevTodos[tagId].map((todo) =>
+              todo.id === todoId ? { ...todo, checked: !checked } : todo
+            ),
+          };          
+        });
+        console.log('state 바꾼 후',checked);
       }
     } catch (error) {
-      console.error('Todo 추가 중 오류가 발생했습니다:', error);
+      // 에러 처리
+      console.log(error);
     }
   };
 
@@ -195,15 +196,6 @@ api를 통한 태그 추가 예정 및 참고용 코드
     }
   };
 
-  const handleCheck = (tagId: number, todoId: number) => {
-    setTodos({
-      ...todos,
-      [tagId]: todos[tagId].map((todo) =>
-        todo.id === todoId ? { ...todo, isCheck: !todo.isCheck } : todo
-      ),
-    });
-  };
-
   return (
     <TodoContainer>
       <TotalTag>
@@ -219,33 +211,32 @@ api를 통한 태그 추가 예정 및 참고용 코드
                 height={6}
               ></Image>
             </div>
-
-            {/*  모달 띄우는 기능이 들어갈 버튼 */}
+            <button
+              className="addTodoBtn"
+              onClick={() => {
+                handleAddTodoBtnClick(tag.id);
+              }}
+            >
+              +
+            </button>
+            {/* todo 추가 모달 부분 */}
             {isModalOpen && (
-              <CreateModal
+              <CreateTodoModal
                 todoTags={todoTags}
                 onAddTodo={handleAddTodo}
                 selectedTagId={selectedTagId}
                 onComplete={handleCompleteClick}
               />
             )}
-            <button
-              className="addTodoBtn"
-              onClick={() => {
-                handleAddTodoBtnClick(tag.id);
-                console.log('tag.id:', tag.id);
-              }}
-            >
-              +
-            </button>
-
             {/* 해당 토글이 눌렸을때 보여지는 투두 */}
             {toggle.includes(tag.id) && (
               <div className="todo-color">
-                {todos[tag.id] && (
+                {tag.todos && (
                   <TodoList
-                    todos={todos[tag.id]}
-                    onCheck={(id) => handleCheck(tag.id, id)}
+                    todos={tag.todos}
+                    onCheck={(todoId, checked) =>
+                      handleCheckboxChange(tag.id, todoId, checked)
+                    }
                   />
                 )}
                 {/* 추가 인풋 */}
@@ -278,7 +269,14 @@ api를 통한 태그 추가 예정 및 참고용 코드
             height={20}
           ></Image>
         </div>
-        <button onClick={handleAddTagClick}>NEW TAG +</button>
+        <div onClick={handleAddTagClick}>
+          <Image
+            src={NewTagImg}
+            alt={'Add Tag Img'}
+            width={30}
+            height={30}
+          ></Image>
+        </div>
       </SettingContainer>
     </TodoContainer>
   );
@@ -354,16 +352,30 @@ const SettingContainer = styled.div`
   position: absolute;
   bottom: 0;
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  width: 100%;
+  padding-left: 10%;
+  width: 90%;
   height: 50px;
-  gap: 80px;
 
-  button {
-    all: unset;
-    width: 100px;
-    height: 30px;
+  &:hover {
     cursor: pointer;
   }
 `;
+
+/*
+  랜덤한 컬러를 주기위한 임시 변수
+const colors = [
+  '#FCE3E3',
+  '#FCEFDA',
+  '#FCFAD7',
+  '#D8F1E2',
+  '#E6F8D0',
+  '#DBF0F5',
+  '#D4F5F3',
+  '#E4EBF8',
+  '#FBE8F1',
+  '#EEE8F8',
+];
+*/

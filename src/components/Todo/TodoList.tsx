@@ -3,30 +3,37 @@ import styled from 'styled-components';
 
 interface Todo {
   id: number;
-  content: string;
-  isCheck: boolean;
+  title: string;
+  checked: boolean;
 }
 
 interface TodoListProps {
   todos: Todo[];
-  onCheck: (id: number) => void;
+  onCheck: (id: number, checked: boolean) => void;
 }
 
 const TodoList = ({ todos, onCheck }: TodoListProps) => {
-  const handleCheck = (id: number) => {
-    onCheck(id);
+  const handleCheck = (id: number, checked: boolean) => {
+    onCheck(id, checked); // 체크 상태를 반전시킵니다.
+    console.log('id', id);
+    console.log('checked', checked);
+    console.log('onckenked', onCheck);
   };
+
+  console.log('나는 언제 바뀜?');
+
+  console.log('todos', todos);
 
   return (
     <ul>
       {todos.map((todo) => (
-        <TodoItem key={todo.id} isCheck={todo.isCheck}>
+        <TodoItem key={todo.id} checked={todo.checked}>
           <TodoCheckbox
             type="checkbox"
-            checked={todo.isCheck}
-            onChange={() => handleCheck(todo.id)}
+            checked={todo.checked}
+            onChange={() => handleCheck(todo.id, todo.checked)}
           />
-          <TodoText>{todo.content}</TodoText>
+          <TodoText>{todo.title}</TodoText>
         </TodoItem>
       ))}
     </ul>
@@ -35,13 +42,13 @@ const TodoList = ({ todos, onCheck }: TodoListProps) => {
 
 export default TodoList;
 
-const TodoItem = styled.li<{ isCheck: boolean }>`
+const TodoItem = styled.li<{ checked: boolean }>`
   display: flex;
   align-items: center;
   margin: 0.5rem 0;
   list-style: none;
   ${(props) =>
-    props.isCheck &&
+    props.checked &&
     `
     color: gray;
     text-decoration: line-through;
@@ -54,5 +61,4 @@ const TodoCheckbox = styled.input.attrs({ type: 'checkbox' })`
 
 const TodoText = styled.span`
   margin-left: 0.5rem;
-
 `;

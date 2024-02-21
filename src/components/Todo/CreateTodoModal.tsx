@@ -28,7 +28,7 @@ interface CreateModalProps {
   onComplete: () => void; // 완료 버튼 클릭 시 호출되는 함수를 추가합니다.
 }
 
-const CreateModal = ({
+const CreateTodoModal = ({
   onAddTodo,
   onComplete,
   selectedTagId,
@@ -136,7 +136,7 @@ const CreateModal = ({
   );
 };
 
-export default CreateModal;
+export default CreateTodoModal;
 
 const ModalWrapper = styled.div`
   position: fixed; /* 부모 요소가 아닌 뷰포트를 기준으로 위치를 결정합니다. */
