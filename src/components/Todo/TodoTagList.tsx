@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import TodoList from './TodoList';
 import CreateTodoModal from './CreateTodoModal';
 import NewTagImg from '../../../public/icons/NewTag.png';
+import CreateTagModal from './CreateTagModal';
 
 interface TodoTagListProps {
   date: Date;
@@ -27,9 +28,9 @@ interface TodoState {
 const TodoTagList = ({ date }: TodoTagListProps) => {
   const [toggle, setToggle] = useState<Array<number>>([]);
   const [inputs, setInputs] = useState<{ [key: number]: string }>({});
-  const [newTagInput, setNewTagInput] = useState<string>('');
-  const [isInputVisible, setIsInputVisible] = useState(false);
-  const [showInput, setShowInput] = useState<{ [key: number]: boolean }>({});
+  // const [newTagInput, setNewTagInput] = useState<string>('');
+  // const [isInputVisible, setIsInputVisible] = useState(false);
+  // const [showInput, setShowInput] = useState<{ [key: number]: boolean }>({});
 
   // 받아온 태그객체들을 저장할 state
   const [todoTags, setTodoTags] = useState<TodoTagListState[]>([]);
@@ -39,6 +40,8 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
   // 선택된 태그의 ID를 저장하는 상태를 추가합니다.
   const [selectedTagId, setSelectedTagId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [isTagModalOpen, setIsTagModalOpen] = useState(false);
 
   // console.log('todoTags', todoTags);
 
@@ -53,6 +56,14 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
   // 모달의 완료 버튼 클릭 시 모달창 닫는 함수
   const handleCompleteClick = () => {
     setIsModalOpen(false);
+  };
+
+  const handleAddTagClick = () => {
+    setIsTagModalOpen(true);
+  };
+
+  const handleCompleteTagClick = () => {
+    setIsTagModalOpen(false);
   };
 
   // MM 형식으로 반환
@@ -102,12 +113,11 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
       );
     }
     console.log('todoTags', todoTags);
-    
   }, [todoTags]);
 
   // 투두 상태변화 체크를위한 useEffect
   useEffect(() => {
-    console.log('투두즈',todos);
+    console.log('투두즈', todos);
   }, [todos]);
 
   // 태그 클릭 시 토글되는 함수
@@ -156,18 +166,18 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
         console.log('tagId, todoId, checked: ', tagId, todoId, checked);
         console.log('typeof', typeof tagId, typeof todoId, typeof checked);
 
-        console.log('state 바꾸기 전',checked);
+        console.log('state 바꾸기 전', checked);
 
         setTodos((prevTodos) => {
-          console.log('state 내부 이전값',prevTodos); // 현재 prevTodos 값을 출력
+          console.log('state 내부 이전값', prevTodos); // 현재 prevTodos 값을 출력
           return {
             ...prevTodos,
             [tagId]: prevTodos[tagId].map((todo) =>
               todo.id === todoId ? { ...todo, checked: !checked } : todo
             ),
-          };          
+          };
         });
-        console.log('state 바꾼 후',checked);
+        console.log('state 바꾼 후', checked);
       }
     } catch (error) {
       // 에러 처리
@@ -185,16 +195,12 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
     });
   };
 
-  const handleAddTagClick = () => {
-    setIsInputVisible(true);
-  };
-
-  const handleNewTagKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      setNewTagInput(e.currentTarget.value);
-      setIsInputVisible(false);
-    }
-  };
+  // const handleNewTagKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (e.key === 'Enter') {
+  //     setNewTagInput(e.currentTarget.value);
+  //     setIsInputVisible(false);
+  //   }
+  // };
 
   return (
     <TodoContainer>
@@ -239,7 +245,7 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
                     }
                   />
                 )}
-                {/* 추가 인풋 */}
+                {/* 추가 인풋
                 {showInput[tag.id] && (
                   <Inputdiv>
                     <input
@@ -247,17 +253,14 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
                       value={inputs[tag.id] || ''}
                       onChange={(e) => handleInputChange(tag.id, e)}
                     />
-                    {/* <button onClick={() => handleAddTodo(tag.id)}>추가</button> */}
+                    <button onClick={() => handleAddTodo(tag.id)}>추가</button>
                     <div>여기는 케밥 아이콘 들어갈거엠</div>
                   </Inputdiv>
-                )}
+                )} */}
               </div>
             )}
           </TagBtn>
         ))}
-        {isInputVisible && (
-          <input type="text" onKeyPress={handleNewTagKeyPress} />
-        )}
       </TotalTag>
       {/* 맨 밑의 태그추가 부분 여기도 모달 띄울꺼임*/}
       <SettingContainer>
@@ -270,6 +273,9 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
           ></Image>
         </div>
         <div onClick={handleAddTagClick}>
+          {isTagModalOpen && (
+            <CreateTagModal onComplete={handleCompleteTagClick} />
+          )}
           <Image
             src={NewTagImg}
             alt={'Add Tag Img'}
@@ -363,19 +369,3 @@ const SettingContainer = styled.div`
     cursor: pointer;
   }
 `;
-
-/*
-  랜덤한 컬러를 주기위한 임시 변수
-const colors = [
-  '#FCE3E3',
-  '#FCEFDA',
-  '#FCFAD7',
-  '#D8F1E2',
-  '#E6F8D0',
-  '#DBF0F5',
-  '#D4F5F3',
-  '#E4EBF8',
-  '#FBE8F1',
-  '#EEE8F8',
-];
-*/
