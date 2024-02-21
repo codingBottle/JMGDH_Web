@@ -3,13 +3,13 @@ import styled from "styled-components";
 import theme from "@/theme/theme";
 import { Menu, Home, Setting, Import } from "@/assets/icon/Navbaricon";
 import LoginButton from "@/components/Login/LoginButton";
-import axios from "axios"; // axios 추가
+import axios from "axios";
+import Image from "next/image";
 
 export default function Navbar() {
   const [NavName, setNavName] = useState("인물의 캘린더");
 
   const peristalsis = () => {
-
     axios
       .get(`https://calendars2.duckdns.org/google/authorize`)
       .then((response) => {
@@ -25,7 +25,13 @@ export default function Navbar() {
     <NavbarContainer>
       <div className="Lefts">
         <Menu />
-        <img src="/favicon.ico" alt="logo" />
+        <Image
+          src="/favicon.png"
+          alt="logo"
+          width={40}
+          height={40}
+          style={{ marginLeft: "20px" }}
+        />
         <p>{NavName}</p>
       </div>
       <div className="Rights">
@@ -56,11 +62,7 @@ const NavbarContainer = styled.div`
     svg {
       margin-right: 15x;
     }
-    img {
-      width: 20px;
-      height: 20px;
-      margin-right: 20px;
-    }
+
     p {
       font-size: 24px;
       font-weight: ${theme.fontWeight.Regular};
