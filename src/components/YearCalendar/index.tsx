@@ -41,7 +41,7 @@ const YearCalendar = () => {
         <Modal>
           <ModalTop>
             <div>{moment(selectedDate).format("DD")}</div>
-            <button onClick={closeModal}>CLOSE</button>
+            <button onClick={closeModal}>x</button>
           </ModalTop>
           <ModalContent>
             <p>할 일</p>
@@ -114,12 +114,12 @@ const MonthBox = styled.div`
     border: none;
     cursor: pointer;
     &:hover {
-      background-color: ${theme.color.AccentColor.DayFill_Click};
+      background-color: ${theme.color.HoverEventColor.EventfillHover};
       border-radius: 20px;
     }
     &:focus {
+      color: ${theme.color.AccentColor.TodayFont};
       background-color: ${theme.color.AccentColor.DayFill_Click};
-      border: 1px solid rgba(0, 0, 0, 0.6);
       border-radius: 20px;
     }
   }
@@ -127,15 +127,17 @@ const MonthBox = styled.div`
   /* 오늘 날짜 */
   .react-calendar__tile--now {
     background-color: ${theme.color.AccentColor.TodayFill};
-    color: ${theme.color.PrimaryColor.PrimaryWhite};
+    color: ${theme.color.PrimaryColor.PrimaryWhite} !important;
     border-radius: 20px;
     &:hover {
       /* TodayFill_Click */
       background-color: #4e8fd7;
     }
     &:focus {
-      background-color: ${theme.color.AccentColor.TodayFill};
-      border: 1px solid rgba(0, 0, 0, 0.6);
+      background-color: #4e8fd7 !important;
+      &:hover {
+        background-color: #3978bd !important;
+      }
     }
   }
 
@@ -144,6 +146,7 @@ const MonthBox = styled.div`
     color: ${theme.color.GrayScale.Gray300};
     &:hover {
       background-color: transparent;
+      cursor: auto;
     }
   }
 `;
@@ -164,8 +167,10 @@ const Modal = styled.div`
   box-shadow: -4px 4px 4px rgba(0, 0, 0, 0.1);
 
   button {
+    color: rgba(0, 0, 0, 0.2);
     background-color: transparent;
     border: none;
+    font-size: 24px;
     cursor: pointer;
   }
 `;
