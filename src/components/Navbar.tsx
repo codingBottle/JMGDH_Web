@@ -85,9 +85,9 @@ const NavbarContainer = styled.div`
       width: 40px;
       height: 40px;
       border-radius: 4px;
-      margin-right: 20px;
-      border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
-      background-color: ${theme.color.PrimaryColor.PrimaryWhite};
+
+      border: none;
+      background-color: transparent;
       font-size: 12px;
       font-weight: ${theme.fontWeight.Regular};
       color: ${theme.color.SecondaryColor.BasicFont};
