@@ -29,9 +29,10 @@ export default function ScheduleAdd() {
   const handleSave = () => {
     // 저장 로직 구현
     setEditing(false);
-  };
+    setSelectedEndDate(selectedEndDate || todayDate);
+};
 
-  const handleDateClick = (date: React.SetStateAction<string>) => {
+  const handleDateClick = (date: string) => {
     if (!selectedStartDate) {
       setSelectedStartDate(date);
     } else {
@@ -42,11 +43,11 @@ export default function ScheduleAdd() {
   const handleCalendarDateClick = (date) => {
     // CalendarComponent에서 선택된 날짜를 받아옴
     if (!selectedStartDate || isEditing) {
-      setSelectedStartDate(date);
+        setSelectedStartDate(date || todayDate);
     } else {
-      setSelectedEndDate(date);
+        setSelectedEndDate(date);
     }
-  };
+};
   return (
     <Container>
       <TopBox>

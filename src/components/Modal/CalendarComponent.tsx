@@ -3,21 +3,26 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
 interface CalendarComponentProps {
-  onSelectDate: (date: Date | Date[] | null) => void;
+  onDateClick: (date: Date | Date[] | null) => void; // 이름 변경: onSelectDate -> onDateClick
 }
 
-const CalendarComponent: React.FC<CalendarComponentProps> = ({ onSelectDate }) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+const CalendarComponent: React.FC<CalendarComponentProps> = ({ onDateClick }) => {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
-  const handleDateChange = (date: Date | Date[] | null) => {
-    setSelectedDate(date instanceof Date ? date : null);
-    onSelectDate(date instanceof Date ? date : null);
+  const handleClick = (value: Date | Date[] | null) => {
+    if (value instanceof Date) {
+      setSelectedDate(value);
+      onDateClick(value);
+    } else {
+      // Handle the case when date is null
+      setSelectedDate(null);
+      onDateClick(value);
+    }
   };
-  
 
   return (
     <div>
-      <Calendar onChange={handleDateChange} value={selectedDate} />
+      <Calendar onChange={handleClick} value={selectedDate instanceof Date ? selectedDate : null} />
     </div>
   );
 };
