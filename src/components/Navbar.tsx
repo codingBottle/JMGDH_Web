@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import theme from "@/theme/theme";
 import { Menu, Home, Setting, Import } from "@/assets/icon/Navbaricon";
@@ -8,9 +8,16 @@ import Image from "next/image";
 
 import { useRouter } from "next/router";
 
-
 export default function Navbar() {
-  const [NavName, setNavName] = useState("인물의 캘린더");
+  const [NavName, setNavName] = useState<any>("미로그인");
+
+  useEffect(() => {
+    if (localStorage.getItem("nickname") !== null) {
+      const name = localStorage.getItem("nickname");
+      setNavName(name);
+    }
+  }, []); // 빈 배열을 전달하여 최초 렌더링 시에만 실행되도록 함
+
   const router = useRouter();
   const peristalsis = () => {
     axios
@@ -37,7 +44,7 @@ export default function Navbar() {
           height={40}
           style={{ marginLeft: "20px" }}
         />
-        <p>{NavName}</p>
+        <p>{NavName}의 캘린더</p>
       </div>
       <div className="Rights">
         <button className="user" onClick={peristalsis}>
@@ -87,7 +94,6 @@ const NavbarContainer = styled.div`
       width: 40px;
       height: 40px;
       border-radius: 4px;
-
       border: none;
       background-color: transparent;
       font-size: 12px;
