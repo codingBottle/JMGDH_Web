@@ -62,9 +62,6 @@ const YearCalendar = () => {
           </ModalContent>
         </Modal>
       )}
-      <div>
-        임시(추후 삭제 ㄱㄱ) : {moment(selectedDate).format("YYYY년 MM월 DD일")}
-      </div>
     </CalendarWrapper>
   )
 }
