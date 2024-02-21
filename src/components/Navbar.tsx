@@ -5,10 +5,9 @@ import { Menu, Home, Setting, Import } from "@/assets/icon/Navbaricon";
 import LoginButton from "@/components/Login/LoginButton";
 import axios from "axios";
 import Image from "next/image";
-<<<<<<< Updated upstream
+
 import { useRouter } from "next/router";
-=======
->>>>>>> Stashed changes
+
 
 export default function Navbar() {
   const [NavName, setNavName] = useState("인물의 캘린더");

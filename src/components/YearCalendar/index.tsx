@@ -7,11 +7,9 @@ import moment from "moment";
 const YearCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showModal, setShowModal] = useState(false);
-  const [selectedMonthIndex, setSelectedMonthIndex] = useState(null);
 
-  const handleDateChange = (date: any, monthIndex: any) => {
+  const handleDateChange = (date: any) => {
     setSelectedDate(date);
-    setSelectedMonthIndex(monthIndex);
     setShowModal(true);
   };
 
@@ -24,7 +22,7 @@ const YearCalendar = () => {
       {[...Array(12)].map((_, monthIndex) => (
         <MonthBox key={monthIndex}>
           <h1>{monthIndex + 1}</h1>
-<<<<<<< HEAD
+
           <div className='year-calendar'>
             <Calendar
               value={new Date(selectedDate.getFullYear(), monthIndex, 1)}
@@ -40,7 +38,7 @@ const YearCalendar = () => {
               prev2Label={null}
             />
           </div>
-=======
+
           <Calendar
             value={new Date(selectedDate.getFullYear(), monthIndex, 1)}
             onChange={handleDateChange}
@@ -54,23 +52,16 @@ const YearCalendar = () => {
             next2Label={null}
             prev2Label={null}
           />
->>>>>>> 744327b5f2f3de56be5e2884b6a069cccb380641
+
         </MonthBox>
       ))}
-      {showModal && selectedMonthIndex !== null && (
+      {showModal && (
         <Modal>
           <ModalTop>
-            <div>
-              <p className='day'>{moment(selectedDate).format("DD")}</p>
-              <p>{moment(selectedDate).format("ddd")}</p>
-            </div>
+            <div>{moment(selectedDate).format("DD")}</div>
             <button onClick={closeModal}>x</button>
           </ModalTop>
           <ModalContent>
-            <p>할 일</p>
-            <p>TODO</p>
-            <p>내용내용내용</p>
-            <p>배고프다</p>
             <p>할 일</p>
             <p>TODO</p>
             <p>내용내용내용</p>
@@ -80,6 +71,9 @@ const YearCalendar = () => {
           </ModalContent>
         </Modal>
       )}
+      <div>
+        임시(추후 삭제 ㄱㄱ) : {moment(selectedDate).format("YYYY년 MM월 DD일")}
+      </div>
     </CalendarWrapper>
   );
 };
@@ -105,12 +99,7 @@ const MonthBox = styled.div`
   height: 341px;
   margin: 0;
   padding: 6px;
-
-  .year-calendar {
-    position: relative;
-    margin: 0;
-    padding: 0;
-  }
+  /* background-color: rgba(0, 0, 0, 0.1); */
 
   h1 {
     margin: 0;
@@ -119,6 +108,7 @@ const MonthBox = styled.div`
     font-weight: ${theme.fontWeight.Medium};
   }
 
+  /* n년 n월 생략 */
   .react-calendar__navigation {
     display: none;
   }
@@ -128,13 +118,16 @@ const MonthBox = styled.div`
     text-decoration: none;
   }
 
+  /* 요일 배치 중앙 */
   .react-calendar__month-view__weekdays__weekday {
     text-align: center;
     margin-bottom: 10px;
   }
 
+  /* 일자 */
   .react-calendar__tile {
     display: inline-block;
+    position: relative;
     width: 30px;
     height: 38px;
     background-color: transparent;
@@ -151,22 +144,21 @@ const MonthBox = styled.div`
     }
   }
 
-<<<<<<< HEAD
-  .react-calendar__tile--now{
-=======
+
   /* 오늘 날짜 */
   .react-calendar__tile--now {
->>>>>>> 744327b5f2f3de56be5e2884b6a069cccb380641
-    background-color: ${theme.color.AccentColor.TodayFill};
-    color: ${theme.color.PrimaryColor.PrimaryWhite} !important;
-    border-radius: 20px;
-    &:hover {
-<<<<<<< HEAD
+
+
+  /* 오늘 날짜 */
+  .react-calendar__tile--now {
+
+      /* TodayFill_Click */
+
       background-color: #6BA7E9 !important;
-=======
+
       /* TodayFill_Click */
       background-color: #4e8fd7;
->>>>>>> 744327b5f2f3de56be5e2884b6a069cccb380641
+
     }
     &:focus {
       background-color: #4e8fd7 !important;
@@ -176,14 +168,10 @@ const MonthBox = styled.div`
     }
   }
 
-<<<<<<< HEAD
-  .react-calendar__month-view__days__day--neighboringMonth{
-=======
+
   /* 저번 달 & 다음 달 일자 */
   .react-calendar__month-view__days__day--neighboringMonth {
->>>>>>> 744327b5f2f3de56be5e2884b6a069cccb380641
     color: ${theme.color.GrayScale.Gray300};
-    pointer-events: none;   
     &:hover {
       background-color: transparent;
       cursor: auto;
@@ -194,11 +182,11 @@ const MonthBox = styled.div`
 const Modal = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  position: fixed;
+  gap: 10px;
+  position: absolute;
   top: 50%;
-  left: 5%;
-  transform: translate(-5%, -50%);
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 240px;
   padding: 20px;
   background-color: #f8f8f8;
@@ -219,22 +207,17 @@ const ModalTop = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
 
   div {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    .day {
-      width: 24px;
-      height: 24px;
-      line-height: 24px;
-      text-align: center;
-      color: ${theme.color.PrimaryColor.PrimaryWhite};
-      background-color: ${theme.color.AccentColor.TodayFill};
-      border-radius: 20px;
-      font-size: 12px;
-    }
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    color: ${theme.color.PrimaryColor.PrimaryWhite};
+    background-color: ${theme.color.AccentColor.TodayFill};
+    border-radius: 20px;
+    font-size: 12px;
   }
 `;
 
