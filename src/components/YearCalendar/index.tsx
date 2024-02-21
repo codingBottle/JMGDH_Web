@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import theme from "@/theme/theme";
 import styled from "styled-components";
-import Calendar from 'react-calendar';
-import moment from 'moment';
+import Calendar from "react-calendar";
+import moment from "moment";
 
 const YearCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -24,6 +24,7 @@ const YearCalendar = () => {
       {[...Array(12)].map((_, monthIndex) => (
         <MonthBox key={monthIndex}>
           <h1>{monthIndex + 1}</h1>
+<<<<<<< HEAD
           <div className='year-calendar'>
             <Calendar
               value={new Date(selectedDate.getFullYear(), monthIndex, 1)}
@@ -39,6 +40,21 @@ const YearCalendar = () => {
               prev2Label={null}
             />
           </div>
+=======
+          <Calendar
+            value={new Date(selectedDate.getFullYear(), monthIndex, 1)}
+            onChange={handleDateChange}
+            calendarType="US"
+            locale="en-EN"
+            formatDay={(locale, date) =>
+              date.toLocaleString("en", { day: "numeric" })
+            }
+            nextLabel={null}
+            prevLabel={null}
+            next2Label={null}
+            prev2Label={null}
+          />
+>>>>>>> 744327b5f2f3de56be5e2884b6a069cccb380641
         </MonthBox>
       ))}
       {showModal && selectedMonthIndex !== null && (
@@ -65,8 +81,8 @@ const YearCalendar = () => {
         </Modal>
       )}
     </CalendarWrapper>
-  )
-}
+  );
+};
 
 const CalendarWrapper = styled.div`
   display: grid;
@@ -135,22 +151,37 @@ const MonthBox = styled.div`
     }
   }
 
+<<<<<<< HEAD
   .react-calendar__tile--now{
+=======
+  /* 오늘 날짜 */
+  .react-calendar__tile--now {
+>>>>>>> 744327b5f2f3de56be5e2884b6a069cccb380641
     background-color: ${theme.color.AccentColor.TodayFill};
     color: ${theme.color.PrimaryColor.PrimaryWhite} !important;
     border-radius: 20px;
     &:hover {
+<<<<<<< HEAD
       background-color: #6BA7E9 !important;
+=======
+      /* TodayFill_Click */
+      background-color: #4e8fd7;
+>>>>>>> 744327b5f2f3de56be5e2884b6a069cccb380641
     }
     &:focus {
-      background-color: #4E8FD7 !important;
+      background-color: #4e8fd7 !important;
       &:hover {
-        background-color: #3978BD !important;
+        background-color: #3978bd !important;
       }
     }
   }
 
+<<<<<<< HEAD
   .react-calendar__month-view__days__day--neighboringMonth{
+=======
+  /* 저번 달 & 다음 달 일자 */
+  .react-calendar__month-view__days__day--neighboringMonth {
+>>>>>>> 744327b5f2f3de56be5e2884b6a069cccb380641
     color: ${theme.color.GrayScale.Gray300};
     pointer-events: none;   
     &:hover {
@@ -170,11 +201,11 @@ const Modal = styled.div`
   transform: translate(-5%, -50%);
   width: 240px;
   padding: 20px;
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
   border: 0.5px solid rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   box-shadow: -4px 4px 4px rgba(0, 0, 0, 0.1);
-  
+
   button {
     color: rgba(0, 0, 0, 0.2);
     background-color: transparent;
@@ -216,7 +247,7 @@ const ModalContent = styled.div`
 
   p {
     padding: 6px 12px;
-    background-color: #FCE3E3;
+    background-color: #fce3e3;
     font-size: 12px;
     border-radius: 4px;
   }
