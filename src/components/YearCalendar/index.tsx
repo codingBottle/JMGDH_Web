@@ -64,6 +64,8 @@ const YearCalendar = () => {
   )
 }
 
+export default YearCalendar;
+
 const CalendarWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -217,5 +219,3 @@ const ModalContent = styled.div`
     border-radius: 4px;
   }
 `;
-
-export default YearCalendar;

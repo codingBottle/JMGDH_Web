@@ -125,6 +125,10 @@ export default function CalenderNavbar({
         <button className="onebtn" onClick={() => onButtonClick("Y")}>
           Y
         </button>
+        {/* 공유캘린더 버튼 임시 (원래는 NavBar에 있는 SHARE 버튼) */}
+        <button className="onebtn" onClick={() => onButtonClick("S")}>
+          S
+        </button>
       </div>
     </CalenderNavbarCss>
   );
