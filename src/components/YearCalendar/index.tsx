@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import theme from "@/theme/theme";
 import styled from "styled-components";
-import Calendar from 'react-calendar';
-import moment from 'moment';
+import Calendar from "react-calendar";
+import moment from "moment";
 
 const YearCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -16,7 +16,7 @@ const YearCalendar = () => {
   const closeModal = () => {
     setShowModal(false);
   };
-  
+
   return (
     <CalendarWrapper>
       {[...Array(12)].map((_, monthIndex) => (
@@ -26,9 +26,9 @@ const YearCalendar = () => {
             value={new Date(selectedDate.getFullYear(), monthIndex, 1)}
             onChange={handleDateChange}
             calendarType="US"
-            locale='en-EN'
+            locale="en-EN"
             formatDay={(locale, date) =>
-              date.toLocaleString('en', { day: 'numeric' })
+              date.toLocaleString("en", { day: "numeric" })
             }
             nextLabel={null}
             prevLabel={null}
@@ -55,8 +55,8 @@ const YearCalendar = () => {
         임시(추후 삭제 ㄱㄱ) : {moment(selectedDate).format("YYYY년 MM월 DD일")}
       </div>
     </CalendarWrapper>
-  )
-}
+  );
+};
 
 const CalendarWrapper = styled.div`
   display: grid;
@@ -125,13 +125,13 @@ const MonthBox = styled.div`
   }
 
   /* 오늘 날짜 */
-  .react-calendar__tile--now{
+  .react-calendar__tile--now {
     background-color: ${theme.color.AccentColor.TodayFill};
     color: ${theme.color.PrimaryColor.PrimaryWhite};
     border-radius: 20px;
     &:hover {
       /* TodayFill_Click */
-      background-color: #4E8FD7;
+      background-color: #4e8fd7;
     }
     &:focus {
       background-color: ${theme.color.AccentColor.TodayFill};
@@ -140,7 +140,7 @@ const MonthBox = styled.div`
   }
 
   /* 저번 달 & 다음 달 일자 */
-  .react-calendar__month-view__days__day--neighboringMonth{
+  .react-calendar__month-view__days__day--neighboringMonth {
     color: ${theme.color.GrayScale.Gray300};
     &:hover {
       background-color: transparent;
@@ -158,11 +158,11 @@ const Modal = styled.div`
   transform: translate(-50%, -50%);
   width: 240px;
   padding: 20px;
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
   border: 0.5px solid rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   box-shadow: -4px 4px 4px rgba(0, 0, 0, 0.1);
-  
+
   button {
     background-color: transparent;
     border: none;
@@ -197,7 +197,7 @@ const ModalContent = styled.div`
 
   p {
     padding: 6px 12px;
-    background-color: #FCE3E3;
+    background-color: #fce3e3;
     font-size: 12px;
     border-radius: 4px;
   }
