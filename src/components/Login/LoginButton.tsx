@@ -46,7 +46,6 @@ const LoginButton = () => {
 
         Setimg(response.data.imageUrl);
         localStorage.setItem("email", response.data.email);
-        localStorage.setItem("imge", response.data.imageUrl);
       } catch (error) {
         console.error("월별 캘린더 오류:", error);
       }
