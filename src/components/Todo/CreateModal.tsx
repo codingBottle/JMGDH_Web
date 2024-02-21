@@ -85,49 +85,49 @@ const CreateModal = ({
     <ModalWrapper>
       <TagList>TAG LIST</TagList>
       <TagForm>
-        <TagTitle>
+        <TagInputWrapper>
           <TagTitleInput
             type="text"
             placeholder="투두를 입력해 주세요."
             value={title}
             onChange={handleTitle}
           />
-        </TagTitle>
-        <div>
+        </TagInputWrapper>
+        <TagInputWrapper>
+          <svg
+            width="25"
+            height="25"
+            viewBox="0 0 25 25"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M23.54 2.7225H18.5V0.8025C18.5 0.6705 18.392 0.5625 18.26 0.5625H16.58C16.448 0.5625 16.34 0.6705 16.34 0.8025V2.7225H8.66V0.8025C8.66 0.6705 8.552 0.5625 8.42 0.5625H6.74C6.608 0.5625 6.5 0.6705 6.5 0.8025V2.7225H1.46C0.929 2.7225 0.5 3.1515 0.5 3.6825V23.6025C0.5 24.1335 0.929 24.5625 1.46 24.5625H23.54C24.071 24.5625 24.5 24.1335 24.5 23.6025V3.6825C24.5 3.1515 24.071 2.7225 23.54 2.7225ZM22.34 22.4025H2.66V11.0025H22.34V22.4025ZM2.66 8.9625V4.8825H6.5V6.3225C6.5 6.4545 6.608 6.5625 6.74 6.5625H8.42C8.552 6.5625 8.66 6.4545 8.66 6.3225V4.8825H16.34V6.3225C16.34 6.4545 16.448 6.5625 16.58 6.5625H18.26C18.392 6.5625 18.5 6.4545 18.5 6.3225V4.8825H22.34V8.9625H2.66Z"
+              fill="black"
+              fill-opacity="0.85"
+            />
+          </svg>
           <div>
-            <svg
-              width="25"
-              height="25"
-              viewBox="0 0 25 25"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M23.54 2.7225H18.5V0.8025C18.5 0.6705 18.392 0.5625 18.26 0.5625H16.58C16.448 0.5625 16.34 0.6705 16.34 0.8025V2.7225H8.66V0.8025C8.66 0.6705 8.552 0.5625 8.42 0.5625H6.74C6.608 0.5625 6.5 0.6705 6.5 0.8025V2.7225H1.46C0.929 2.7225 0.5 3.1515 0.5 3.6825V23.6025C0.5 24.1335 0.929 24.5625 1.46 24.5625H23.54C24.071 24.5625 24.5 24.1335 24.5 23.6025V3.6825C24.5 3.1515 24.071 2.7225 23.54 2.7225ZM22.34 22.4025H2.66V11.0025H22.34V22.4025ZM2.66 8.9625V4.8825H6.5V6.3225C6.5 6.4545 6.608 6.5625 6.74 6.5625H8.42C8.552 6.5625 8.66 6.4545 8.66 6.3225V4.8825H16.34V6.3225C16.34 6.4545 16.448 6.5625 16.58 6.5625H18.26C18.392 6.5625 18.5 6.4545 18.5 6.3225V4.8825H22.34V8.9625H2.66Z"
-                fill="black"
-                fill-opacity="0.85"
-              />
-            </svg>
-            <input
+            <TagDateInput
               type="date"
               name="todoDate"
               id="todoStartDate"
               onChange={handleTodoTime}
             />
           </div>
-        </div>
-        <TodoTagSelect>
+        </TagInputWrapper>
+        <TodoTagSelectWrapper>
           <div>
-            <Image src={TodoTag} alt={''} width={23} height={23} />
+            <Image src={TodoTag} alt={'tagImg'} width={23} height={23} />
           </div>
-          <select name="" id="" onChange={handleTagId}>
+          <TodoTagSelectBtn name="" id="" onChange={handleTagId}>
             {todoTags.map((tag) => (
               <option key={tag.id} value={tag.id}>
                 {tag.tagName}
               </option>
             ))}
-          </select>
-        </TodoTagSelect>
+          </TodoTagSelectBtn>
+        </TodoTagSelectWrapper>
       </TagForm>
       <TodoSubmit type="button" onClick={onsubmitHandler}>
         완료
@@ -166,24 +166,8 @@ const TagForm = styled.div`
   align-items: flex-start;
   width: 380px;
 
-  gap: 10px;
-`;
-
-const TagTitle = styled.div`
-  width: 100%;
-
-`;
-const TagTitleInput = styled.input`
-  all: unset;
-  width: 100%;
-  height: 50px;
-  border-radius: 4px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  padding: 0 10px;
-
-  &:hover {
-    cursor: pointer;
-  }
+  gap: 30px;
+  padding-bottom: 7.5rem;
 `;
 
 const TagList = styled.h1`
@@ -199,13 +183,50 @@ const TagList = styled.h1`
   border-bottom: 2px solid #1890ff;
 `;
 
-const TodoTagSelect = styled.div`
+const TagInputWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+`;
+
+const TagTitleInput = styled.input`
+  all: unset;
+  width: 100%;
+  height: 50px;
+  border-radius: 4px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 0 10px;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const TagDateInput = styled.input`
+  all: unset;
+  width: 100%;
+  height: 30px;
+  border-radius: 4px;
+  padding: 0 10px;
+`;
+
+const TodoTagSelectWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 
   gap: 10px;
+`;
+
+const TodoTagSelectBtn = styled.select`
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  gap: 10px;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const TodoSubmit = styled.button`
