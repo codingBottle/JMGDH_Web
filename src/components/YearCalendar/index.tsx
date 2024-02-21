@@ -22,6 +22,23 @@ const YearCalendar = () => {
       {[...Array(12)].map((_, monthIndex) => (
         <MonthBox key={monthIndex}>
           <h1>{monthIndex + 1}</h1>
+
+          <div className='year-calendar'>
+            <Calendar
+              value={new Date(selectedDate.getFullYear(), monthIndex, 1)}
+              onChange={(date) => handleDateChange(date, monthIndex)}
+              calendarType="US"
+              locale='en-EN'
+              formatDay={(locale, date) =>
+                date.toLocaleString('en', { day: 'numeric' })
+              }
+              nextLabel={null}
+              prevLabel={null}
+              next2Label={null}
+              prev2Label={null}
+            />
+          </div>
+
           <Calendar
             value={new Date(selectedDate.getFullYear(), monthIndex, 1)}
             onChange={handleDateChange}
@@ -35,6 +52,7 @@ const YearCalendar = () => {
             next2Label={null}
             prev2Label={null}
           />
+
         </MonthBox>
       ))}
       {showModal && (
@@ -47,6 +65,8 @@ const YearCalendar = () => {
             <p>할 일</p>
             <p>TODO</p>
             <p>내용내용내용</p>
+            <p>배고프다</p>
+            <p>배고프다</p>
             <p>배고프다</p>
           </ModalContent>
         </Modal>
@@ -124,14 +144,21 @@ const MonthBox = styled.div`
     }
   }
 
+
   /* 오늘 날짜 */
   .react-calendar__tile--now {
-    background-color: ${theme.color.AccentColor.TodayFill};
-    color: ${theme.color.PrimaryColor.PrimaryWhite} !important;
-    border-radius: 20px;
-    &:hover {
+
+
+  /* 오늘 날짜 */
+  .react-calendar__tile--now {
+
+      /* TodayFill_Click */
+
+      background-color: #6BA7E9 !important;
+
       /* TodayFill_Click */
       background-color: #4e8fd7;
+
     }
     &:focus {
       background-color: #4e8fd7 !important;
@@ -140,6 +167,7 @@ const MonthBox = styled.div`
       }
     }
   }
+
 
   /* 저번 달 & 다음 달 일자 */
   .react-calendar__month-view__days__day--neighboringMonth {

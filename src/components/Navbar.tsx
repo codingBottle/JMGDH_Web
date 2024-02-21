@@ -6,9 +6,12 @@ import LoginButton from "@/components/Login/LoginButton";
 import axios from "axios";
 import Image from "next/image";
 
+import { useRouter } from "next/router";
+
+
 export default function Navbar() {
   const [NavName, setNavName] = useState("인물의 캘린더");
-
+  const router = useRouter();
   const peristalsis = () => {
     axios
       .get(`https://calendars2.duckdns.org/google/authorize`)
@@ -20,7 +23,9 @@ export default function Navbar() {
         console.error("구글 로그인 연동 오류:", error);
       });
   };
-
+  const goToHome = () => {
+    router.push("/test"); // 홈으로 이동
+  };
   return (
     <NavbarContainer>
       <div className="Lefts">
@@ -35,9 +40,13 @@ export default function Navbar() {
         <p>{NavName}</p>
       </div>
       <div className="Rights">
-        <button onClick={peristalsis}>로그인 연동</button> {/* 수정 */}
-        <button>SHARE</button>
-        <Home />
+        <button className="user" onClick={peristalsis}>
+          로그인 연동
+        </button>
+        <button className="user">SHARE</button>
+        <button onClick={goToHome}>
+          <Home />
+        </button>
         <Setting />
         <Import />
         <LoginButton />
@@ -75,6 +84,20 @@ const NavbarContainer = styled.div`
     flex-wrap: wrap;
     align-items: center;
     button {
+      width: 40px;
+      height: 40px;
+      border-radius: 4px;
+
+      border: none;
+      background-color: transparent;
+      font-size: 12px;
+      font-weight: ${theme.fontWeight.Regular};
+      color: ${theme.color.SecondaryColor.BasicFont};
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .user {
       width: 74px;
       height: 38px;
       /* padding: 10px 18px; */
