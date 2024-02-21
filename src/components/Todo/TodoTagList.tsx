@@ -7,6 +7,7 @@ import TodoList from './TodoList';
 import CreateTodoModal from './CreateTodoModal';
 import NewTagImg from '../../../public/icons/NewTag.png';
 import CreateTagModal from './CreateTagModal';
+import { useRouter } from 'next/router';
 
 interface TodoTagListProps {
   date: Date;
@@ -42,6 +43,8 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
+
+  const route = useRouter();
 
   // console.log('todoTags', todoTags);
 
@@ -143,42 +146,36 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
   ) => {
     try {
       // 서버에 PATCH 요청을 보냅니다.
-      const response = await axios.patch(
-        `${NEXT_PUBLIC_BASE_URL}/todos/${todoId}/check`,
-        {
-          // checked: !checked, // 기존 상태를 반전하여 보냅니다.
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-            'Content-Type': 'application/json',
+      const response = await axios
+        .patch(
+          `${NEXT_PUBLIC_BASE_URL}/todos/${todoId}/check`,
+          {
+            // checked: !checked, // 기존 상태를 반전하여 보냅니다.
           },
-        }
-      );
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+        .then((res) => {
+          if (!todos[tagId]) {
+            return;
+          }
+          setTodos((prevTodos) => {
+            console.log('state 내부 이전값', prevTodos); // 현재 prevTodos 값을 출력
+            return {
+              ...prevTodos,
+              [tagId]: prevTodos[tagId].map((todo) =>
+                todo.id === todoId ? { ...todo, checked: !checked } : todo
+              ),
+            };
+          });
+          route.reload();
+        });
 
       // 요청이 성공적으로 처리되면 클라이언트 측 상태를 업데이트합니다.
-      if (response.status === 200) {
-        // todos[tagId]가 존재하는지 확인
-        if (!todos[tagId]) {
-          return;
-        }
-        console.log('onChange로부터 올라온 값');
-        console.log('tagId, todoId, checked: ', tagId, todoId, checked);
-        console.log('typeof', typeof tagId, typeof todoId, typeof checked);
-
-        console.log('state 바꾸기 전', checked);
-
-        setTodos((prevTodos) => {
-          console.log('state 내부 이전값', prevTodos); // 현재 prevTodos 값을 출력
-          return {
-            ...prevTodos,
-            [tagId]: prevTodos[tagId].map((todo) =>
-              todo.id === todoId ? { ...todo, checked: !checked } : todo
-            ),
-          };
-        });
-        console.log('state 바꾼 후', checked);
-      }
     } catch (error) {
       // 에러 처리
       console.log(error);
