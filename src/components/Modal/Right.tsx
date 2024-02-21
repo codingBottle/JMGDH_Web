@@ -31,9 +31,7 @@ const Right = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const endpoint = `https://calendars2.duckdns.org/friends/${localStorage.getItem(
-        "email"
-      )}`;
+      const endpoint = `https://calendars2.duckdns.org/friends`;
 
       try {
         const response = await axios.get(endpoint, {

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import theme from "@/theme/theme";
 import axios from "axios";
 import MonthDay from "./MonthDay";
+import ScheduleAdd from "../Modal/ScheduleAdd";
 
 interface Schedule {
   allDay: boolean;
@@ -15,6 +16,7 @@ interface Schedule {
   timeOfStartDate: string;
   title: string;
 }
+
 interface MonthCalendarProps {
   today: any;
 }
@@ -28,22 +30,25 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
   const getDaysInMonth = (year: number, month: number): number => {
     return new Date(year, month + 1, 0).getDate();
   };
+  const InputComponent = () => {
+    const handleInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
 
-  const onClickDay = (currentDay: number) => {
-    if (modalOpen === true) {
-      setModalOpen(false);
-    } else {
-      setModalOpen(true);
-      setSelectedDay(currentDay);
-    }
+      e.stopPropagation();
+    };
+  
+    return <input type="text" onClick={handleInputClick} />;
   };
 
+  const onClickDay = (currentDay: number) => {
+    setModalOpen(true);
+    setSelectedDay(currentDay);
+  };
 
   
-  
+
   useEffect(() => {
-    const year = today.getFullYear(); // 년도
-    const month = today.getMonth()+1; // 월 (0부터 시작)
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
     const fetchData = async () => {
       const endpoint = `https://calendars2.duckdns.org/schedules/year/${year}/month/${month}`;
 
@@ -145,9 +150,16 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
         </thead>
         <tbody>{renderCalendar()}</tbody>
       </Calendar>
-    </CalendarWrapper>
-  );
-};
+      {modalOpen && (
+  <Modal >
+    <ScheduleAdd>
+      
+    </ScheduleAdd>
+  </Modal>
+)}
+      </CalendarWrapper>
+    );
+  };
 
 export default MonthCalendar;
 
@@ -228,4 +240,12 @@ const Modal = styled.div`
   bottom: 0;
   right: 0;
   z-index: 100;
+  
+  // 아래의 코드를 추가하여 모달 내부의 클릭 이벤트가 부모로 전파되지 않도록 막습니다.
+  pointer-events: none;
+
+  // 모달 내부 요소에는 pointer-events를 다시 활성화시켜 줍니다.
+  > * {
+    pointer-events: auto;
+  }
 `;

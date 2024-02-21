@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import theme from "@/theme/theme";
 import axios from "axios";
 
 export default function Friendsure() {
+  const [friendRequests, setFriendRequests] = useState<{ id: number; reqMember: { email: string; nickname?: string } }[]>([]);
+
   useEffect(() => {
     const handleInvite = async () => {
       const endpoint = "https://calendars2.duckdns.org/friends/requests";
@@ -15,15 +17,54 @@ export default function Friendsure() {
           },
         });
 
-        console.log("친구요청 목록 보기", response.data.data.requests);
+        const requests = response.data.data.requests;
+        console.log(response.data.data.requests)
+        setFriendRequests(requests);
       } catch (error) {
         console.error("친구 요청 목록 보기", error);
       }
     };
     handleInvite();
   }, []);
+  const handleAccept = async (reqMemberId: string) => {
+    const endpoint = "https://calendars2.duckdns.org/friends/accept-request";
 
-  return <MainComponent>Friendsure</MainComponent>;
+    try {
+      await axios.post(
+        endpoint,
+        {
+          reqMember: reqMemberId,
+          rspMember: localStorage.getItem("email"),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+
+      // 수락 후에 친구 요청 목록을 갱신하거나 다른 로직을 수행할 수 있습니다.
+    } catch (error) {
+      console.error("친구 요청 수락 오류:", error);
+    }
+  };
+  return (
+    <MainComponent>
+      <h2>친구 요청 목록</h2>
+      <ul>
+      {friendRequests.map((request) => (
+  <FriendRequestItem key={request.id}>
+    <span>이름: {request.reqMember.nickname}</span>
+    <span>email: {request.reqMember.email}</span>
+    <button onClick={() => handleAccept(request.reqMember.email)}>승낙</button>
+<button>거절</button>
+  </FriendRequestItem>
+))}
+
+
+      </ul>
+    </MainComponent>
+  );
 }
 
 const MainComponent = styled.div`
@@ -32,5 +73,30 @@ const MainComponent = styled.div`
   position: absolute;
   top: 20%;
   left: 35%;
-  background-color: white; // 오타 수정
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+
+  h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+`;
+
+const FriendRequestItem = styled.li`
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 5px;
+
+  span {
+    display: block;
+    margin-bottom: 5px;
+  }
 `;

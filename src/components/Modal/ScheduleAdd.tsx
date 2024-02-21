@@ -1,20 +1,71 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import styled from "styled-components";
 import theme from "@/theme/theme";
+import CalendarComponent from "./CalendarComponent"; // 달력 컴포넌트를 임포트해야 합니다.
+
 
 export default function ScheduleAdd() {
+  const [isEditing, setEditing] = useState(false);
+  const [selectedStartDate, setSelectedStartDate] = useState("");
+  const [selectedEndDate, setSelectedEndDate] = useState("");
+  const [todayDate, setTodayDate] = useState("");
+
+  useEffect(() => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    const formattedDate = `${year}-${month}-${day}`;
+    setTodayDate(formattedDate);
+  }, []);
+  const handleEdit = () => {
+    setEditing(true);
+  };
+
+  const handleCancel = () => {
+    setEditing(false);
+  };
+
+  const handleSave = () => {
+    // 저장 로직 구현
+    setEditing(false);
+  };
+
+  const handleDateClick = (date: React.SetStateAction<string>) => {
+    if (!selectedStartDate) {
+      setSelectedStartDate(date);
+    } else {
+      setSelectedEndDate(date);
+    }
+  };
+
+  const handleCalendarDateClick = (date) => {
+    // CalendarComponent에서 선택된 날짜를 받아옴
+    if (!selectedStartDate || isEditing) {
+      setSelectedStartDate(date);
+    } else {
+      setSelectedEndDate(date);
+    }
+  };
   return (
     <Container>
       <TopBox>
-        <p className="Click">일정 추가</p>
-        <p>할 일</p>
+      <p className={`Click ${isEditing ? "hidden" : ""}`} onClick={handleEdit}>
+          일정 추가
+        </p>
+
       </TopBox>
+
       <MiddleBox>
         <div>
-          <input type="text" placeholder="일정명을 적어주세요" />
+          <input
+            type="text"
+            placeholder="일정명을 적어주세요"
+            disabled={!isEditing}
+          />
         </div>
-        <div className="box">
-          <svg
+        <div className="box" onClick={() => handleDateClick(todayDate)}>
+         <svg
             width="25"
             height="25"
             viewBox="0 0 25 25"
@@ -27,9 +78,9 @@ export default function ScheduleAdd() {
               fill-opacity="0.85"
             />
           </svg>
-          <p>2023년 12월 01일</p>
+          <p>{selectedStartDate || todayDate}</p>
         </div>
-        <div className="box">
+        <div className="box" onClick={handleDateClick}>
           <svg
             width="25"
             height="25"
@@ -60,9 +111,11 @@ export default function ScheduleAdd() {
               </clipPath>
             </defs>
           </svg>
-
-          <p>12월01일(수) 13:00~12월01일(수) 14:00 </p>
+          <p>{selectedEndDate}</p>
         </div>
+        {isEditing && (
+          <CalendarComponent onDateClick={handleCalendarDateClick} />
+        )}
 
         <div className="box">
           <svg
@@ -126,12 +179,19 @@ export default function ScheduleAdd() {
               </defs>
             </svg>
           </div>
+          <button onClick={handleCancel} className={isEditing ? "" : "hidden"}>
+          취소
+        </button>
+        <button onClick={handleSave} className={isEditing ? "" : "hidden"}>
+          저장
+        </button>
         </div>
       </MiddleBox>
     </Container>
   );
 }
 const Container = styled.div`
+background-color : #FFFFFF;
   margin-top: 20px;
   margin-left: 20px;
   display: flex;
@@ -141,15 +201,15 @@ const Container = styled.div`
   height: 600px;
   border-radius: 20px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  cursor: auto; 
 `;
 const TopBox = styled.div`
-margin-left: 175px;
-margin-right: 175px;
-margin-bottom: 46.92px;
-width: 130px;
+  margin-left: 175px;
+  margin-right: 175px;
+  margin-bottom: 46.92px;
+  width: 130px;
   display: flex;
   flex-direction: row;
-
   align-items: top;
   margin-top: 25px;
   align-items: center;
@@ -160,11 +220,12 @@ width: 130px;
     font-size: 14px;
     line-height: 22px;
   }
-    .Click {
-        color: ${theme.color.AccentColor.TodayFill};
-        margin-right: 32px;
-
+  .Click {
+    color: ${theme.color.AccentColor.TodayFill};
+    margin-right: 32px;
+  } 
 `;
+
 
 const MiddleBox = styled.div`
   width: 380px;
