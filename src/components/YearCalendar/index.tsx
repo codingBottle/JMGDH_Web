@@ -17,42 +17,35 @@ const YearCalendar = () => {
     setShowModal(false);
   };
 
+  
+  
   return (
     <CalendarWrapper>
       {[...Array(12)].map((_, monthIndex) => (
         <MonthBox key={monthIndex}>
           <h1>{monthIndex + 1}</h1>
-          <div className='year-calendar'>
-            <Calendar
-              value={new Date(selectedDate.getFullYear(), monthIndex, 1)}
-              onChange={handleDateChange}
-              calendarType="US"
-              locale='en-EN'
-              formatDay={(locale, date) =>
-                date.toLocaleString('en', { day: 'numeric' })
-              }
-              nextLabel={null}
-              prevLabel={null}
-              next2Label={null}
-              prev2Label={null}
-            />
-          </div>
+          <Calendar
+            value={new Date(selectedDate.getFullYear(), monthIndex, 1)}
+            onChange={handleDateChange}
+            calendarType="US"
+            locale='en-EN'
+            formatDay={(locale, date) =>
+              date.toLocaleString('en', { day: 'numeric' })
+            }
+            nextLabel={null}
+            prevLabel={null}
+            next2Label={null}
+            prev2Label={null}
+          />
         </MonthBox>
       ))}
       {showModal && (
         <Modal>
           <ModalTop>
-            <div>
-              <p className='day'>{moment(selectedDate).format("DD")}</p>
-              <p>{moment(selectedDate).format("ddd")}</p>
-            </div>
+            <div>{moment(selectedDate).format("DD")}</div>
             <button onClick={closeModal}>x</button>
           </ModalTop>
           <ModalContent>
-            <p>할 일</p>
-            <p>TODO</p>
-            <p>내용내용내용</p>
-            <p>배고프다</p>
             <p>할 일</p>
             <p>TODO</p>
             <p>내용내용내용</p>
@@ -63,8 +56,6 @@ const YearCalendar = () => {
     </CalendarWrapper>
   )
 }
-
-export default YearCalendar;
 
 const CalendarWrapper = styled.div`
   display: grid;
@@ -87,12 +78,7 @@ const MonthBox = styled.div`
   height: 341px;
   margin: 0;
   padding: 6px;
-
-  .year-calendar {
-    position: relative;
-    margin: 0;
-    padding: 0;
-  }
+  /* background-color: rgba(0, 0, 0, 0.1); */
 
   h1 {
     margin: 0;
@@ -101,6 +87,12 @@ const MonthBox = styled.div`
     font-weight: ${theme.fontWeight.Medium};
   }
 
+  .react-calendar {
+    background: transparent;
+    border: none;
+  }
+
+  /* n년 n월 생략 */
   .react-calendar__navigation {
     display: none;
   }
@@ -110,15 +102,21 @@ const MonthBox = styled.div`
     text-decoration: none;
   }
 
+  /* 요일 배치 중앙 */
   .react-calendar__month-view__weekdays__weekday {
+    padding: 0;
+    font-weight: ${theme.fontWeight.Regular};
     text-align: center;
     margin-bottom: 10px;
   }
 
+  /* 일자 */
   .react-calendar__tile {
     display: inline-block;
+    position: relative;
     width: 30px;
     height: 38px;
+    color: #000;
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -133,11 +131,13 @@ const MonthBox = styled.div`
     }
   }
 
+  /* 오늘 날짜 */
   .react-calendar__tile--now{
     background-color: ${theme.color.AccentColor.TodayFill};
     color: ${theme.color.PrimaryColor.PrimaryWhite} !important;
     border-radius: 20px;
     &:hover {
+      /* TodayFill_Click */
       background-color: #6BA7E9 !important;
     }
     &:focus {
@@ -148,9 +148,10 @@ const MonthBox = styled.div`
     }
   }
 
+  /* 저번 달 & 다음 달 일자 */
   .react-calendar__month-view__days__day--neighboringMonth{
-    color: ${theme.color.GrayScale.Gray300};
-    pointer-events: none;   
+    pointer-events: none;
+    color: ${theme.color.GrayScale.Gray300} !important;
     &:hover {
       background-color: transparent;
       cursor: auto;
@@ -161,7 +162,7 @@ const MonthBox = styled.div`
 const Modal = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 10px;
   position: fixed;
   top: 50%;
   left: 5%;
@@ -186,22 +187,17 @@ const ModalTop = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
 
   div {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    .day {
-      width: 24px;
-      height: 24px;
-      line-height: 24px;
-      text-align: center;
-      color: ${theme.color.PrimaryColor.PrimaryWhite};
-      background-color: ${theme.color.AccentColor.TodayFill};
-      border-radius: 20px;
-      font-size: 12px;
-    }
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    color: ${theme.color.PrimaryColor.PrimaryWhite};
+    background-color: ${theme.color.AccentColor.TodayFill};
+    border-radius: 20px;
+    font-size: 12px;
   }
 `;
 
@@ -219,3 +215,5 @@ const ModalContent = styled.div`
     border-radius: 4px;
   }
 `;
+
+export default YearCalendar;
