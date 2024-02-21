@@ -54,10 +54,9 @@ const CalendarWrapper = styled.div`
   z-index: 1;
   background-color: ${theme.color.PrimaryColor.PrimaryWhite};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 8px;
+  border-radius: 20px;
   padding: 16px;
   width: 254px;
-  font-size: 12px;
   text-align: center;
 
   .react-calendar {
@@ -80,6 +79,14 @@ const CalendarWrapper = styled.div`
   }
 
   /* 요일 */
+  .react-calendar__month-view__weekdays {
+    display: inline-block;
+    text-align: center;
+    font-size: 14px;
+    font-weight: ${theme.fontWeight.Regular};
+    margin-bottom: 10px;
+  }
+
   .react-calendar__month-view__weekdays__weekday{
     display: inline-block;
     color: #000;
@@ -87,13 +94,6 @@ const CalendarWrapper = styled.div`
     abbr {
       border: none;
     }
-  }
-
-  .react-calendar__month-view__weekdays {
-    display: inline-block;
-    text-align: center;
-    font-size: 12px;
-    margin-bottom: 10px;
   }
 
   .react-calendar__tile,
@@ -114,14 +114,15 @@ const CalendarWrapper = styled.div`
   }
 
   .react-calendar__tile {
-    border: none;
-    /* font-size: 12px; */
-    width: 30px;
-    height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 30px;
+    height: 30px;
     color: #000;
+    border: none;
+    font-size: 14px;
+    padding: 0;
     &:hover {
       background-color: ${theme.color.HoverEventColor.EventfillHover};
       border-radius: 100px;
