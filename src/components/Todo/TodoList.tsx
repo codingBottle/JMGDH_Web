@@ -1,10 +1,11 @@
 import Image from 'next/image';
-import React, { MouseEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, MouseEvent, useState } from 'react';
 import styled from 'styled-components';
 import KebabIcon from '../../../public/icons/kebab.png';
 import axios from 'axios';
 import { NEXT_PUBLIC_BASE_URL } from '@/api/todo';
 import { useRouter } from 'next/router';
+import { Divider } from 'antd';
 
 interface Todo {
   id: number;
@@ -19,6 +20,8 @@ interface TodoListProps {
 
 const TodoList = ({ todos, onCheck }: TodoListProps) => {
   const [selectState, setSelectState] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [title, setTitle] = useState('');
 
   const router = useRouter();
 
@@ -35,7 +38,7 @@ const TodoList = ({ todos, onCheck }: TodoListProps) => {
     console.log('delete clicked');
     e.preventDefault();
     axios
-      .delete(`${NEXT_PUBLIC_BASE_URL}/todos/${id}`,{
+      .delete(`${NEXT_PUBLIC_BASE_URL}/todos/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
@@ -49,17 +52,61 @@ const TodoList = ({ todos, onCheck }: TodoListProps) => {
       });
   };
 
+  const handleEdit = (id: number) => (e: MouseEvent<HTMLButtonElement>) => {
+    setEditing(!editing);
+  };
+
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const handlEditeSubmit = (id: number) => (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // 페이지 리로딩 방지
+    // 여기서 제출 로직 구현
+    setEditing(!editing);
+
+    axios
+      .patch(
+        `${NEXT_PUBLIC_BASE_URL}/todos/${id}/title`,
+        { title: title },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log('title edit success', res);
+        router.reload();
+      })
+      .catch((err) => {
+        console.log('title edit failed', err);
+      });
+  };
+
   return (
     <ul>
       {todos.map((todo) => (
-        <TodoItem key={todo.id} checked={todo.checked}>
+        <TodoItem key={todo.id || title} checked={todo.checked}>
           <TodoWrapper>
             <TodoCheckbox
               type="checkbox"
               checked={todo.checked}
               onChange={() => handleCheck(todo.id, todo.checked)}
             />
-            <TodoText>{todo.title}</TodoText>
+            {editing ? (
+              <TodoText>
+                <form onSubmit={handlEditeSubmit(todo.id)}>
+                  <input
+                    type="text"
+                    value={title}
+                    onChange={handleTitleChange}
+                  />
+                </form>
+              </TodoText>
+            ) : (
+              <TodoText>{todo.title}</TodoText>
+            )}
           </TodoWrapper>
           <KebabImg onClick={handleKebabClick}>
             <Image src={KebabIcon} alt={'kebab icon'} width={20} height={20} />
@@ -68,9 +115,9 @@ const TodoList = ({ todos, onCheck }: TodoListProps) => {
                 <button value={todo.id} onClick={handleDelete(todo.id)}>
                   삭제하기
                 </button>
+                <button onClick={handleEdit(todo.id)}>수정하기</button>
                 <div>복사하기</div>
                 <div>붙여넣기</div>
-                <div>위치변경</div>
               </KebabMenu>
             )}
           </KebabImg>
@@ -108,13 +155,15 @@ const TodoCheckbox = styled.input.attrs({ type: 'checkbox' })`
 
 const TodoText = styled.span`
   margin-left: 0.5rem;
+  width: 190px;
+  text-overflow: ellipsis;
 `;
 
 const KebabImg = styled.div`
   position: relative;
   width: 25px;
   height: 25px;
-  margin-left: 7.5rem;
+  margin-left: 0.5rem;
 
   &:hover {
     cursor: pointer;
@@ -142,6 +191,17 @@ const KebabMenu = styled.div`
   div {
     padding: 0.5rem;
     text-align: center;
+    &:hover {
+      background-color: #f5f5f5;
+      cursor: pointer;
+    }
+  }
+
+  button {
+    padding: 0.5rem;
+    text-align: center;
+    background-color: white;
+    border: none;
     &:hover {
       background-color: #f5f5f5;
       cursor: pointer;
