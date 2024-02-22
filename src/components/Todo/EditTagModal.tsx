@@ -2,9 +2,10 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import EditTagIcon from '../../../public/icons/tagEdit.png';
 import CancelIcon from '../../../public/icons/cancel.png';
-import { MouseEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, MouseEvent, useState } from 'react';
 import axios from 'axios';
 import { NEXT_PUBLIC_BASE_URL } from '@/api/todo';
+import { useRouter } from 'next/router';
 
 interface TodoTagListState {
   id: number;
@@ -24,12 +25,58 @@ interface CreateTagModalProps {
   todoTags: TodoTagListState[];
 }
 
+const colors = [
+  '#FCE3E3',
+  '#FCEFDA',
+  '#FCFAD7',
+  '#D8F1E2',
+  '#E6F8D0',
+  '#DBF0F5',
+  '#D4F5F3',
+  '#E4EBF8',
+  '#FBE8F1',
+  '#EEE8F8',
+];
+
 const EditTagModal = ({ onComplete, todoTags }: CreateTagModalProps) => {
   const [internalTodoTags, setInternalTodoTags] =
     useState<TodoTagListState[]>(todoTags);
+  const [title, setTitle] = useState<{ [id: number]: string }>({});
+  const [color, setColor] = useState<{ [id: number]: string }>({});
+  const [editing, setEditing] = useState<{ [id: number]: boolean }>({});
+  const router = useRouter();
 
   const onsubmitHandler = () => {
     onComplete();
+    router.reload();
+  };
+
+  const handlEditeSubmit = (id: number) => (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    axios
+      .patch(
+        `${NEXT_PUBLIC_BASE_URL}/todo-tags/${id}`,
+        {
+          tagName: title[id],
+          tagColor: color[id],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log('Edit successful, response:', response);
+        setEditing((prevEditing) => ({
+          ...prevEditing,
+          [id]: false,
+        }));
+      })
+      .catch((error) => {
+        console.error('Edit failed, error:', error);
+      });
   };
 
   const handleTagDelete = (id: number) => (e: MouseEvent<HTMLDivElement>) => {
@@ -52,6 +99,29 @@ const EditTagModal = ({ onComplete, todoTags }: CreateTagModalProps) => {
       });
   };
 
+  const handleTitleChange =
+    (id: number) => (e: ChangeEvent<HTMLInputElement>) => {
+      setTitle((prevTitle) => ({
+        ...prevTitle,
+        [id]: e.target.value,
+      }));
+    };
+
+  const handleTagEdit = (id: number) => (e: MouseEvent<HTMLDivElement>) => {
+    setEditing((prevEditing) => ({
+      ...prevEditing,
+      [id]: !prevEditing[id],
+    }));
+  };
+
+  const handleColorChange =
+    (id: number) => (e: ChangeEvent<HTMLSelectElement>) => {
+      setColor((prevColor) => ({
+        ...prevColor,
+        [id]: e.target.value,
+      }));
+    };
+
   return (
     <ModalWrapper>
       <TagTitle>TAG</TagTitle>
@@ -70,10 +140,32 @@ const EditTagModal = ({ onComplete, todoTags }: CreateTagModalProps) => {
                     borderRadius: '4px',
                   }}
                 ></div>
-                <div>{tag.tagName}</div>
+                {editing[tag.id] ? (
+                  <TodoText>
+                    <form onSubmit={handlEditeSubmit(tag.id)}>
+                      <input
+                        type="text"
+                        value={title[tag.id] || tag.tagName}
+                        onChange={handleTitleChange(tag.id)}
+                      />
+                      <select
+                        value={color[tag.id] || tag.color}
+                        onChange={handleColorChange(tag.id)}
+                      >
+                        {colors.map((colorOption, index) => (
+                          <option key={index} value={colorOption}>
+                            {colorOption}
+                          </option>
+                        ))}
+                      </select>
+                    </form>
+                  </TodoText>
+                ) : (
+                  <TodoText>{tag.tagName}</TodoText>
+                )}
               </TagListElement>
               <TagListElement>
-                <div>
+                <div onClick={handleTagEdit(tag.id)}>
                   <Image
                     src={EditTagIcon}
                     alt={'EditTagIcon'}
@@ -155,6 +247,12 @@ const TagList = styled.div`
   align-items: center;
   width: 100%;
   gap: 10px;
+`;
+
+const TodoText = styled.span`
+  margin-left: 0.5rem;
+  width: 190px;
+  text-overflow: ellipsis;
 `;
 
 const TagListElement = styled.div`
