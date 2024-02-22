@@ -48,7 +48,7 @@ export default function Navbar() {
       </div>
       <div className="Rights">
         <button className="user" onClick={peristalsis}>
-          로그인 연동
+          캘린더 연동
         </button>
         <button className="user">SHARE</button>
         <button onClick={goToHome}>

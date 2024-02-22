@@ -1,8 +1,7 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import theme from "@/theme/theme";
 import CalendarComponent from "./CalendarComponent"; // 달력 컴포넌트를 임포트해야 합니다.
-
 
 export default function ScheduleAdd() {
   const [isEditing, setEditing] = useState(false);
@@ -30,8 +29,12 @@ export default function ScheduleAdd() {
     // 저장 로직 구현
     setEditing(false);
     setSelectedEndDate(selectedEndDate || todayDate);
-};
-
+  };
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const inputValue = e.target.value;
+    console.log("입력된 값:", inputValue);
+    // 추가적인 동작을 수행하도록 코드를 작성하세요.
+  }
   const handleDateClick = (date: string) => {
     if (!selectedStartDate) {
       setSelectedStartDate(date);
@@ -40,21 +43,23 @@ export default function ScheduleAdd() {
     }
   };
 
-  const handleCalendarDateClick = (date) => {
+  const handleCalendarDateClick = (date: string) => {
     // CalendarComponent에서 선택된 날짜를 받아옴
     if (!selectedStartDate || isEditing) {
-        setSelectedStartDate(date || todayDate);
+      setSelectedStartDate(date || todayDate);
     } else {
-        setSelectedEndDate(date);
+      setSelectedEndDate(date);
     }
-};
+  };
   return (
     <Container>
       <TopBox>
-      <p className={`Click ${isEditing ? "hidden" : ""}`} onClick={handleEdit}>
+        <p
+          className={`Click ${isEditing ? "hidden" : ""}`}
+          onClick={handleEdit}
+        >
           일정 추가
         </p>
-
       </TopBox>
 
       <MiddleBox>
@@ -62,11 +67,11 @@ export default function ScheduleAdd() {
           <input
             type="text"
             placeholder="일정명을 적어주세요"
-            disabled={!isEditing}
+            onChange={handleInputChange}
           />
         </div>
         <div className="box" onClick={() => handleDateClick(todayDate)}>
-         <svg
+          <svg
             width="25"
             height="25"
             viewBox="0 0 25 25"
@@ -181,18 +186,18 @@ export default function ScheduleAdd() {
             </svg>
           </div>
           <button onClick={handleCancel} className={isEditing ? "" : "hidden"}>
-          취소
-        </button>
-        <button onClick={handleSave} className={isEditing ? "" : "hidden"}>
-          저장
-        </button>
+            취소
+          </button>
+          <button onClick={handleSave} className={isEditing ? "" : "hidden"}>
+            저장
+          </button>
         </div>
       </MiddleBox>
     </Container>
   );
 }
 const Container = styled.div`
-background-color : #FFFFFF;
+  background-color: #ffffff;
   margin-top: 20px;
   margin-left: 20px;
   display: flex;
@@ -202,7 +207,7 @@ background-color : #FFFFFF;
   height: 600px;
   border-radius: 20px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  cursor: auto; 
+  cursor: auto;
 `;
 const TopBox = styled.div`
   margin-left: 175px;
@@ -224,9 +229,8 @@ const TopBox = styled.div`
   .Click {
     color: ${theme.color.AccentColor.TodayFill};
     margin-right: 32px;
-  } 
+  }
 `;
-
 
 const MiddleBox = styled.div`
   width: 380px;
