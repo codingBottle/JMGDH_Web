@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import theme from "@/theme/theme";
-import CalendarComponent from "./CalendarComponent"; // 달력 컴포넌트를 임포트해야 합니다.
-
-export default function ScheduleAdd() {
+import CalendarComponent from "./CalendarComponent";
+import axios from "axios";
+export default function ScheduleAdd({ onClose }) {
   const [isEditing, setEditing] = useState(false);
   const [selectedStartDate, setSelectedStartDate] = useState("");
   const [selectedEndDate, setSelectedEndDate] = useState("");
   const [todayDate, setTodayDate] = useState("");
+  const [scheduleTitle, setScheduleTitle] = useState(""); // 새로운 상태 변수 추가
 
   useEffect(() => {
     const today = new Date();
@@ -18,23 +19,50 @@ export default function ScheduleAdd() {
     setTodayDate(formattedDate);
   }, []);
   const handleEdit = () => {
-    setEditing(true);
+    setEditing(!isEditing);
+    onClose(false);
   };
 
   const handleCancel = () => {
     setEditing(false);
   };
-
-  const handleSave = () => {
-    // 저장 로직 구현
-    setEditing(false);
-    setSelectedEndDate(selectedEndDate || todayDate);
+  const handleInputChange = (event: any) => {
+    setScheduleTitle(event.target.value); // 입력 값을 상태 변수에 저장
   };
-  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const inputValue = e.target.value;
-    console.log("입력된 값:", inputValue);
-    // 추가적인 동작을 수행하도록 코드를 작성하세요.
-  }
+  const handleSave = async () => {
+    try {
+      // 일정 추가를 위한 데이터 준비
+      const scheduleData = {
+        title: "코딩보틀 회의", // 여기에 실제 일정명을 받아오는 로직을 추가해야 합니다.
+        startDate: "2024-02-24",
+        endDate: "2024-02-24",
+        isAllDay: false,
+        timeOfStartDate: "15:00",
+        timeOfEndDate: "17:00",
+        colorCode: "#423ffF",
+      };
+
+      // Axios를 사용하여 서버에 일정 추가 요청
+      const response = await axios.post(
+        "https://calendars2.duckdns.org/schedules",
+        scheduleData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // 엑세스 토큰을 헤더에 추가
+          },
+        }
+      );
+      onClose(false);
+      console.log("Schedule created:", response.data);
+
+      // 일정 추가 후 로직을 원하는 대로 추가할 수 있습니다.
+
+      setEditing(false);
+      setSelectedEndDate(scheduleData.endDate);
+    } catch (error) {
+      console.error("Error creating schedule:", error);
+    }
+  };
   const handleDateClick = (date: string) => {
     if (!selectedStartDate) {
       setSelectedStartDate(date);
@@ -51,26 +79,34 @@ export default function ScheduleAdd() {
       setSelectedEndDate(date);
     }
   };
+  function handleModalClose(
+    event: MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <Container>
       <TopBox>
-        <p
-          className={`Click ${isEditing ? "hidden" : ""}`}
-          onClick={handleEdit}
-        >
-          일정 추가
-        </p>
+        <p className={`Click ${isEditing ? "hidden" : ""}`}>일정 추가</p>
       </TopBox>
 
       <MiddleBox>
-        <div>
+        <div className="Mid">
           <input
             type="text"
             placeholder="일정명을 적어주세요"
             onChange={handleInputChange}
           />
         </div>
-        <div className="box" onClick={() => handleDateClick(todayDate)}>
+        <div
+          className="box"
+          onClick={() => {
+            handleDateClick(todayDate);
+
+            handleEdit();
+          }}
+        >
           <svg
             width="25"
             height="25"
@@ -86,7 +122,13 @@ export default function ScheduleAdd() {
           </svg>
           <p>{selectedStartDate || todayDate}</p>
         </div>
-        <div className="box" onClick={handleDateClick}>
+        {isEditing && (
+          <CalendarComponent
+            className="your-container-class exclude-styling"
+            onDateClick={handleCalendarDateClick}
+          />
+        )}
+        <div className="box" onClick={() => handleDateClick(selectedEndDate)}>
           <svg
             width="25"
             height="25"
@@ -119,9 +161,6 @@ export default function ScheduleAdd() {
           </svg>
           <p>{selectedEndDate}</p>
         </div>
-        {isEditing && (
-          <CalendarComponent onDateClick={handleCalendarDateClick} />
-        )}
 
         <div className="box">
           <svg
@@ -185,11 +224,17 @@ export default function ScheduleAdd() {
               </defs>
             </svg>
           </div>
-          <button onClick={handleCancel} className={isEditing ? "" : "hidden"}>
-            취소
-          </button>
-          <button onClick={handleSave} className={isEditing ? "" : "hidden"}>
+          <button
+            onClick={handleSave}
+            className={isEditing ? "display" : "none"}
+          >
             저장
+          </button>
+          <button
+            onClick={handleModalClose}
+            className={isEditing ? "" : "hidden"}
+          >
+            닫기
           </button>
         </div>
       </MiddleBox>
@@ -214,7 +259,7 @@ const TopBox = styled.div`
   margin-right: 175px;
   margin-bottom: 46.92px;
   width: 130px;
-  display: flex;
+
   flex-direction: row;
   align-items: top;
   margin-top: 25px;
@@ -237,7 +282,7 @@ const MiddleBox = styled.div`
   height: 280.96px;
   margin-left: 50px;
   margin-right: 50px;
-  display: flex;
+
   flex-direction: column;
   margin-top: 20px;
   .box {
@@ -271,5 +316,7 @@ const MiddleBox = styled.div`
       font-size: 14px;
       line-height: 22px;
     }
+  }
+  .your-container-class :not(.exclude-styling) {
   }
 `;

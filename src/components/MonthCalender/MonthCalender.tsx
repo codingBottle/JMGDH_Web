@@ -32,10 +32,9 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
   };
   const InputComponent = () => {
     const handleInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
-
       e.stopPropagation();
     };
-  
+
     return <input type="text" onClick={handleInputClick} />;
   };
 
@@ -43,8 +42,6 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
     setModalOpen(true);
     setSelectedDay(currentDay);
   };
-
-  
 
   useEffect(() => {
     const year = today.getFullYear();
@@ -67,7 +64,9 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
 
     fetchData();
   }, [today]);
-
+  const handleClose = () => {
+    setModalOpen(false);
+  };
   const renderCalendar = (): JSX.Element[] => {
     const year = today.getFullYear();
     const month = today.getMonth();
@@ -151,15 +150,13 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
         <tbody>{renderCalendar()}</tbody>
       </Calendar>
       {modalOpen && (
-  <Modal >
-    <ScheduleAdd>
-      
-    </ScheduleAdd>
-  </Modal>
-)}
-      </CalendarWrapper>
-    );
-  };
+        <Modal>
+          <ScheduleAdd onClose={handleClose} />
+        </Modal>
+      )}
+    </CalendarWrapper>
+  );
+};
 
 export default MonthCalendar;
 
@@ -240,7 +237,7 @@ const Modal = styled.div`
   bottom: 0;
   right: 0;
   z-index: 100;
-  
+
   // 아래의 코드를 추가하여 모달 내부의 클릭 이벤트가 부모로 전파되지 않도록 막습니다.
   pointer-events: none;
 
