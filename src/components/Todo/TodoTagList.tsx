@@ -8,6 +8,7 @@ import CreateTodoModal from './CreateTodoModal';
 import NewTagImg from '../../../public/icons/NewTag.png';
 import CreateTagModal from './CreateTagModal';
 import { useRouter } from 'next/router';
+import EditTagModal from './EditTagModal';
 
 interface TodoTagListProps {
   date: Date;
@@ -28,27 +29,17 @@ interface TodoState {
 
 const TodoTagList = ({ date }: TodoTagListProps) => {
   const [toggle, setToggle] = useState<Array<number>>([]);
-  const [inputs, setInputs] = useState<{ [key: number]: string }>({});
-  // const [newTagInput, setNewTagInput] = useState<string>('');
-  // const [isInputVisible, setIsInputVisible] = useState(false);
-  // const [showInput, setShowInput] = useState<{ [key: number]: boolean }>({});
-
   // 받아온 태그객체들을 저장할 state
   const [todoTags, setTodoTags] = useState<TodoTagListState[]>([]);
-
   const [todos, setTodos] = useState<{ [key: number]: TodoState[] }>({});
-
   // 선택된 태그의 ID를 저장하는 상태를 추가합니다.
   const [selectedTagId, setSelectedTagId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
 
+  const [tagSetting, setTagSetting] = useState(false);
+
   const route = useRouter();
-
-  // console.log('todoTags', todoTags);
-
-  // console.log('Maintodos', todos);
 
   // + 버튼 클릭 시 호출되는 함수를 수정하여 선택된 태그의 id를 저장하고 모달을 열도록 합니다.
   const handleAddTodoBtnClick = (tagId: number) => {
@@ -67,6 +58,14 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
 
   const handleCompleteTagClick = () => {
     setIsTagModalOpen(false);
+  };
+
+  const handleTagSetting = () => {
+    setTagSetting(true);
+  };
+
+  const handleCompleteTagSetting = () => {
+    setTagSetting(false);
   };
 
   // MM 형식으로 반환
@@ -105,7 +104,6 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
     }
   }, [today]);
 
-  // todos에 todoTags를 넣어주는 useEffect
   useEffect(() => {
     if (todoTags) {
       setTodos(
@@ -118,11 +116,6 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
     console.log('todoTags', todoTags);
   }, [todoTags]);
 
-  // 투두 상태변화 체크를위한 useEffect
-  useEffect(() => {
-    console.log('투두즈', todos);
-  }, [todos]);
-
   // 태그 클릭 시 토글되는 함수
   const handleTagClick = (tagId: number) => {
     if (toggle.includes(tagId)) {
@@ -131,8 +124,6 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
       setToggle([...toggle, tagId]);
     }
   };
-
-  // console.log('toggle', toggle);
 
   // todo 추가 함수 였던것
   // 걍 모달에서 api요청했음
@@ -146,7 +137,7 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
   ) => {
     try {
       // 서버에 PATCH 요청을 보냅니다.
-      const response = await axios
+      axios
         .patch(
           `${NEXT_PUBLIC_BASE_URL}/todos/${todoId}/check`,
           {
@@ -181,23 +172,6 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
       console.log(error);
     }
   };
-
-  const handleInputChange = (
-    tagId: number,
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setInputs({
-      ...inputs,
-      [tagId]: e.target.value,
-    });
-  };
-
-  // const handleNewTagKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  //   if (e.key === 'Enter') {
-  //     setNewTagInput(e.currentTarget.value);
-  //     setIsInputVisible(false);
-  //   }
-  // };
 
   return (
     <TodoContainer>
@@ -242,18 +216,6 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
                     }
                   />
                 )}
-                {/* 추가 인풋
-                {showInput[tag.id] && (
-                  <Inputdiv>
-                    <input
-                      type="text"
-                      value={inputs[tag.id] || ''}
-                      onChange={(e) => handleInputChange(tag.id, e)}
-                    />
-                    <button onClick={() => handleAddTodo(tag.id)}>추가</button>
-                    <div>여기는 케밥 아이콘 들어갈거엠</div>
-                  </Inputdiv>
-                )} */}
               </div>
             )}
           </TagBtn>
@@ -261,7 +223,13 @@ const TodoTagList = ({ date }: TodoTagListProps) => {
       </TotalTag>
       {/* 맨 밑의 태그추가 부분 여기도 모달 띄울꺼임*/}
       <SettingContainer>
-        <div>
+        <div onClick={handleTagSetting}>
+          {tagSetting && (
+            <EditTagModal
+              todoTags={todoTags}
+              onComplete={handleCompleteTagSetting}
+            />
+          )}
           <Image
             src={'/todoSetting.png'}
             alt={'todosetting'}
