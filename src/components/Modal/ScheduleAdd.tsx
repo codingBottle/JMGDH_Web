@@ -3,12 +3,20 @@ import styled from "styled-components";
 import theme from "@/theme/theme";
 import CalendarComponent from "./CalendarComponent";
 import axios from "axios";
-export default function ScheduleAdd({ onClose }) {
+
+interface ScheduleAddProps {
+  onClose: (value: boolean) => void;
+}
+
+
+
+export default function ScheduleAdd({ onClose }: ScheduleAddProps) {
   const [isEditing, setEditing] = useState(false);
-  const [selectedStartDate, setSelectedStartDate] = useState("");
-  const [selectedEndDate, setSelectedEndDate] = useState("");
+  const [selectedStartDate, setSelectedStartDate] = useState<Date | null>(null);
+  const [selectedEndDate, setSelectedEndDate] = useState<Date | null>(null);
   const [todayDate, setTodayDate] = useState("");
-  const [scheduleTitle, setScheduleTitle] = useState(""); // 새로운 상태 변수 추가
+  const [scheduleTitle, setScheduleTitle] = useState(""); 
+
 
   useEffect(() => {
     const today = new Date();
@@ -25,6 +33,7 @@ export default function ScheduleAdd({ onClose }) {
 
   const handleCancel = () => {
     setEditing(false);
+    
   };
   const handleInputChange = (event: any) => {
     setScheduleTitle(event.target.value); // 입력 값을 상태 변수에 저장
@@ -58,12 +67,12 @@ export default function ScheduleAdd({ onClose }) {
       // 일정 추가 후 로직을 원하는 대로 추가할 수 있습니다.
 
       setEditing(false);
-      setSelectedEndDate(scheduleData.endDate);
+      setSelectedEndDate(new Date(scheduleData.endDate));
     } catch (error) {
       console.error("Error creating schedule:", error);
     }
   };
-  const handleDateClick = (date: string) => {
+  const handleDateClick = (date:any) => {
     if (!selectedStartDate) {
       setSelectedStartDate(date);
     } else {
@@ -71,20 +80,21 @@ export default function ScheduleAdd({ onClose }) {
     }
   };
 
-  const handleCalendarDateClick = (date: string) => {
+  const handleCalendarDateClick = (date: Date | Date[] | null) => {
     // CalendarComponent에서 선택된 날짜를 받아옴
     if (!selectedStartDate || isEditing) {
-      setSelectedStartDate(date || todayDate);
+      setSelectedStartDate(date as Date || todayDate);
     } else {
-      setSelectedEndDate(date);
+      setSelectedEndDate(date as Date || todayDate);
     }
+    
   };
   function handleModalClose(
-    event: MouseEvent<HTMLButtonElement, MouseEvent>
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void {
     throw new Error("Function not implemented.");
-  }
 
+  }
   return (
     <Container>
       <TopBox>
@@ -120,11 +130,12 @@ export default function ScheduleAdd({ onClose }) {
               fill-opacity="0.85"
             />
           </svg>
-          <p>{selectedStartDate || todayDate}</p>
+          <p>{selectedStartDate instanceof Date ? selectedStartDate.toLocaleDateString() : new Date(todayDate).toLocaleDateString()}</p>
+
         </div>
         {isEditing && (
           <CalendarComponent
-            className="your-container-class exclude-styling"
+  
             onDateClick={handleCalendarDateClick}
           />
         )}
@@ -159,7 +170,8 @@ export default function ScheduleAdd({ onClose }) {
               </clipPath>
             </defs>
           </svg>
-          <p>{selectedEndDate}</p>
+          <p>{selectedEndDate ? selectedEndDate.toLocaleDateString() : 'No date selected'}</p>
+
         </div>
 
         <div className="box">

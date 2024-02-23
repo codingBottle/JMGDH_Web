@@ -23,10 +23,10 @@ const CalendarComponent = () => {
           onChange={handleDateChange}
           value={selectedDate}
           calendarType="US"
-          locale="en-EN" // 한글버전
+          locale="en-EN" 
           className="custom-calendar"
-          minDetail="month" // 상단 네비게이션에서 '월' 단위만 보이게 설정
-          maxDetail="month" // 상단 네비게이션에서 '월' 단위만 보이게 설정
+          minDetail="month" 
+          maxDetail="month" 
           next2Label={null}
           prev2Label={null}
           tileContent={({ date }) => {
