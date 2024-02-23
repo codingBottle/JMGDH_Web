@@ -5,7 +5,7 @@ import { Menu, Home, Setting, Import } from "@/assets/icon/Navbaricon";
 import LoginButton from "@/components/Login/LoginButton";
 import axios from "axios";
 import Image from "next/image";
-import Google from "./Login/google";
+import Google from "./Login/Google.tsx";
 
 import { useRouter } from "next/router";
 
