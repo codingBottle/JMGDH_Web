@@ -1,17 +1,51 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { RightArrow, LeftArrow } from "@/assets/icon/Arrow";
 import theme from "@/theme/theme";
+import axios from "axios";
+import { RightArrow, LeftArrow } from "@/assets/icon/Arrow";
+interface Schedule {
+  id: number;
+  title: string;
+  colorCode: string;
+  startDate: string;
+  endDate: string; 
+  timeOfStartDate: string;
+  timeOfEndDateTime: string; 
+  allDay: boolean; 
+  repeat: boolean; 
+}
+
 
 export default function DailyCalender() {
   const [date, setDate] = useState(new Date());
   const [day, setDay] = useState(date.getDate());
   const [month, setMonth] = useState(date.getMonth() + 1);
   const [year, setYear] = useState(date.getFullYear());
-
   const [dragStart, setDragStart] = useState<number | null>(null);
   const [scrollLeft, setScrollLeft] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [schedules, setSchedules] = useState<Schedule[]>([]);
+
+  useEffect(() => {
+    const fetchSchedule = async () => {
+      const endpoint = `https://calendars2.duckdns.org/schedules/year/${year}/month/${month}/day/${day}`;
+      
+      try {
+        const response = await axios.get(endpoint, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        });
+        setSchedules(response.data.data.schedules);
+        console.log("스케줄 조회 성공:", response.data.data.schedules);
+      } catch (error) {
+        console.error("스케줄 조회 오류:", error);
+      }
+    };
+    
+    fetchSchedule();
+  }, [year, month, day]); // year, month, day가 변경될 때마다 요청을 다시 보냅니다.
+
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setDragStart(e.clientX);
@@ -75,25 +109,35 @@ export default function DailyCalender() {
         onMouseUp={handleMouseUp}
         ref={containerRef}
       >
-        <table>
-          <tbody>
-            {[...Array(numbers)].map((i) => (
-              <tr key={i.toString()}>
-                {numbers.map((num) => (
-                  <td className="Number" key={num}>
-                    {num}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
 
-        <div className="linediv">
-          {numbers.map((lineIndex) => (
-            <div className="line" key={lineIndex}></div>
-          ))}
-        </div>
+
+<div className="linediv">
+  {numbers.map((hour) => {
+    // 시간대별 일정 찾기
+    const currentSchedules = schedules.filter(schedule => {
+      const scheduleHour = parseInt(schedule.timeOfStartDate.split(':')[0], 10);
+      return scheduleHour === hour;
+    });
+
+    return (
+      <div key={hour} className="timeSlot">
+
+        <div className="hourLabel">{`${hour}`}</div>
+
+       
+        {currentSchedules.map((schedule, index) => (
+          <div key={index} style={{ backgroundColor: `#${schedule.colorCode}`, color: 'black', padding: '5px', margin: '5px 0', width: "90%" }}>
+            <strong>{schedule.title}</strong>
+          </div>
+        ))}
+
+
+        <div className="line"></div>
+      </div>
+    );
+  })}
+</div>
+
       </Contents>
     </DailyCalenderContenter>
   );
@@ -104,10 +148,13 @@ const DailyCalenderContenter = styled.div`
     width: 0px;
     background: transparent;
   }
+  overflow: hidden;
   width: 100%;
   height: 100%;
   border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
   background-color: #ffffff;
+  
+  
 `;
 
 const Daily = styled.div`
@@ -149,35 +196,34 @@ const Daily = styled.div`
   }
 `;
 const Contents = styled.div`
-  overflow: auto;
+ overflow: auto;
   margin-top: 22px;
   font-size: 0.625rem;
-  cursor: Pointer;
-
+  cursor: pointer;
   font-weight: ${theme.fontWeight.Regular};
-  table {
-    width: 960px;
-  }
+  width: 200%; 
 
-  .Number,
-  table {
-    border-bottom: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
-    border-collapse: collapse;
-    text-align: center;
-  }
 
-  .Number {
-    width: 40px;
-    height: 1.375rem;
-  }
   .linediv {
     display: flex;
+    flex-direction: row; 
+    width: 100%; 
   }
+  
+  .timeSlot {
+    flex: 1; 
+    min-width: 100px;
+    height: 280px; 
+    border-right: 1px solid ${theme.color.SecondaryColor.ButtonBorder}; 
+    position: relative;
+  }
+  
   .line {
-    margin-left: 19px;
-    margin-right: 20px;
-    border-left: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
-    width: 0rem;
-    height: 17.4812rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: ${theme.color.SecondaryColor.ButtonBorder};
   }
 `;
