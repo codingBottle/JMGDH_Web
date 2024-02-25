@@ -11,28 +11,48 @@ import { useRouter } from "next/router";
 
 export default function Navbar() {
   const [NavName, setNavName] = useState<any>("미로그인");
+  const [isGoogleVisible, setIsGoogleVisible] = useState(false);
+
 
   useEffect(() => {
-    if (localStorage.getItem("nickname") !== null) {
-      const name = localStorage.getItem("nickname");
+    const name = localStorage.getItem("nickname");
+    if (name !== null) {
       setNavName(name);
     }
-  }, []); // 빈 배열을 전달하여 최초 렌더링 시에만 실행되도록 함
 
+
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.googleComponent')) {
+        setIsGoogleVisible(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+
+  const handleGoogleClick = () => {
+    setIsGoogleVisible(!isGoogleVisible); 
+  };
+  const handleImportClick = () => {
+    setIsGoogleVisible(true); 
+  };
   const router = useRouter();
   const peristalsis = () => {
     axios
       .get(`https://calendars2.duckdns.org/google/authorize`)
       .then((response) => {
         window.location.href = response.data;
-        console.log("구글 연동 성공", response.data);
       })
       .catch((error) => {
         console.error("구글 로그인 연동 오류:", error);
       });
   };
   const goToHome = () => {
-    router.push("/test"); // 홈으로 이동
+    router.push("/test");
   };
   return (
     <NavbarContainer>
@@ -46,7 +66,9 @@ export default function Navbar() {
           style={{ marginLeft: "20px" }}
         />
         <p>{NavName}의 캘린더</p>
-        <Google />
+        <div onClick={handleGoogleClick}>
+          {isGoogleVisible && <Google />}
+        </div>
       </div>
       <div className="Rights">
         <button className="user" onClick={peristalsis}>
@@ -58,7 +80,7 @@ export default function Navbar() {
         </button>
         <Setting />
 
-        <Import />
+        <div  className="googleComponent" onClick={handleImportClick}><Import /></div>
         <LoginButton />
       </div>
     </NavbarContainer>
@@ -79,7 +101,7 @@ const NavbarContainer = styled.div`
     flex-wrap: wrap;
     align-items: center;
     svg {
-      margin-right: 15x;
+      margin-right: 15px;
     }
 
     p {
@@ -87,6 +109,9 @@ const NavbarContainer = styled.div`
       font-weight: ${theme.fontWeight.Regular};
       color: ${theme.color.SecondaryColor.BasicFont};
     }
+  }
+  .googleComponent{
+    display:flex;
   }
 
   .Rights {
