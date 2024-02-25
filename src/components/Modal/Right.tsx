@@ -12,20 +12,23 @@ interface Friend {
     profileImage?: string;
   };
 }
-const profileImageSrc =
-  typeof window !== "undefined"
-    ? localStorage.getItem("imge") || "/defaultImage.jpg"
-    : "/defaultImage.jpg";
+
 
 const Right = () => {
   const [showNewFriend, setShowNewFriend] = useState(false);
   const [showInvitation, setShowInvitation] = useState(false);
   const [friends, setFriends] = useState<Friend[]>([]);
-
+  const [profileImageSrc,setprofileImageSrc]=useState("")
   const handleImginClick = () => {
     setShowNewFriend(!showNewFriend);
   };
 
+  useEffect(() => {
+    const profileImage = localStorage.getItem("imge");
+    if (profileImage) {
+      setprofileImageSrc(profileImage);
+    }
+  }, []);
   const handleOutsideClick = (e: any) => {
     if (showNewFriend && !e.target.closest(".Imgin")) {
       setShowNewFriend(false);
