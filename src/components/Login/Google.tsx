@@ -64,7 +64,7 @@ export default function GoogleAppsGrid() {
 }
 
 const Container = styled.div`
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   border: solid 1px gray;

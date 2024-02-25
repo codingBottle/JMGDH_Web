@@ -5,7 +5,13 @@ import NewFriend from "./NewFriend";
 import Friendsure from "./Friendsure";
 import theme from "@/theme/theme";
 import axios from "axios";
-
+interface Friend {
+  id: number;
+  member: {
+    nickname: string;
+    profileImage?: string;
+  };
+}
 const profileImageSrc =
   typeof window !== "undefined"
     ? localStorage.getItem("imge") || "/defaultImage.jpg"
@@ -14,6 +20,7 @@ const profileImageSrc =
 const Right = () => {
   const [showNewFriend, setShowNewFriend] = useState(false);
   const [showInvitation, setShowInvitation] = useState(false);
+  const [friends, setFriends] = useState<Friend[]>([]);
 
   const handleImginClick = () => {
     setShowNewFriend(!showNewFriend);
@@ -41,7 +48,8 @@ const Right = () => {
         });
 
         console.log("친구목록 조회 성공", response.data.data.friends);
-        // 여기서 친구 목록을 활용하여 원하는 기능 실행
+
+        setFriends(response.data.data.friends);
       } catch (error) {
         console.error("친구목록 조회 오류:", error);
       }
@@ -83,13 +91,45 @@ const Right = () => {
               alt="Profile Image"
             />
           </LoginBtnWrapper>
+          <FriendsList>
+            {friends.map((friend, index) => (
+              <div key={index}>
+                <FriendProfile>
+                  <Image
+                    src={friend.member.profileImage || "/defaultImage.jpg"} // 친구의 프로필 이미지 또는 기본 이미지
+                    alt="Profile Image"
+                    width={30}
+                    height={30}
+                    style={{ borderRadius: "50%" }} // Next.js Image 컴포넌트에 직접 스타일을 적용할 수 없으므로, 아래 styled-components로 대체 가능
+                  />
+                </FriendProfile>
+                <span>{friend.member.nickname}</span>
+              </div>
+            ))}
+          </FriendsList>
         </div>
       </div>{" "}
       <button onClick={handleLoginBtnClick}>조회</button>
     </Main>
   );
 };
+const FriendsList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; // 중앙 정렬
+  gap: 10px; // 간격 추가
+  margin-top: 20px; // 상단 여백 추가
+  span {
+    font-size: 10px;
+  }
+`;
 
+const FriendProfile = styled.div`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+`;
 const LoginBtnWrapper = styled.a`
   display: block;
   cursor: pointer;

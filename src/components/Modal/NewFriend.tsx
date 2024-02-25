@@ -4,6 +4,8 @@ import theme from "@/theme/theme";
 import axios from "axios";
 export default function NewFriend() {
   const [email, setEmail] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(true);
+
   const handleEmailChange = (e: any) => {
     setEmail(e.target.value);
     console.log(e.target.value);
@@ -27,10 +29,14 @@ export default function NewFriend() {
       );
 
       console.log("초대 보내기 성공", response.data);
+      setIsModalOpen(false);
     } catch (error) {
       console.error("초대 보내기 오류:", error);
+      alert("친구요청에 실패하였습니다.");
+      setIsModalOpen(false);
     }
   };
+  if (!isModalOpen) return null;
   return (
     <ModalWrapper>
       <p className="title">추가할 친구의 이메일을 작성해 주세요.</p>
