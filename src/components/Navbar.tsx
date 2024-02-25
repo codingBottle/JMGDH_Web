@@ -5,7 +5,7 @@ import { Menu, Home, Setting, Import } from "@/assets/icon/Navbaricon";
 import LoginButton from "@/components/Login/LoginButton";
 import axios from "axios";
 import Image from "next/image";
-import Google from "./Login/Google.tsx";
+import Google from "./Login/Google";
 
 import { useRouter } from "next/router";
 
@@ -45,8 +45,8 @@ export default function Navbar() {
           height={40}
           style={{ marginLeft: "20px" }}
         />
-        <p>{NavName}의 캘린더</p>  
-        <Google/>
+        <p>{NavName}의 캘린더</p>
+        <Google />
       </div>
       <div className="Rights">
         <button className="user" onClick={peristalsis}>
@@ -57,7 +57,7 @@ export default function Navbar() {
           <Home />
         </button>
         <Setting />
-      
+
         <Import />
         <LoginButton />
       </div>
