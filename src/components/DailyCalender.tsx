@@ -8,13 +8,12 @@ interface Schedule {
   title: string;
   colorCode: string;
   startDate: string;
-  endDate: string; 
+  endDate: string;
   timeOfStartDate: string;
-  timeOfEndDateTime: string; 
-  allDay: boolean; 
-  repeat: boolean; 
+  timeOfEndDateTime: string;
+  allDay: boolean;
+  repeat: boolean;
 }
-
 
 export default function DailyCalender() {
   const [date, setDate] = useState(new Date());
@@ -29,7 +28,7 @@ export default function DailyCalender() {
   useEffect(() => {
     const fetchSchedule = async () => {
       const endpoint = `https://calendars2.duckdns.org/schedules/year/${year}/month/${month}/day/${day}`;
-      
+
       try {
         const response = await axios.get(endpoint, {
           headers: {
@@ -42,10 +41,9 @@ export default function DailyCalender() {
         console.error("스케줄 조회 오류:", error);
       }
     };
-    
+
     fetchSchedule();
   }, [year, month, day]); // year, month, day가 변경될 때마다 요청을 다시 보냅니다.
-
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setDragStart(e.clientX);
@@ -109,35 +107,41 @@ export default function DailyCalender() {
         onMouseUp={handleMouseUp}
         ref={containerRef}
       >
+        <div className="linediv">
+          {numbers.map((hour) => {
+            // 시간대별 일정 찾기
+            const currentSchedules = schedules.filter((schedule) => {
+              const scheduleHour = parseInt(
+                schedule.timeOfStartDate.split(":")[0],
+                10
+              );
+              return scheduleHour === hour;
+            });
 
+            return (
+              <div key={hour} className="timeSlot">
+                <div className="hourLabel">{`${hour}`}</div>
 
-<div className="linediv">
-  {numbers.map((hour) => {
-    // 시간대별 일정 찾기
-    const currentSchedules = schedules.filter(schedule => {
-      const scheduleHour = parseInt(schedule.timeOfStartDate.split(':')[0], 10);
-      return scheduleHour === hour;
-    });
+                {currentSchedules.map((schedule, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      backgroundColor: `#${schedule.colorCode}`,
+                      color: "black",
+                      padding: "5px",
+                      margin: "5px 0",
+                      width: "90%",
+                    }}
+                  >
+                    <strong>{schedule.title}</strong>
+                  </div>
+                ))}
 
-    return (
-      <div key={hour} className="timeSlot">
-
-        <div className="hourLabel">{`${hour}`}</div>
-
-       
-        {currentSchedules.map((schedule, index) => (
-          <div key={index} style={{ backgroundColor: `#${schedule.colorCode}`, color: 'black', padding: '5px', margin: '5px 0', width: "90%" }}>
-            <strong>{schedule.title}</strong>
-          </div>
-        ))}
-
-
-        <div className="line"></div>
-      </div>
-    );
-  })}
-</div>
-
+                <div className="line"></div>
+              </div>
+            );
+          })}
+        </div>
       </Contents>
     </DailyCalenderContenter>
   );
@@ -153,8 +157,6 @@ const DailyCalenderContenter = styled.div`
   height: 100%;
   border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
   background-color: #ffffff;
-  
-  
 `;
 
 const Daily = styled.div`
@@ -196,28 +198,27 @@ const Daily = styled.div`
   }
 `;
 const Contents = styled.div`
- overflow: auto;
+  overflow: auto;
   margin-top: 22px;
   font-size: 0.625rem;
   cursor: pointer;
   font-weight: ${theme.fontWeight.Regular};
-  width: 200%; 
-
+  width: 100%;
 
   .linediv {
     display: flex;
-    flex-direction: row; 
-    width: 100%; 
+    flex-direction: row;
+    width: 100%;
   }
-  
+
   .timeSlot {
-    flex: 1; 
-    min-width: 100px;
-    height: 280px; 
-    border-right: 1px solid ${theme.color.SecondaryColor.ButtonBorder}; 
+    flex: 1;
+    min-width: 60px;
+    height: 280px;
+    border-right: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
     position: relative;
   }
-  
+
   .line {
     position: absolute;
     right: 0;
