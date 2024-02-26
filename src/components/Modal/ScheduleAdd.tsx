@@ -156,11 +156,13 @@ const DatePickerContainer = styled.div`
   }
   input {
     width: 60%;
+    border: none;
     margin-left: 10px;
   }
   div {
     display: flex;
     width: 100%;
+    margin-bottom: 10px;
   }
 `;
 
