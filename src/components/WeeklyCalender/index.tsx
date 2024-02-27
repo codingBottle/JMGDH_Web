@@ -1,8 +1,8 @@
-import React, { use, useEffect, useState } from 'react';
-import styled from 'styled-components';
-import WeeklyList from './WeeklyList';
-import WeekTodoView from './WeekTodoView'; // WeekView를 불러옴
-import axios from 'axios';
+import React, { use, useEffect, useState } from "react";
+import styled from "styled-components";
+import WeeklyList from "./WeeklyList";
+import WeekTodoView from "./WeekTodoView"; // WeekView를 불러옴
+import axios from "axios";
 
 interface Todo {
   id: number;
@@ -28,7 +28,7 @@ const WeeklyCalender = () => {
 
   const month = () => {
     if (sunday.getMonth() + 1 < 10) {
-      return '0' + (sunday.getMonth() + 1);
+      return "0" + (sunday.getMonth() + 1);
     } else {
       return sunday.getMonth() + 1;
     }
@@ -36,7 +36,7 @@ const WeeklyCalender = () => {
 
   const date = () => {
     if (sunday.getDate() < 10) {
-      return '0' + sunday.getDate();
+      return "0" + sunday.getDate();
     } else {
       return sunday.getDate();
     }
@@ -44,35 +44,35 @@ const WeeklyCalender = () => {
 
   const endDate = () => {
     if (sunday.getDate() + 6 < 10) {
-      return '0' + (sunday.getDate() + 6);
+      return "0" + (sunday.getDate() + 6);
     } else {
       return sunday.getDate() + 6;
     }
   };
 
   // yyyy-mm-dd 형식으로 변환
-  const weekStart = sunday.getFullYear() + '-' + month() + '-' + date();
+  const weekStart = sunday.getFullYear() + "-" + month() + "-" + date();
 
-  const weekEnd = sunday.getFullYear() + '-' + month() + '-' + endDate();
+  const weekEnd = sunday.getFullYear() + "-" + month() + "-" + endDate();
 
   useEffect(() => {
     // accessToken이 있을 경우
-    if (localStorage.getItem('accessToken')) {
+    if (localStorage.getItem("accessToken")) {
       axios
         .get(
           `${NEXT_PUBLIC_BASE_URL}/schedules/start-date/${weekStart}/end-date/${weekEnd}`,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },
           }
         )
         .then((res) => {
-          console.log('res:', res.data?.data);
+          console.log("res:", res.data?.data);
           setTodos(res.data.data.schedules);
         });
     }
-  }, []);
+  }, [weekEnd, weekStart]);
 
   return (
     <Main>

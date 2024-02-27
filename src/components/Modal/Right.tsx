@@ -97,7 +97,7 @@ const Right = () => {
                   borderRadius: 30,
                   overflow: "hidden",
                 }}>
-                <img
+                <Image
                   src={profileImageSrc}
                   width={30}
                   height={30}

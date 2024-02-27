@@ -3,7 +3,6 @@ import styled from "styled-components";
 import SeeMore from "@/components/Modal/SeeMore";
 import SeeMoreTow from "@/components/Modal/SeeMoreTow";
 import ScheduleAdd from "@/components/Modal/ScheduleAdd";
-
 export default function ModalTest() {
   return (
     <Wrapper>

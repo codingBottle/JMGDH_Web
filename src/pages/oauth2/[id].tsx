@@ -11,7 +11,6 @@ export default function TokenId() {
   const [response, setResponse] = useState("");
   useEffect(() => {
     if (oneTimeUseCode !== null) {
-      console.log("나와짜샤 ");
       axios
         .get(
           `https://calendars2.duckdns.org/oauth/token?code=${oneTimeUseCode}`
@@ -33,7 +32,7 @@ export default function TokenId() {
           setLoading(false);
         });
     }
-  }, [oneTimeUseCode]);
+  }, [oneTimeUseCode, router]);
   useEffect(() => {
     const code = router.query.oneTimeUseCode;
 

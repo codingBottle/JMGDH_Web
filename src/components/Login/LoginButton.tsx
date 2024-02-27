@@ -22,16 +22,14 @@ const LoginButton = () => {
   };
 
   useEffect(() => {
-    // URL에서 oneTimeUseCode를 가져옴
     const oneTimeUseCode = router.query.oneTimeUseCode;
 
-    // accessToken이 있을 경우
     if (localStorage.getItem("accessToken")) {
       if (localStorage.getItem("refreshToken")) {
         SetloginSuccess(true);
       }
     }
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,8 +69,7 @@ const LoginButton = () => {
             height: 30,
             borderRadius: 30,
             overflow: "hidden",
-          }}
-        >
+          }}>
           <Image src={img} width={30} height={30} alt="Profile Image" />
         </LoginBtnWrapper>
       )}
