@@ -102,27 +102,27 @@ const Right = () => {
                   width={30}
                   height={30}
                   alt="Profile Image"
+                  className="img_friend"
                 />
               </LoginBtnWrapper>
-              <FriendsList>
-                {friends.map((friend, index) => (
-                  <div key={index}>
-                    <FriendProfile>
-                      <Image
-                        src={friend.member.profileImage || ""}
-                        alt="Profile Image"
-                        width={30}
-                        height={30}
-                        style={{ borderRadius: "50%" }}
-                      />
-                    </FriendProfile>
-                    <span>{friend.member.nickname}</span>
-                  </div>
-                ))}
-              </FriendsList>
             </div>
-          </div>{" "}
-          <button onClick={handleLoginBtnClick}>조회</button>
+            <FriendsList>
+              {friends.map((friend, index) => (
+                <div key={index}>
+                  <FriendProfile>
+                    <Image
+                      src={friend.member.profileImage || ""}
+                      alt="Profile Image"
+                      width={30}
+                      height={30}
+                      style={{ borderRadius: "50%" }}
+                    />
+                  </FriendProfile>
+                  <span>{friend.member.nickname}</span>
+                </div>
+              ))}
+            </FriendsList>
+          </div>
         </>
       )}
     </Main>
@@ -131,9 +131,9 @@ const Right = () => {
 const FriendsList = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center; // 중앙 정렬
-  gap: 10px; // 간격 추가
-  margin-top: 20px; // 상단 여백 추가
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
   span {
     font-size: 10px;
   }
@@ -144,6 +144,9 @@ const FriendProfile = styled.div`
   height: 30px;
   border-radius: 50%;
   overflow: hidden;
+  .img_friend &:hover {
+    pointer-events: none;
+  }
 `;
 const LoginBtnWrapper = styled.a`
   display: block;
