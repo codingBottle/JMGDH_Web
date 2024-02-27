@@ -265,7 +265,8 @@ const Container = styled.div`
   width: 480px;
   height: 600px;
   border-radius: 20px;
-  border: 0.5px;
+
+  border: solid black 1px;
   span {
     text-align: center;
     color: #1890ff;
