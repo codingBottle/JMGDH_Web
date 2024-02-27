@@ -12,23 +12,21 @@ interface Friend {
     profileImage?: string;
   };
 }
-
+const profileImageSrc =
+  typeof window !== "undefined"
+    ? localStorage.getItem("imge") || "/defaultImage.jpg"
+    : "/defaultImage.jpg";
 
 const Right = () => {
   const [showNewFriend, setShowNewFriend] = useState(false);
   const [showInvitation, setShowInvitation] = useState(false);
   const [friends, setFriends] = useState<Friend[]>([]);
-  const [profileImageSrc,setprofileImageSrc]=useState("")
+  const [accessTokenExists, setaccessTokenExists] = useState(false);
+  const [imageExists, setimageExists] = useState(false);
   const handleImginClick = () => {
     setShowNewFriend(!showNewFriend);
   };
 
-  useEffect(() => {
-    const profileImage = localStorage.getItem("imge");
-    if (profileImage) {
-      setprofileImageSrc(profileImage);
-    }
-  }, []);
   const handleOutsideClick = (e: any) => {
     if (showNewFriend && !e.target.closest(".Imgin")) {
       setShowNewFriend(false);
@@ -40,79 +38,93 @@ const Right = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const endpoint = `https://calendars2.duckdns.org/friends`;
+    const accessToken = localStorage.getItem("accessToken");
+    const image = localStorage.getItem("imge");
 
-      try {
-        const response = await axios.get(endpoint, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        });
+    setaccessTokenExists(!!accessToken);
+    setimageExists(!!image);
 
-        console.log("친구목록 조회 성공", response.data.data.friends);
+    if (accessToken) {
+      const fetchData = async () => {
+        const endpoint = `https://calendars2.duckdns.org/friends`;
 
-        setFriends(response.data.data.friends);
-      } catch (error) {
-        console.error("친구목록 조회 오류:", error);
-      }
-    };
+        try {
+          const response = await axios.get(endpoint, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
 
-    fetchData();
+          console.log("친구목록 조회 성공", response.data.data.friends);
+          setFriends(response.data.data.friends);
+        } catch (error) {
+          console.error("친구목록 조회 오류:", error);
+        }
+      };
+
+      fetchData();
+    } else {
+      console.log("accessToken이 없어 친구목록을 조회할 수 없습니다.");
+    }
   }, []);
 
   return (
     <Main>
-      <Imgin className="Imgin" onClick={handleImginClick}>
-        <StyledImage
-          src="/freand.png"
-          alt="Friend Image"
-          width={28}
-          height={28}
-        />
-      </Imgin>
-      {showNewFriend && <NewFriend />}
-      {showInvitation && <Friendsure />}
-      <div onClick={handleOutsideClick} className="outsideClickArea"></div>
-      <div className="friend">
-        <div className="friend2">
-          <div>
-            <p onClick={handleLoginBtnClick}>초대하기</p>
-          </div>
-          <LoginBtnWrapper
-            style={{
-              width: 30,
-              height: 30,
-              borderRadius: 30,
-              overflow: "hidden",
-            }}
-          >
-            <img
-              src={profileImageSrc}
-              width={30}
-              height={30}
-              alt="Profile Image"
-            />
-          </LoginBtnWrapper>
-          <FriendsList>
-            {friends.map((friend, index) => (
-              <div key={index}>
-                <FriendProfile>
-                  <Image
-                    src={friend.member.profileImage || "/defaultImage.jpg"} // 친구의 프로필 이미지 또는 기본 이미지
-                    alt="Profile Image"
-                    width={30}
-                    height={30}
-                    style={{ borderRadius: "50%" }} // Next.js Image 컴포넌트에 직접 스타일을 적용할 수 없으므로, 아래 styled-components로 대체 가능
-                  />
-                </FriendProfile>
-                <span>{friend.member.nickname}</span>
+      {accessTokenExists && imageExists && (
+        <Imgin className="Imgin" onClick={handleImginClick}>
+          <StyledImage
+            src="/freand.png"
+            alt="Friend Image"
+            width={28}
+            height={28}
+          />
+        </Imgin>
+      )}
+      {accessTokenExists && imageExists && (
+        <>
+          {showNewFriend && <NewFriend />}
+          {showInvitation && <Friendsure />}
+          <div onClick={handleOutsideClick} className="outsideClickArea"></div>
+          <div className="friend">
+            <div className="friend2">
+              <div>
+                <p onClick={handleLoginBtnClick}>초대하기</p>
               </div>
-            ))}
-          </FriendsList>
-        </div>
-      </div>{" "}
-      <button onClick={handleLoginBtnClick}>조회</button>
+              <LoginBtnWrapper
+                style={{
+                  width: 30,
+                  height: 30,
+                  borderRadius: 30,
+                  overflow: "hidden",
+                }}>
+                <img
+                  src={profileImageSrc}
+                  width={30}
+                  height={30}
+                  alt="Profile Image"
+                />
+              </LoginBtnWrapper>
+              <FriendsList>
+                {friends.map((friend, index) => (
+                  <div key={index}>
+                    <FriendProfile>
+                      <Image
+                        src={friend.member.profileImage || ""}
+                        alt="Profile Image"
+                        width={30}
+                        height={30}
+                        style={{ borderRadius: "50%" }}
+                      />
+                    </FriendProfile>
+                    <span>{friend.member.nickname}</span>
+                  </div>
+                ))}
+              </FriendsList>
+            </div>
+          </div>{" "}
+          <button onClick={handleLoginBtnClick}>조회</button>
+        </>
+      )}
     </Main>
   );
 };
