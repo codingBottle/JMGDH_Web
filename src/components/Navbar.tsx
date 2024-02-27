@@ -13,16 +13,14 @@ export default function Navbar() {
   const [NavName, setNavName] = useState<any>("미로그인");
   const [isGoogleVisible, setIsGoogleVisible] = useState(false);
 
-
   useEffect(() => {
     const name = localStorage.getItem("nickname");
     if (name !== null) {
       setNavName(name);
     }
 
-
-    const handleClickOutside = (event) => {
-      if (!event.target.closest('.googleComponent')) {
+    const handleClickOutside = (event: any) => {
+      if (!event.target.closest(".googleComponent")) {
         setIsGoogleVisible(false);
       }
     };
@@ -33,12 +31,11 @@ export default function Navbar() {
     };
   }, []);
 
-
   const handleGoogleClick = () => {
-    setIsGoogleVisible(!isGoogleVisible); 
+    setIsGoogleVisible(!isGoogleVisible);
   };
   const handleImportClick = () => {
-    setIsGoogleVisible(true); 
+    setIsGoogleVisible(true);
   };
   const router = useRouter();
   const peristalsis = () => {
@@ -66,9 +63,7 @@ export default function Navbar() {
           style={{ marginLeft: "20px" }}
         />
         <p>{NavName}의 캘린더</p>
-        <div onClick={handleGoogleClick}>
-          {isGoogleVisible && <Google />}
-        </div>
+        <div onClick={handleGoogleClick}>{isGoogleVisible && <Google />}</div>
       </div>
       <div className="Rights">
         <button className="user" onClick={peristalsis}>
@@ -80,7 +75,9 @@ export default function Navbar() {
         </button>
         <Setting />
 
-        <div  className="googleComponent" onClick={handleImportClick}><Import /></div>
+        <div className="googleComponent" onClick={handleImportClick}>
+          <Import />
+        </div>
         <LoginButton />
       </div>
     </NavbarContainer>
@@ -110,8 +107,8 @@ const NavbarContainer = styled.div`
       color: ${theme.color.SecondaryColor.BasicFont};
     }
   }
-  .googleComponent{
-    display:flex;
+  .googleComponent {
+    display: flex;
   }
 
   .Rights {

@@ -9,9 +9,11 @@ export default function ModalTest() {
     <Wrapper>
       <SeeMore />
       <SeeMoreTow />
-      <ScheduleAdd onClose={function (value: boolean): void {
-        throw new Error("Function not implemented.");
-      } } />
+      <ScheduleAdd
+        onClose={() => {
+          throw new Error("Function not implemented.");
+        }}
+      />
     </Wrapper>
   );
 }

@@ -6,8 +6,6 @@ import axios from "axios";
 import ko from "date-fns/locale/ko";
 import { format } from "date-fns";
 
-registerLocale("ko", ko);
-
 const ScheduleAdd = ({ onClose }: { onClose: () => void }) => {
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState<Date | null>(new Date());
