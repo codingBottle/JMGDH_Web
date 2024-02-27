@@ -20,13 +20,22 @@ interface Schedule {
 interface MonthCalendarProps {
   today: any;
 }
+
 const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
+  const [date, setDate] = useState(today);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [schedules, setSchedules] = useState<Schedule[]>([]);
 
   const getDaysInMonth = (year: number, month: number): number => {
     return new Date(year, month + 1, 0).getDate();
+  };
+  const InputComponent = () => {
+    const handleInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
+      e.stopPropagation();
+    };
+
+    return <input type="text" onClick={handleInputClick} />;
   };
 
   const onClickDay = (currentDay: number) => {
@@ -48,7 +57,6 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
         });
 
         setSchedules(response.data?.data.schedules || []);
-        console.log("월별 캘린더 조회성공:", response.data?.data.schedules);
       } catch (error) {
         console.error("월별 캘린더 오류:", error);
       }
@@ -56,43 +64,63 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
 
     fetchData();
   }, [today]);
-
   const handleClose = () => {
     setModalOpen(false);
   };
-
-  const getSchedulesForDay = (currentDay: number): Schedule[] => {
-    return schedules.filter(
-      (schedule) =>
-        new Date(schedule.startDate).getDate() === currentDay ||
-        new Date(schedule.endDate).getDate() === currentDay
-    );
-  };
-
   const renderCalendar = (): JSX.Element[] => {
     const year = today.getFullYear();
     const month = today.getMonth();
     const daysInMonth = getDaysInMonth(year, month);
+
     const firstDayOfWeek = new Date(year, month, 1).getDay();
-    const totalCells = 7 * Math.ceil((firstDayOfWeek + daysInMonth) / 7);
-    let day = 1;
+
     const calendarDays: JSX.Element[] = [];
 
+    const prevMonth = month === 0 ? 11 : month - 1;
+    const prevMonthYear = month === 0 ? year - 1 : year;
+    const daysInPrevMonth = getDaysInMonth(prevMonthYear, prevMonth);
+
+    const totalCells = 7 * Math.ceil((firstDayOfWeek + daysInMonth) / 7);
+
+    let day = 1;
+
+    const getScheduleForDay = (currentDay: number): Schedule | undefined => {
+      return schedules.find(
+        (schedule) =>
+          new Date(schedule.startDate).getDate() === currentDay ||
+          new Date(schedule.endDate).getDate() === currentDay
+      );
+    };
+    const getSchedulesForDay = (currentDay: number): Schedule[] => {
+      return schedules.filter(
+        (schedule) =>
+          new Date(schedule.startDate).getDate() === currentDay ||
+          new Date(schedule.endDate).getDate() === currentDay
+      );
+    };
     for (let i = 0; i < totalCells; i++) {
       if (i < firstDayOfWeek) {
-        calendarDays.push(<td key={`day-${i}`}></td>);
+        calendarDays.push(
+          <td key={`day-${i}`}>
+            <span>{daysInPrevMonth - (firstDayOfWeek - i) + 1}</span>
+          </td>
+        );
       } else if (day <= daysInMonth) {
         const currentDay = day;
-        const daySchedules = getSchedulesForDay(currentDay);
+
         calendarDays.push(
           <td key={`day-${i}`} onClick={() => onClickDay(currentDay)}>
-            <span>{day}</span>
-            <MonthDay scheduleData={daySchedules} />
+            <span>{day}</span>{" "}
+            <MonthDay scheduleData={getSchedulesForDay(currentDay)} />
           </td>
         );
         day++;
       } else {
-        calendarDays.push(<td key={`day-${i}`}></td>);
+        calendarDays.push(
+          <td key={`day-${i}`} className="next-month-day">
+            <span>{i - (firstDayOfWeek + daysInMonth) + 1}</span>
+          </td>
+        );
       }
     }
 
@@ -129,12 +157,13 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
       </Calendar>
       {modalOpen && (
         <Modal>
-          <ScheduleAdd onClose={handleClose} selectedDay={selectedDay} />
+          <ScheduleAdd onClose={handleClose} />
         </Modal>
       )}
     </CalendarWrapper>
   );
 };
+
 export default MonthCalendar;
 
 const CalendarWrapper = styled.div`
@@ -192,6 +221,8 @@ const Calendar = styled.table`
         padding-top: 10px;
         padding-left: 10px;
         cursor: pointer;
+        width: 225px;
+        height: 178px;
       }
       .prev-month-day,
       .next-month-day {
