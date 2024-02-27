@@ -10,6 +10,7 @@ interface Friend {
   member: {
     nickname: string;
     profileImage?: string;
+    email: string;
   };
 }
 const profileImageSrc =
@@ -68,6 +69,40 @@ const Right = () => {
     }
   }, []);
 
+  const deleteFriend = async (friendEmail: string) => {
+    // 사용자에게 삭제 확인 요청
+    const isConfirmed = window.confirm("정말 삭제하시겠습니까?");
+    if (!isConfirmed) {
+      console.log("친구 삭제가 취소되었습니다.");
+      return; // 사용자가 취소를 클릭한 경우, 함수 실행 종료
+    }
+
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      console.log("accessToken이 없습니다.");
+      return;
+    }
+
+    try {
+      await axios.delete(
+        `https://calendars2.duckdns.org/friends/${friendEmail}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      // 친구 삭제 성공 후 친구 목록에서 해당 친구 제거
+      setFriends((prevFriends) =>
+        prevFriends.filter((friend) => friend.member.email !== friendEmail)
+      );
+      console.log(`${friendEmail} 삭제 성공`);
+    } catch (error) {
+      console.error("친구 삭제 오류:", error);
+    }
+  };
+
   return (
     <Main>
       {accessTokenExists && imageExists && (
@@ -111,6 +146,7 @@ const Right = () => {
                 <div key={index}>
                   <FriendProfile>
                     <Image
+                      onClick={() => deleteFriend(friend.member.email)}
                       src={friend.member.profileImage || ""}
                       alt="Profile Image"
                       width={30}
@@ -118,6 +154,7 @@ const Right = () => {
                       style={{ borderRadius: "50%" }}
                     />
                   </FriendProfile>
+
                   <span>{friend.member.nickname}</span>
                 </div>
               ))}
