@@ -23,10 +23,10 @@ const CalendarComponent = () => {
           onChange={handleDateChange}
           value={selectedDate}
           calendarType="US"
-          locale="en-EN" 
+          locale="en-EN"
           className="custom-calendar"
-          minDetail="month" 
-          maxDetail="month" 
+          minDetail="month"
+          maxDetail="month"
           next2Label={null}
           prev2Label={null}
           tileContent={({ date }) => {
@@ -87,10 +87,10 @@ const CalendarWrapper = styled.div`
     margin-bottom: 10px;
   }
 
-  .react-calendar__month-view__weekdays__weekday{
+  .react-calendar__month-view__weekdays__weekday {
     display: inline-block;
     color: #000;
-    
+
     abbr {
       border: none;
     }
@@ -105,7 +105,7 @@ const CalendarWrapper = styled.div`
   }
 
   /* 저번 달 & 다음 달 일자 */
-  .react-calendar__month-view__days__day--neighboringMonth{
+  .react-calendar__month-view__days__day--neighboringMonth {
     color: ${theme.color.GrayScale.Gray300} !important;
   }
 
@@ -140,7 +140,7 @@ const CalendarWrapper = styled.div`
   }
 
   /* 오늘 날짜 */
-  .react-calendar__tile--now{
+  .react-calendar__tile--now {
     background-color: rgba(0, 0, 0, 0.2) !important;
     color: ${theme.color.PrimaryColor.PrimaryWhite};
     border-radius: 100px;
@@ -158,7 +158,6 @@ const CalendarWrapper = styled.div`
     }
   }
 
-
   .react-calendar__navigation {
     display: flex;
     flex-direction: row;
@@ -173,7 +172,6 @@ const CalendarWrapper = styled.div`
     .react-calendar__navigation__arrow {
       display: inline-block;
       border: none;
-
     }
     .react-calendar__navigation__prev-button {
       order: 2;

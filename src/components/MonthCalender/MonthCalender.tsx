@@ -20,22 +20,13 @@ interface Schedule {
 interface MonthCalendarProps {
   today: any;
 }
-
 const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
-  const [date, setDate] = useState(today);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [schedules, setSchedules] = useState<Schedule[]>([]);
 
   const getDaysInMonth = (year: number, month: number): number => {
     return new Date(year, month + 1, 0).getDate();
-  };
-  const InputComponent = () => {
-    const handleInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
-      e.stopPropagation();
-    };
-
-    return <input type="text" onClick={handleInputClick} />;
   };
 
   const onClickDay = (currentDay: number) => {
@@ -57,6 +48,7 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
         });
 
         setSchedules(response.data?.data.schedules || []);
+        console.log("월별 캘린더 조회성공:", response.data?.data.schedules);
       } catch (error) {
         console.error("월별 캘린더 오류:", error);
       }
@@ -64,57 +56,43 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
 
     fetchData();
   }, [today]);
+
   const handleClose = () => {
     setModalOpen(false);
   };
+
+  const getSchedulesForDay = (currentDay: number): Schedule[] => {
+    return schedules.filter(
+      (schedule) =>
+        new Date(schedule.startDate).getDate() === currentDay ||
+        new Date(schedule.endDate).getDate() === currentDay
+    );
+  };
+
   const renderCalendar = (): JSX.Element[] => {
     const year = today.getFullYear();
     const month = today.getMonth();
     const daysInMonth = getDaysInMonth(year, month);
-
     const firstDayOfWeek = new Date(year, month, 1).getDay();
-
-    const calendarDays: JSX.Element[] = [];
-
-    const prevMonth = month === 0 ? 11 : month - 1;
-    const prevMonthYear = month === 0 ? year - 1 : year;
-    const daysInPrevMonth = getDaysInMonth(prevMonthYear, prevMonth);
-
     const totalCells = 7 * Math.ceil((firstDayOfWeek + daysInMonth) / 7);
-
     let day = 1;
-
-    const getScheduleForDay = (currentDay: number): Schedule | undefined => {
-      return schedules.find(
-        (schedule) =>
-          new Date(schedule.startDate).getDate() === currentDay ||
-          new Date(schedule.endDate).getDate() === currentDay
-      );
-    };
+    const calendarDays: JSX.Element[] = [];
 
     for (let i = 0; i < totalCells; i++) {
       if (i < firstDayOfWeek) {
-        calendarDays.push(
-          <td key={`day-${i}`}>
-            <span>{daysInPrevMonth - (firstDayOfWeek - i) + 1}</span>
-          </td>
-        );
+        calendarDays.push(<td key={`day-${i}`}></td>);
       } else if (day <= daysInMonth) {
         const currentDay = day;
-
+        const daySchedules = getSchedulesForDay(currentDay);
         calendarDays.push(
           <td key={`day-${i}`} onClick={() => onClickDay(currentDay)}>
-            <span>{day}</span>{" "}
-            <MonthDay scheduleData={getScheduleForDay(currentDay)} />
+            <span>{day}</span>
+            <MonthDay scheduleData={daySchedules} />
           </td>
         );
         day++;
       } else {
-        calendarDays.push(
-          <td key={`day-${i}`} className="next-month-day">
-            <span>{i - (firstDayOfWeek + daysInMonth) + 1}</span>
-          </td>
-        );
+        calendarDays.push(<td key={`day-${i}`}></td>);
       }
     }
 
@@ -151,13 +129,12 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
       </Calendar>
       {modalOpen && (
         <Modal>
-          <ScheduleAdd onClose={handleClose} />
+          <ScheduleAdd onClose={handleClose} selectedDay={selectedDay} />
         </Modal>
       )}
     </CalendarWrapper>
   );
 };
-
 export default MonthCalendar;
 
 const CalendarWrapper = styled.div`
@@ -238,10 +215,8 @@ const Modal = styled.div`
   right: 0;
   z-index: 100;
 
-  // 아래의 코드를 추가하여 모달 내부의 클릭 이벤트가 부모로 전파되지 않도록 막습니다.
   pointer-events: none;
 
-  // 모달 내부 요소에는 pointer-events를 다시 활성화시켜 줍니다.
   > * {
     pointer-events: auto;
   }
