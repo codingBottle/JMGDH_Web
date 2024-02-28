@@ -70,11 +70,10 @@ const Right = () => {
   }, []);
 
   const deleteFriend = async (friendEmail: string) => {
-    // 사용자에게 삭제 확인 요청
     const isConfirmed = window.confirm("정말 삭제하시겠습니까?");
     if (!isConfirmed) {
       console.log("친구 삭제가 취소되었습니다.");
-      return; // 사용자가 취소를 클릭한 경우, 함수 실행 종료
+      return;
     }
 
     const accessToken = localStorage.getItem("accessToken");
@@ -93,7 +92,6 @@ const Right = () => {
         }
       );
 
-      // 친구 삭제 성공 후 친구 목록에서 해당 친구 제거
       setFriends((prevFriends) =>
         prevFriends.filter((friend) => friend.member.email !== friendEmail)
       );
