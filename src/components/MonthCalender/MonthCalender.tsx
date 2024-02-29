@@ -4,6 +4,7 @@ import theme from "@/theme/theme";
 import axios from "axios";
 import MonthDay from "./MonthDay";
 import ScheduleAdd from "../Modal/ScheduleAdd";
+import SchduleEdit from "../Modal/SchduleEdit";
 
 interface Schedule {
   allDay: boolean;
@@ -26,6 +27,7 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [schedules, setSchedules] = useState<Schedule[]>([]);
+  const [editOpen, setEditOpen] = useState(false);
 
   const getDaysInMonth = (year: number, month: number): number => {
     return new Date(year, month + 1, 0).getDate();
@@ -84,13 +86,6 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
 
     let day = 1;
 
-    const getScheduleForDay = (currentDay: number): Schedule | undefined => {
-      return schedules.find(
-        (schedule) =>
-          new Date(schedule.startDate).getDate() === currentDay ||
-          new Date(schedule.endDate).getDate() === currentDay
-      );
-    };
     const getSchedulesForDay = (currentDay: number): Schedule[] => {
       return schedules.filter(
         (schedule) =>
@@ -111,7 +106,10 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
         calendarDays.push(
           <td key={`day-${i}`} onClick={() => onClickDay(currentDay)}>
             <span>{day}</span>{" "}
-            <MonthDay scheduleData={getSchedulesForDay(currentDay)} />
+            <MonthDay
+              onClick={() => setModalOpen(false)}
+              scheduleData={getSchedulesForDay(currentDay)}
+            />
           </td>
         );
         day++;
@@ -158,6 +156,11 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
       {modalOpen && (
         <Modal>
           <ScheduleAdd onClose={handleClose} />
+        </Modal>
+      )}
+      {editOpen && (
+        <Modal>
+          <SchduleEdit onClose={handleClose} />
         </Modal>
       )}
     </CalendarWrapper>

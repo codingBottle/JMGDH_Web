@@ -5,8 +5,23 @@ import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import ko from "date-fns/locale/ko";
 import { format } from "date-fns";
+interface Schedule {
+  allDay: boolean;
+  colorCode: string;
+  endDate: string;
+  id: number;
+  repeat: boolean;
+  startDate: string;
+  timeOfEndDateTime: string;
+  timeOfStartDate: string;
+  title: string;
+}
 
-const ScheduleAdd = ({ onClose }: { onClose: () => void }) => {
+interface ScheduleAddProps {
+  onClose: () => void;
+  schedule?: Schedule;
+}
+const ScheduleAdd: React.FC<ScheduleAddProps> = ({ onClose, schedule }) => {
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(new Date());
