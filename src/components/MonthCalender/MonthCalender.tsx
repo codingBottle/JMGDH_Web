@@ -28,6 +28,14 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [editOpen, setEditOpen] = useState(false);
+  const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(
+    null
+  );
+
+  const handleScheduleClick = (schedule: Schedule) => {
+    setSelectedSchedule(schedule);
+    setEditOpen(true); // SchduleEdit 모달을 열기 위한 상태를 true로 설정
+  };
 
   const getDaysInMonth = (year: number, month: number): number => {
     return new Date(year, month + 1, 0).getDate();
@@ -105,10 +113,10 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
 
         calendarDays.push(
           <td key={`day-${i}`} onClick={() => onClickDay(currentDay)}>
-            <span>{day}</span>{" "}
+            <span>{day}</span>
             <MonthDay
-              onClick={() => setModalOpen(false)}
               scheduleData={getSchedulesForDay(currentDay)}
+              onScheduleClick={handleScheduleClick}
             />
           </td>
         );
@@ -158,9 +166,15 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
           <ScheduleAdd onClose={handleClose} />
         </Modal>
       )}
-      {editOpen && (
+      {editOpen && selectedSchedule && (
         <Modal>
-          <SchduleEdit onClose={handleClose} />
+          <SchduleEdit
+            schedule={selectedSchedule}
+            onClose={() => {
+              setEditOpen(false);
+              setSelectedSchedule(null);
+            }}
+          />
         </Modal>
       )}
     </CalendarWrapper>

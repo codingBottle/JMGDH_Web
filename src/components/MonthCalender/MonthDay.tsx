@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import SchduleEdit from "../Modal/SchduleEdit";
 interface Schedule {
   allDay: boolean;
   colorCode: string;
@@ -15,30 +14,19 @@ interface Schedule {
 }
 interface ModalDayProps {
   scheduleData: Schedule[];
-  onClick?: (schedule: Schedule) => void;
+  onScheduleClick?: (schedule: Schedule) => void;
 }
-const ModalDay: React.FC<ModalDayProps> = ({ scheduleData, onClick }) => {
-  const handleScheduleClick = (
-    schedule: Schedule,
-    event: React.MouseEvent<HTMLDivElement>
-  ) => {
-    event.stopPropagation();
-    if (onClick) {
-      onClick(schedule);
-    }
-  };
-
-  if (!scheduleData || scheduleData.length === 0) {
-    return null;
-  }
-
+const ModalDay: React.FC<ModalDayProps> = ({
+  scheduleData,
+  onScheduleClick,
+}) => {
   return (
     <div>
-      {scheduleData.map((schedule, index) => (
+      {scheduleData.map((schedule) => (
         <ModalContainer
           key={schedule.id}
           style={{ backgroundColor: `#${schedule.colorCode}` }}
-          onClick={(event) => handleScheduleClick(schedule, event)}>
+          onClick={() => onScheduleClick && onScheduleClick(schedule)}>
           <p style={{ color: "black" }}>{schedule.title}</p>
         </ModalContainer>
       ))}
