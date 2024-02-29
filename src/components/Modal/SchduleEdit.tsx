@@ -41,7 +41,28 @@ const ScheduleEdit: React.FC<ScheduleEditProps> = ({ schedule, onClose }) => {
     { fill: "#EEEEEE", code: "EEEEEE" },
     { fill: "#F3FFDF", code: "F3FFDF" },
   ];
+  const handleDelete = async (repeat: boolean = false) => {
+    // 쿼리 파라미터로 repeat 값을 설정합니다.
+    const repeatQueryParam = repeat ? "true" : "false";
 
+    try {
+      // axios.delete 메소드를 사용하여 삭제 요청을 보냅니다.
+      const response = await axios.delete(
+        `https://calendars2.duckdns.org/schedules/${schedule.id}?repeat=${repeatQueryParam}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+
+      console.log("일정이 성공적으로 삭제되었습니다.", response.data);
+      onClose();
+    } catch (error) {
+      console.error("일정 삭제에 실패했습니다.", error);
+      alert("일정 삭제에 실패했습니다.");
+    }
+  };
   const handleSave = async () => {
     if (!startDate || !endDate) {
       console.error("startDate 또는 endDate가 null입니다.");
@@ -206,6 +227,8 @@ const ScheduleEdit: React.FC<ScheduleEditProps> = ({ schedule, onClose }) => {
       </CheckboxContainer>
 
       <Button onClick={handleSave}>저장</Button>
+      <Button onClick={() => handleDelete(false)}>단일 일정 삭제</Button>
+      <Button onClick={() => handleDelete(true)}>반복 일정 삭제</Button>
       <Button onClick={onClose}>닫기</Button>
     </Container>
   );
@@ -273,7 +296,7 @@ const Container = styled.div`
   padding: 41px 50px;
   gap: 10px;
   width: 480px;
-  height: 600px;
+  height: 700px;
   border-radius: 20px;
 
   border: solid black 1px;
