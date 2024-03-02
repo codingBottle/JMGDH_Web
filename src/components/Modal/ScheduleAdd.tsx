@@ -145,8 +145,8 @@ const ScheduleAdd: React.FC<ScheduleAddProps> = ({ onClose, schedule }) => {
           </svg>
           <div>
             <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
+              selected={endDate}
+              onChange={(date) => setEndDate(date)}
               showTimeSelect
               showTimeSelectOnly
               timeIntervals={15}

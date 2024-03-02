@@ -26,7 +26,10 @@ const ModalDay: React.FC<ModalDayProps> = ({
         <ModalContainer
           key={schedule.id}
           style={{ backgroundColor: `#${schedule.colorCode}` }}
-          onClick={() => onScheduleClick && onScheduleClick(schedule)}>
+          onClick={(e) => {
+            e.stopPropagation();
+            onScheduleClick && onScheduleClick(schedule);
+          }}>
           <p style={{ color: "black" }}>{schedule.title}</p>
         </ModalContainer>
       ))}

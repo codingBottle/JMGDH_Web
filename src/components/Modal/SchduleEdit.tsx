@@ -42,11 +42,9 @@ const ScheduleEdit: React.FC<ScheduleEditProps> = ({ schedule, onClose }) => {
     { fill: "#F3FFDF", code: "F3FFDF" },
   ];
   const handleDelete = async (repeat: boolean = false) => {
-    // 쿼리 파라미터로 repeat 값을 설정합니다.
     const repeatQueryParam = repeat ? "true" : "false";
 
     try {
-      // axios.delete 메소드를 사용하여 삭제 요청을 보냅니다.
       const response = await axios.delete(
         `https://calendars2.duckdns.org/schedules/${schedule.id}?repeat=${repeatQueryParam}`,
         {

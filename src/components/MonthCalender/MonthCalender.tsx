@@ -23,36 +23,28 @@ interface MonthCalendarProps {
 }
 
 const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
-  const [date, setDate] = useState(today);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalType, setModalType] = useState<"add" | "edit" | null>(null);
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [schedules, setSchedules] = useState<Schedule[]>([]);
-  const [editOpen, setEditOpen] = useState(false);
   const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(
     null
   );
 
   const handleScheduleClick = (schedule: Schedule) => {
     setSelectedSchedule(schedule);
-    setEditOpen(true); // SchduleEdit 모달을 열기 위한 상태를 true로 설정
+    setModalType("edit");
   };
 
   const getDaysInMonth = (year: number, month: number): number => {
     return new Date(year, month + 1, 0).getDate();
   };
-  const InputComponent = () => {
-    const handleInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
-      e.stopPropagation();
-    };
-
-    return <input type="text" onClick={handleInputClick} />;
-  };
 
   const onClickDay = (currentDay: number) => {
-    setModalOpen(true);
-    setSelectedDay(currentDay);
+    if (modalType === null) {
+      setSelectedDay(currentDay);
+      setModalType("add");
+    }
   };
-
   useEffect(() => {
     const year = today.getFullYear();
     const month = today.getMonth() + 1;
@@ -75,7 +67,7 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
     fetchData();
   }, [today]);
   const handleClose = () => {
-    setModalOpen(false);
+    setModalType(null);
   };
   const renderCalendar = (): JSX.Element[] => {
     const year = today.getFullYear();
@@ -161,17 +153,17 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
         </thead>
         <tbody>{renderCalendar()}</tbody>
       </Calendar>
-      {modalOpen && (
+      {modalType === "add" && (
         <Modal>
           <ScheduleAdd onClose={handleClose} />
         </Modal>
       )}
-      {editOpen && selectedSchedule && (
+      {modalType === "edit" && selectedSchedule && (
         <Modal>
           <SchduleEdit
             schedule={selectedSchedule}
             onClose={() => {
-              setEditOpen(false);
+              setModalType(null);
               setSelectedSchedule(null);
             }}
           />
