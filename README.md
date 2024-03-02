@@ -1,39 +1,59 @@
-## 시작 가이드
+# <img src="https://github.com/codingBottle/JMGDH_Server/assets/85906821/9d0d5123-81e6-4701-b966-72edaf2507b3" alt="포잇캘린더 로고" width="50" height="50"></img> 포잇캘린더 
 
-서버 시작방법:
+포잇캘린더는 구글 연동을 통해 개인 캘린더를 만들고 일정을 관리할 수 있는 웹 어플리케이션입니다. <br>
+사용자는 간편한 구글 로그인을 통해 개인 캘린더를 생성하고, 다양한 일정을 추가, 수정, 삭제할 수 있습니다.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<br><br>
+## 주요 기능
 
-링크 [http://localhost:3000](http://localhost:3000) 브라우저를 사용하여 링크를 확인하세요
+### 캘린더
+- **구글 캘린더 연동**
+- **특정 날짜에 일정 추가/수정/삭제**
+- **연-월-일 일정 조회**
+- **주간 일정 조회** (특정 두 날짜 사이 일정)
+- **연-월 일정 조회**
+- 팀 캘린더 생성
+  - 팀 가져오기
+  - 멤버가 속한 팀 목록 가져오기
+  - 팀 업데이트
+  - 팀 삭제하기
+  - 팀원 스케쥴 조회
+  - 팀원 이메일로 검색
+  - 그룹 나가기
+  - 팀 초대 코드 생성
+  - 초대 코드로 팀 가입
 
-Calender 메인페이지 레이아웃 확인은 `pages/test.tsx` 에서 수정후 확인합니다.
+### 투두
+- **회원가입 시 기본 투두 태그 5개 생성**
+- **원하는 태그 안에 투두 일정 생성 / 수정 / 삭제**
+- **투두 체크리스트 관리**
+- **날짜로 태그와 할일 목록 조회**
+- **태그 추가/수정/삭제/조회**
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### 친구관리
+- **친구요청**
+- **요청 수락**
+- **요청 거절**
+- **친구요청 목록 조회**
+- **친구 목록 조회**
+- **친구 삭제**
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### 로그인/회원가입
+- **only 구글 연동**
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+<br><br>
+## 제작 과정
 
-## Learn More
+### 사용된 언어 및 도구
 
-To learn more about Next.js, take a look at the following resources:
+- TypeScript
+- Next.js
+- ...
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 실행
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. 브라우저에서 [For_It Calendar](https://www.jmgdh.duckdns.org/test)에 접속하여 애플리케이션을 사용합니다.
 
-## Vercel 자동배포
-
-Develop 브랜치에 marge가 된다면 자동으로 배포됩니다.
-
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<br><br>
+## 기여
+프로젝트에 기여하고 싶으시다면, 이슈를 생성하거나 풀 리퀘스트를 보내주세요. 우리의 프로젝트를 함께 발전시켜 나가요!
