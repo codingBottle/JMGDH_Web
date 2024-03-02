@@ -49,7 +49,7 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ today }) => {
     const year = today.getFullYear();
     const month = today.getMonth() + 1;
     const fetchData = async () => {
-      const endpoint = `https://calendars2.duckdns.org/schedules/year/${year}/month/${month}`;
+      const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/schedules/year/${year}/month/${month}`;
 
       try {
         const response = await axios.get(endpoint, {

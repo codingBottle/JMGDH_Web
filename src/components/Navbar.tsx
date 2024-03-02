@@ -40,7 +40,7 @@ export default function Navbar() {
   const router = useRouter();
   const peristalsis = () => {
     axios
-      .get(`https://calendars2.duckdns.org/google/authorize`)
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/google/authorize`)
       .then((response) => {
         window.location.href = response.data;
       })

@@ -10,7 +10,7 @@
 //     const handleCallback = async () => {
 //       try {
 //         // OAuth 콜백에서 받은 인증 코드를 서버로 전송하여 액세스 토큰 및 리프레시 토큰 얻기
-//         const response = await axios.post('https://calendars2.duckdns.org/oauth2/authorization/google/callback', {
+//         const response = await axios.post('oauth2/authorization/google/callback', {
 //           code: new URLSearchParams(window.location.search).get('code'),
 //         });
 
@@ -37,7 +37,6 @@
 
 // export default LoginCallback;
 
-
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -49,15 +48,17 @@ const LoginCallback = () => {
     const handleCallback = async () => {
       try {
         // OAuth 콜백에서 받은 인증 코드 획득
-        const authCode = new URLSearchParams(window.location.search).get("code");
+        const authCode = new URLSearchParams(window.location.search).get(
+          "code"
+        );
 
         if (!authCode) {
-          throw new Error('Authorization code not found.');
+          throw new Error("Authorization code not found.");
         }
 
         // 서버로 인증 코드 전송하여 토큰 획득
         const response = await axios.post(
-          "https://calendars2.duckdns.org/oauth2/authorization/google/callback",
+          "oauth2/authorization/google/callback",
           { code: authCode }
         );
 
@@ -66,11 +67,14 @@ const LoginCallback = () => {
         console.log("Refresh Token:", response.data.refresh_token);
 
         // 토큰을 안전한 방식으로 저장
-        saveTokensLocally(response.data.access_token, response.data.refresh_token);
+        saveTokensLocally(
+          response.data.access_token,
+          response.data.refresh_token
+        );
       } catch (error: any) {
         // 에러 처리 및 사용자에게 메시지 표시
-        console.error('Error during OAuth callback processing:', error.message);
-        alert('로그인 중에 오류가 발생했습니다.');
+        console.error("Error during OAuth callback processing:", error.message);
+        alert("로그인 중에 오류가 발생했습니다.");
       } finally {
         // 로그인 처리 후 메인 페이지로 이동
         navigate("/");
@@ -78,7 +82,7 @@ const LoginCallback = () => {
     };
 
     // 토큰을 안전한 방식으로 저장하는 함수
-    const saveTokensLocally = (accessToken:string, refreshToken:string) => {
+    const saveTokensLocally = (accessToken: string, refreshToken: string) => {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
     };

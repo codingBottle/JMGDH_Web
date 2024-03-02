@@ -65,15 +65,11 @@ const ScheduleAdd: React.FC<ScheduleAddProps> = ({ onClose, schedule }) => {
     };
 
     try {
-      const response = await axios.post(
-        "https://calendars2.duckdns.org/schedules",
-        scheduleData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
+      const response = await axios.post("schedules", scheduleData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
       console.log(response.data);
       alert("일정이 추가되었습니다.");
       onClose();

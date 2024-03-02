@@ -27,7 +27,7 @@ export default function DailyCalender() {
 
   useEffect(() => {
     const fetchSchedule = async () => {
-      const endpoint = `https://calendars2.duckdns.org/schedules/year/${year}/month/${month}/day/${day}`;
+      const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/schedules/year/${year}/month/${month}/day/${day}`;
 
       try {
         const response = await axios.get(endpoint, {
@@ -105,8 +105,7 @@ export default function DailyCalender() {
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
-        ref={containerRef}
-      >
+        ref={containerRef}>
         <div className="linediv">
           {numbers.map((hour) => {
             // 시간대별 일정 찾기
@@ -131,8 +130,7 @@ export default function DailyCalender() {
                       padding: "5px",
                       margin: "5px 0",
                       width: "90%",
-                    }}
-                  >
+                    }}>
                     <strong>{schedule.title}</strong>
                   </div>
                 ))}

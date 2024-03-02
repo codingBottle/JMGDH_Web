@@ -13,7 +13,7 @@ export default function TokenId() {
     if (oneTimeUseCode !== null) {
       axios
         .get(
-          `https://calendars2.duckdns.org/oauth/token?code=${oneTimeUseCode}`
+          `${process.env.NEXT_PUBLIC_API_URL}/oauth/token?code=${oneTimeUseCode}`
         )
         .then((response) => {
           setLoading(false);

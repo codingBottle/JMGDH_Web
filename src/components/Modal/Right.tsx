@@ -47,7 +47,7 @@ const Right = () => {
 
     if (accessToken) {
       const fetchData = async () => {
-        const endpoint = `https://calendars2.duckdns.org/friends`;
+        const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/friends`;
 
         try {
           const response = await axios.get(endpoint, {
@@ -84,7 +84,7 @@ const Right = () => {
 
     try {
       await axios.delete(
-        `https://calendars2.duckdns.org/friends/${friendEmail}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/friends/${friendEmail}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

@@ -46,7 +46,7 @@ const ScheduleEdit: React.FC<ScheduleEditProps> = ({ schedule, onClose }) => {
 
     try {
       const response = await axios.delete(
-        `https://calendars2.duckdns.org/schedules/${schedule.id}?repeat=${repeatQueryParam}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/schedules/${schedule.id}?repeat=${repeatQueryParam}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -80,7 +80,7 @@ const ScheduleEdit: React.FC<ScheduleEditProps> = ({ schedule, onClose }) => {
 
     try {
       await axios.patch(
-        `https://calendars2.duckdns.org/schedules/${schedule.id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/schedules/${schedule.id}`,
         payload,
         {
           headers: {

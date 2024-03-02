@@ -33,7 +33,7 @@ const LoginButton = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const endpoint = `https://calendars2.duckdns.org/members`;
+      const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/members`;
 
       try {
         const response = await axios.get(endpoint, {
@@ -57,7 +57,8 @@ const LoginButton = () => {
   return (
     <>
       {loginSuccess === false && (
-        <LoginBtnWrapper href="https://calendars2.duckdns.org/oauth2/authorization/google">
+        <LoginBtnWrapper
+          href={`${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/google`}>
           <p>로그인</p>
         </LoginBtnWrapper>
       )}

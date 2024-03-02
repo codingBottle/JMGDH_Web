@@ -11,7 +11,7 @@ export default function NewFriend() {
     console.log(e.target.value);
   };
   const handleInvite = async () => {
-    const endpoint = "https://calendars2.duckdns.org/friends/send-request";
+    const endpoint = "friends/send-request";
 
     try {
       const response = await axios.post(

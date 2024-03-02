@@ -9,7 +9,7 @@ export default function Friendsure() {
 
   useEffect(() => {
     const handleInvite = async () => {
-      const endpoint = "https://calendars2.duckdns.org/friends/requests";
+      const endpoint = "friends/requests";
 
       try {
         const response = await axios.get(endpoint, {
@@ -28,7 +28,7 @@ export default function Friendsure() {
     handleInvite();
   }, [friendRequests]);
   const handleAccept = async (reqMemberId: string) => {
-    const endpoint = "https://calendars2.duckdns.org/friends/accept-request";
+    const endpoint = "friends/accept-request";
 
     try {
       await axios.post(
@@ -51,7 +51,7 @@ export default function Friendsure() {
   };
 
   const handleDelete = async (reqMemberId: string) => {
-    const endpoint = "https://calendars2.duckdns.org/friends/reject-request";
+    const endpoint = "friends/reject-request";
 
     try {
       await axios.patch(
