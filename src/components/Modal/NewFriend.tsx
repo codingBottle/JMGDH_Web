@@ -11,7 +11,7 @@ export default function NewFriend() {
     console.log(e.target.value);
   };
   const handleInvite = async () => {
-    const endpoint = "friends/send-request";
+    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/friends/send-request`;
 
     try {
       const response = await axios.post(

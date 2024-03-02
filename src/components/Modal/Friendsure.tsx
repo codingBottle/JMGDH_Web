@@ -9,7 +9,7 @@ export default function Friendsure() {
 
   useEffect(() => {
     const handleInvite = async () => {
-      const endpoint = "friends/requests";
+      const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/friends/requests`;
 
       try {
         const response = await axios.get(endpoint, {
@@ -26,9 +26,9 @@ export default function Friendsure() {
       }
     };
     handleInvite();
-  }, [friendRequests]);
+  }, []);
   const handleAccept = async (reqMemberId: string) => {
-    const endpoint = "friends/accept-request";
+    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/friends/accept-request`;
 
     try {
       await axios.post(
@@ -43,15 +43,13 @@ export default function Friendsure() {
           },
         }
       );
-
-      // 수락 후에 친구 요청 목록을 갱신하거나 다른 로직을 수행할 수 있습니다.
     } catch (error) {
       console.error("친구 요청 수락 오류:", error);
     }
   };
 
   const handleDelete = async (reqMemberId: string) => {
-    const endpoint = "friends/reject-request";
+    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/friends/reject-request`;
 
     try {
       await axios.patch(
