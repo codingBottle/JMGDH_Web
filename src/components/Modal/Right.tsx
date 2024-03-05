@@ -119,9 +119,9 @@ const Right = () => {
           {showInvitation && <Friendsure />}
           <div onClick={handleOutsideClick} className="outsideClickArea"></div>
           <div className="friend">
-            <div className="friend2">
+            <div className="friend2" onClick={handleLoginBtnClick}>
               <div>
-                <p onClick={handleLoginBtnClick}>초대하기</p>
+                <p >초대하기</p>
               </div>
               <LoginBtnWrapper
                 style={{
