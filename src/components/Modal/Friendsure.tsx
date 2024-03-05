@@ -78,6 +78,7 @@ export default function Friendsure() {
   return (
     <MainComponent>
       <h2>친구 요청 목록</h2>
+      {statusMessage && <p>{statusMessage}</p>} 
       <ul>
         {friendRequests.map((request) => (
           <FriendRequestItem key={request.id}>
