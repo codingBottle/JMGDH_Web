@@ -86,8 +86,8 @@ export default function Navbar() {
 
 const NavbarContainer = styled.div`
   display: flex;
-  width: 100%;
-  height: 80px;
+  width: 100vw;
+  height: 8vh;
   padding: 0 20px;
   border: 1px solid ${theme.color.SecondaryColor.ButtonBorder};
   background-color: ${theme.color.PrimaryColor.PrimaryWhite};

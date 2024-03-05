@@ -200,7 +200,7 @@ const Main = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 3vw;
   height: 100vh;
   .friend {
     margin-top: 32px;

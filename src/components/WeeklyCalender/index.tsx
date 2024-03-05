@@ -85,7 +85,7 @@ const WeeklyCalender = () => {
 export default WeeklyCalender;
 
 const Main = styled.main`
-  width: 77vw;
+  width: 76.5vw;
   height: 100%;
   padding-left: 3rem;
 
