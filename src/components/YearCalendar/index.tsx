@@ -74,7 +74,7 @@ const MonthBox = styled.div`
   justify-content: flex-start;
   align-items: center;
   gap: 30px;
-  width: 282px;
+  width: 15vw;
   height: 341px;
   margin: 0;
   padding: 6px;

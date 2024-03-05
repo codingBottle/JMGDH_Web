@@ -230,7 +230,7 @@ const Calendar = styled.table`
         padding-top: 10px;
         padding-left: 10px;
         cursor: pointer;
-        width: 225px;
+        width: 11vw;
         height: 178px;
       }
       .prev-month-day,

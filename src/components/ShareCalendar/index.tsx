@@ -107,7 +107,7 @@ export default ShareCalendar;
 const CalendarWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  width: 100%;
+  width: 76vw;
   height: 100%;
   
   .week-box {

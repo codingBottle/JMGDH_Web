@@ -95,20 +95,20 @@ const Wrapper = styled.div`
 const Content = styled.div`
   display: flex;
   flex-direction: row;
-  width: 100%;
+  width: 80vw;
   height: calc(100vh - 80px);
 `;
 
 const LeftSection = styled.div`
   display: flex;
   flex-direction: column;
-  width: 266px;
+  width: 20vw;
   height: 100%;
 `;
 const MiddleSection = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 80vw;
   height: 100%;
 
   .calenderNav {
