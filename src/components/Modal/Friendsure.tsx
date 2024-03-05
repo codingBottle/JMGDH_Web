@@ -6,7 +6,7 @@ export default function Friendsure() {
   const [friendRequests, setFriendRequests] = useState<
     { id: number; reqMember: { email: string; nickname?: string } }[]
   >([]);
-
+  const [statusMessage, setStatusMessage] = useState(""); 
   useEffect(() => {
     const handleInvite = async () => {
       const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/friends/requests`;
@@ -43,8 +43,12 @@ export default function Friendsure() {
           },
         }
       );
+      setStatusMessage("친구 요청이 승낙되었습니다.");
+
     } catch (error) {
       console.error("친구 요청 수락 오류:", error);
+      setStatusMessage("친구 요청 승낙에 실패했습니다.");
+
     }
   };
 
@@ -64,7 +68,10 @@ export default function Friendsure() {
           },
         }
       );
+      setStatusMessage("친구 요청이 거절되었습니다.");
+
     } catch (error) {
+      setStatusMessage("친구 요청 거절에 실패했습니다.");
       console.error("친구 요청 수락 오류:", error);
     }
   };
