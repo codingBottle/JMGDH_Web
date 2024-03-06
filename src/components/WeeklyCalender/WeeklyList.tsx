@@ -89,6 +89,8 @@ const WeeklyList = ({ todos }: WeeklyTodoProps) => {
 export default WeeklyList;
 
 const WeekContainer = styled.div`
+background-color:white;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -101,6 +103,8 @@ const WeekContainer = styled.div`
 
 const DayList = styled.ul`
   display: flex;
+  background-color:white;
+
   align-items: center;
   justify-content: space-around;
   padding: 0;
@@ -111,6 +115,8 @@ const DayList = styled.ul`
 
 const DayItem = styled.li`
   display: flex;
+  background-color:white;
+
   flex-direction: column;
   align-items: center;
   justify-content: center;

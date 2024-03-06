@@ -121,7 +121,7 @@ const Right = () => {
           <div className="friend">
             <div className="friend2" onClick={handleLoginBtnClick}>
               <div>
-                <p >초대하기</p>
+                <p >친구 요청 목록</p>
               </div>
               <LoginBtnWrapper
                 style={{

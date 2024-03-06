@@ -183,6 +183,7 @@ const CalendarWrapper = styled.div`
 `;
 
 const Calendar = styled.table`
+background-color: white;
   width: 100%;
   height: 100%;
   border-collapse: collapse;

@@ -150,6 +150,8 @@ const CalenderNavbarCss = styled.div`
     border: 0.0625rem solid ${theme.color.SecondaryColor.ButtonBorder};
     font-size: 1rem;
     font-weight: ${theme.fontWeight.Regular};
+    color:black;
+
   }
 
   .todaybtn {

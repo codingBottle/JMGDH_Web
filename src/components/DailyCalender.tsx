@@ -175,6 +175,7 @@ const Daily = styled.div`
   }
   .daily {
     font-size: 18px;
+    color:black;
     font-weight: ${theme.fontWeight.Regular};
   }
   .Bottom {

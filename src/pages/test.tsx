@@ -89,7 +89,9 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100vh;
+  height: 1300px;
+  background-color:white;
+
 `;
 
 const Content = styled.div`
