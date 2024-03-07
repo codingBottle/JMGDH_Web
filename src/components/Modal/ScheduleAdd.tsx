@@ -59,8 +59,8 @@ const ScheduleAdd: React.FC<ScheduleAddProps> = ({ onClose, schedule }) => {
       startDate: format(startDate, "yyyy-MM-dd"),
       endDate: format(endDate, "yyyy-MM-dd"),
       isAllDay: allDay,
-      timeOfStartDate: allDay ? undefined : timeOfStartDate,
-      timeOfEndDate: allDay ? undefined : timeOfEndDate,
+      timeOfStartDate: timeOfStartDate,
+      timeOfEndDate: timeOfEndDate,
       colorCode,
     };
 
