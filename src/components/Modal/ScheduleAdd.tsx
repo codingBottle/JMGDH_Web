@@ -75,6 +75,8 @@ const ScheduleAdd: React.FC<ScheduleAddProps> = ({ onClose, schedule }) => {
       onClose();
     } catch (error) {
       console.error("일정 추가 실패:", error);
+      console.error("일정 추가 실패 데이터:", scheduleData);
+
       alert("일정 추가에 실패하였습니다.");
     }
   };
